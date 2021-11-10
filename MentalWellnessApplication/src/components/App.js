@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 
 export default class App extends Component {
     render() {
         return (
-            <View>
-                <Text> textInComponent </Text>
+            <View style = {styles.mainContainer}>
+                <Text> Mental Wellness Application </Text>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        flex:1,
+        justifyContent: 'center',
+    },
+})
