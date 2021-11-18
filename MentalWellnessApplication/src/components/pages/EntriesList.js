@@ -5,7 +5,7 @@ export default class EntriesList extends Component {
     render() {
         return (
             <View>
-                <Text> textInComponent </Text>
+                <Text>This is the entries list </Text>
             </View>
         )
     }

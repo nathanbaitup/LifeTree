@@ -5,7 +5,7 @@ export default class MoodJournal extends Component {
     render() {
         return (
             <View>
-                <Text> textInComponent </Text>
+                <Text> This is the Mood Journal </Text>
             </View>
         )
     }

@@ -5,7 +5,7 @@ export default class AddNewEntry extends Component {
     render() {
         return (
             <View>
-                <Text> textInComponent </Text>
+                <Text> This is add a new entry. </Text>
             </View>
         )
     }

@@ -5,7 +5,7 @@ export default class HRMonitoring extends Component {
     render() {
         return (
             <View>
-                <Text> textInComponent </Text>
+                <Text> This is the Heart Rate Monitor page </Text>
             </View>
         )
     }
