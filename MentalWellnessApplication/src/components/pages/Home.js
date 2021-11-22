@@ -23,10 +23,12 @@ export default class Home extends Component {
             <View style={styles.mainContainer}>
                 <View style={styles.heading} >
                     <Text style={styles.title}> {this.state.title} </Text>
-                    <Image style={styles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
+                    <TouchableOpacity >
+                        <Image style={styles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
+                    </TouchableOpacity>
                 </View>
                 <View onPress={this.showDailyStreakText}>
-                    <TouchableOpacity style={styles.dailyStreak} hitSlop={{top: 20, bottom: 20, left: 50, right: 50}} onPress={this.showDailyStreakText}>
+                    <TouchableOpacity style={styles.dailyStreak} onPress={this.showDailyStreakText}>
                         <Text style={styles.dailyStreakCounter} onPress={this.showDailyStreakText}> {this.state.dailyStreakText} {this.state.dailyStreak}</Text>
                     </TouchableOpacity>
                 </View>
@@ -65,7 +67,6 @@ const showDailyUseDetails = () => {
             }
         ]);
 };
-
 // The styling for home page.
 const styles = StyleSheet.create({
     mainContainer: {
@@ -115,7 +116,6 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         textAlign: 'center',
         paddingTop: 15,
-        //color: '#7a7a7a',
     },
     detailsBTN: {
         paddingTop: 5,
