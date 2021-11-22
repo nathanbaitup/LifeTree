@@ -12,6 +12,9 @@ target 'MentalWellnessApplication' do
     :hermes_enabled => false
   )
 
+
+
+
   target 'MentalWellnessApplicationTests' do
     inherit! :complete
     # Pods for testing
@@ -28,3 +31,4 @@ target 'MentalWellnessApplication' do
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end
+
