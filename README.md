@@ -12,9 +12,17 @@ To run the project in development after an update has been made, both the androi
 
 In terminal, navigate to the android folder within the Application folder. `cd android`
 
+MacOS:
+
 Ensure that you have the correct permissions to to run the gradle wrapper clean: `chmod +x gradlew`
 
 Run a gradle clean `./gradlew clean` 
+
+Windows:
+
+Run a gradle clean `.\gradlew clean`
+
+
 
 `cd ..` back to the main repository and you can then run `npx react-native run-android` to launch the android application.
 
