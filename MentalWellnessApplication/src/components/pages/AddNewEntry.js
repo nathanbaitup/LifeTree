@@ -1,39 +1,37 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image } from 'react-native';
 
 export default class AddNewEntry extends Component {
     render() {
         return (
             <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
-            <View>
+            <View style={styles.mainContainer}>
                 <View style={styles.contentContainer}>
                     <Text style={styles.header}>How are you feeling today? </Text>
                     <View style={styles.moodModules}>
-                        <TouchableOpacity style={styles.moodModulesIndiv}>
-                            <Text>Sad</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.moodModulesIndiv}>
-                            <Text>Crying</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.moodModulesIndiv}>
+                    <TouchableOpacity style={styles.moodModulesIndiv}>
+                        <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
                             <Text>Angry</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.moodModulesIndiv}>
+                        <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
+                            <Text>Sad</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.moodModulesIndiv}>
+                        <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
                             <Text>Meh</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.moodModulesIndiv}>
+                        <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
                             <Text>Happy</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.moodModulesIndiv}>
-                            <Text>Very Happy</Text>
                         </TouchableOpacity>
                     </View>
                     <View>
                         <Text style={styles.journalHeader}>Any comments for the day? </Text>
                         <TextInput style={styles.journalEntry}
                             placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you at all. We promise! '
-                            numberOfLines={5}
-                            multiline
+                            numberOfLines={10}
+                            multiline = {true}
                         />
                         <View style={styles.submitButtonContainer}>
                             <TouchableOpacity style={styles.submitButton}>
@@ -49,6 +47,10 @@ export default class AddNewEntry extends Component {
 }
 
 const styles = StyleSheet.create({
+    mainContainer:{
+        flex: 1,
+        justifyContent: 'center',
+    },
     contentContainer: {
         margin: 20,
         padding: 10,
@@ -66,14 +68,22 @@ const styles = StyleSheet.create({
     },
     moodModulesIndiv: {
         marginRight: 5, 
-        marginLeft: 10
+        marginLeft: 10,
+        textAlign: 'center',
+    },
+    moodFaces:{
+        marginTop: 10,
+        height: 50,
+        width: 66,
+        alignItems: 'center',
     },
     journalEntry: {
         marginTop: 5,
         marginBottom: 20,
         backgroundColor: '#ebebeb',
         borderRadius: 10,
-
+        maxHeight: 250,
+        height: 150,
     },
     journalHeader: {
         fontSize: 16,
