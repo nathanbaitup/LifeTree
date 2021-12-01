@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
+import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 
 export default class Home extends Component {
 
@@ -20,6 +20,7 @@ export default class Home extends Component {
 
     render() {
         return (
+            <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
             <View style={styles.mainContainer}>
                 <View style={styles.heading} >
                     <Text style={styles.title}> {this.state.title} </Text>
@@ -33,7 +34,7 @@ export default class Home extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.treeFrame}>
-                    <Image source={{ uri: 'https://i.dlpng.com/static/png/7497427_preview.png' }} style={styles.tree} />
+                    <Image source={require('../resources/img/trees/standard/tree-0.png')} style={styles.tree} />
                     {/* Not needed for MVP, placeholder template for Quotes API. */}
                     <Text style={styles.inspireQuote}>Anything is possible to those who believe. {'\n'} Mark: 9:23</Text>
 
@@ -44,6 +45,7 @@ export default class Home extends Component {
                         accessibilityLabel='Find out more about how many used days affects the application' />
                 </View>
             </View>
+            </ImageBackground>
         );
     }
 }
@@ -73,6 +75,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
     },
+    background:{
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+    },
     heading: {
         flexDirection: 'row',
         paddingTop: 4,
@@ -95,14 +102,14 @@ const styles = StyleSheet.create({
     },
     tree: {
         alignSelf: 'center',
-        width: '50%',
-        height: 200,
+        width: 200,
+        height: 125,
     },
     treeFrame: {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: (height / 5)
+        paddingTop: (height / 4)
     },
     inspireQuote: {
         fontSize: 14,
