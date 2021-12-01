@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native'
+import React, { Component } from 'react';
+import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
 
 export default class AddNewEntry extends Component {
     render() {
         return (
+            <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
             <View>
                 <View style={styles.contentContainer}>
                     <Text style={styles.header}>How are you feeling today? </Text>
@@ -41,9 +42,9 @@ export default class AddNewEntry extends Component {
                         </View>
                     </View>
                 </View>
-
             </View>
-        )
+            </ImageBackground>
+        );
     }
 }
 
