@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TextInput, Image, TouchableOpacity } from 'react-native';
 import { PropTypes } from 'prop-types';
 
 export default class ViewSingleEntry extends Component {
@@ -33,7 +33,7 @@ export default class ViewSingleEntry extends Component {
             { key: '9', date: 'Mar', description: 'blah blah', mood: 'sad' },
         ];
         this.setState({ allEntries: allEntries });
-    
+
         // Uses the entry key to locate the correct journal entry to display within the page.
         let selectedEntry = allEntries.find(entry => entry.key === this.state.entry);
         this.setState({ selectedEntry: selectedEntry });
@@ -43,45 +43,49 @@ export default class ViewSingleEntry extends Component {
         return (
             // TODO: Import updated add an entry page from entries branch to get the mood images to highlight the users mood for an entry.
             <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-                    <View style={styles.contentContainer}>
-                        <Text style={styles.dateTitle}>Date of Entry: {this.state.selectedEntry.date}</Text>
-                        <Text style={styles.header}>How you were feeling: </Text>
-                        
-                        <View style={styles.moodModules}>
-                            <View style={styles.moodModulesIndiv}>
-                                <Text>Sad</Text>
-                            </View>
-                            <View style={styles.moodModulesIndiv}>
-                                <Text>Angry</Text>
-                            </View>
-                            <View style={styles.moodModulesIndiv}>
-                                <Text>Meh</Text>
-                            </View>
-                            <View style={styles.moodModulesIndiv}>
-                                <Text>Happy</Text>
-                            </View>
-                        </View>
+                <View style={styles.contentContainer}>
+                    <Text style={styles.dateTitle}>Date of Entry: {this.state.selectedEntry.date}</Text>
+                    <Text style={styles.header}>How you were feeling: </Text>
 
-                        <Text style={[{ textAlign: 'center' },
-                        { color: this.state.selectedEntry.mood === 'happy' ? '#108206' : this.state.selectedEntry.mood === 'meh' ? '#e38e07' : this.state.selectedEntry.mood === 'sad' ? '#112dec' : '#f90505' }]}>
-                            {this.state.selectedEntry.mood}
-                        </Text>
-                        <View>
-                            <Text style={styles.journalHeader}>Your comments for the day: </Text>
-                            <TextInput style={styles.journalEntry}
-                                placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you at all. We promise! '
-                                numberOfLines={5}
-                                multiline
-                                editable={false}
-                                value={this.state.selectedEntry.description}
-                            />
-                            <View style={styles.returnButtonContainer}>
-                                <TouchableOpacity style={styles.returnButton} onPress={this.props.onBack}>
-                                    <Text style={styles.returnText}>Return to Entries</Text>
-                                </TouchableOpacity>
-                            </View>
+                    <View style={styles.moodModules}>
+                        <View style={[styles.moodModulesIndiv, {borderWidth : this.state.selectedEntry.mood === 'angry' ? 1 : 0}]} >
+                            <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
+                            <Text>Angry</Text>
+                        </View>
+                        <View style={[styles.moodModulesIndiv, {borderWidth : this.state.selectedEntry.mood === 'sad' ? 1 : 0}]}>
+                            <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
+                            <Text>Sad</Text>
+                        </View>
+                        <View style={[styles.moodModulesIndiv, {borderWidth : this.state.selectedEntry.mood === 'meh' ? 1 : 0}]}>
+                            <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
+                            <Text>Meh</Text>
+                        </View>
+                        <View style={[styles.moodModulesIndiv, {borderWidth : this.state.selectedEntry.mood === 'happy' ? 1 : 0} ]}>
+                            <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
+                            <Text>Happy</Text>
                         </View>
                     </View>
+
+                    <Text style={[{ textAlign: 'center' },
+                    { color: this.state.selectedEntry.mood === 'happy' ? '#108206' : this.state.selectedEntry.mood === 'meh' ? '#e38e07' : this.state.selectedEntry.mood === 'sad' ? '#112dec' : '#f90505' }]}>
+                        {this.state.selectedEntry.mood}
+                    </Text>
+                    <View>
+                        <Text style={styles.journalHeader}>Your comments for the day: </Text>
+                        <TextInput style={styles.journalEntry}
+                            placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you at all. We promise! '
+                            numberOfLines={5}
+                            multiline
+                            editable={false}
+                            value={this.state.selectedEntry.description}
+                        />
+                        <View style={styles.returnButtonContainer}>
+                            <TouchableOpacity style={styles.returnButton} onPress={this.props.onBack}>
+                                <Text style={styles.returnText}>Return to Entries</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
             </ImageBackground>
         );
     }
@@ -106,15 +110,23 @@ const styles = StyleSheet.create({
         paddingBottom: 50,
     },
     moodModulesIndiv: {
-        marginRight: 5,
+        marginRight: 5, 
         marginLeft: 10,
+        textAlign: 'center',
+    },
+    moodFaces:{
+        marginTop: 10,
+        height: 50,
+        width: 66,
+        alignItems: 'center',
     },
     journalEntry: {
         marginTop: 5,
         marginBottom: 20,
         backgroundColor: '#ebebeb',
         borderRadius: 10,
-        padding: 10,
+        maxHeight: 250,
+        height: 150,
     },
     journalHeader: {
         fontSize: 18,
