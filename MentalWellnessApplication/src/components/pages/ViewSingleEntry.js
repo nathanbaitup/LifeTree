@@ -9,7 +9,7 @@ export default class ViewSingleEntry extends Component {
         onBack: PropTypes.func.isRequired,
         currentEntryID: PropTypes.string.isRequired,
     };
-    
+
     state = {
         entry: this.props.currentEntryID,
         allEntries: [],
@@ -17,8 +17,9 @@ export default class ViewSingleEntry extends Component {
     }
 
     // When the component is loaded on the users device, it sets the state to all entries that the user has stored.
-    // TODO: This will not be necessary with backend as all data can be retrieved from the entries list and parsed into this page.
+    // Also takes the parsed entry key to find the correct entry to display to the user.
     componentDidMount() {
+        // TODO: This will not be necessary with backend as all data can be retrieved from the entries list and parsed into this page.
         let allEntries = [
             { key: '0', date: 'Jan', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar sollicitudin hendrerit. Donec a dolor lacus. Fusce feugiat velit vitae odio pretium ultricies. Proin sollicitudin nulla in ornare ullamcorper. In ut eros eget nisl placerat placerat sit amet sit amet nibh. Morbi porta fringilla metus, quis tincidunt augue lacinia ac. Quisque ornare velit imperdiet dictum fringilla. Donec in turpis ligula. Vestibulum et porta leo. Nulla molestie elit quam, in ornare neque malesuada ac. Curabitur aliquam in massa quis mattis. Aliquam sit amet est id ipsum pretium eleifend a id sem. Nam congue nisl ipsum, id ullamcorper eros elementum sed. ', mood: 'happy' },
             { key: '1', date: 'Jan', description: 'blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah', mood: 'happy' },
@@ -33,19 +34,19 @@ export default class ViewSingleEntry extends Component {
         ];
         this.setState({ allEntries: allEntries });
     
-
+        // Uses the entry key to locate the correct journal entry to display within the page.
         let selectedEntry = allEntries.find(entry => entry.key === this.state.entry);
         this.setState({ selectedEntry: selectedEntry });
     }
 
     render() {
         return (
+            // TODO: Import updated add an entry page from entries branch to get the mood images to highlight the users mood for an entry.
             <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-                <View>
                     <View style={styles.contentContainer}>
-                        {/* Testing to see if the ID was parsed correctly */}
                         <Text style={styles.dateTitle}>Date of Entry: {this.state.selectedEntry.date}</Text>
                         <Text style={styles.header}>How you were feeling: </Text>
+                        
                         <View style={styles.moodModules}>
                             <View style={styles.moodModulesIndiv}>
                                 <Text>Sad</Text>
@@ -60,6 +61,7 @@ export default class ViewSingleEntry extends Component {
                                 <Text>Happy</Text>
                             </View>
                         </View>
+
                         <Text style={[{ textAlign: 'center' },
                         { color: this.state.selectedEntry.mood === 'happy' ? '#108206' : this.state.selectedEntry.mood === 'meh' ? '#e38e07' : this.state.selectedEntry.mood === 'sad' ? '#112dec' : '#f90505' }]}>
                             {this.state.selectedEntry.mood}
@@ -80,12 +82,12 @@ export default class ViewSingleEntry extends Component {
                             </View>
                         </View>
                     </View>
-                </View>
             </ImageBackground>
         );
     }
 }
 
+// The styling for the page.
 const styles = StyleSheet.create({
     contentContainer: {
         margin: 20,
