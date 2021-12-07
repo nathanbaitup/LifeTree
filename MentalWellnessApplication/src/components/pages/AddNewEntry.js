@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image } from 'react-native';
 
 export default class AddNewEntry extends Component {
+    state = {
+        isSelected: false,
+    };
+
+
+    // TODO: Make clear when a mood has been selected.
     render() {
         return (
             <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
@@ -9,7 +15,7 @@ export default class AddNewEntry extends Component {
                 <View style={styles.contentContainer}>
                     <Text style={styles.header}>How are you feeling today? </Text>
                     <View style={styles.moodModules}>
-                    <TouchableOpacity style={styles.moodModulesIndiv}>
+                    <TouchableOpacity style={this.state.isSelected ? styles.moodModulesIndivSelected :styles.moodModulesIndivUnselected} onPress={() => this.setState({isselected: !this.state.isSelected})} >
                         <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
                             <Text>Angry</Text>
                         </TouchableOpacity>
@@ -34,7 +40,8 @@ export default class AddNewEntry extends Component {
                             multiline = {true}
                         />
                         <View style={styles.submitButtonContainer}>
-                            <TouchableOpacity style={styles.submitButton}>
+                            {/* TODO: MAKE ONPRESS TO SAVE DATA WHEN BACKEND HAS BEEN CONNECTED */}
+                            <TouchableOpacity style={styles.submitButton} >
                                 <Text style={styles.submitText}>Submit</Text>
                             </TouchableOpacity>
                         </View>
@@ -66,10 +73,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom: 50,
     },
-    moodModulesIndiv: {
+    moodModulesIndivUnselected: {
         marginRight: 5, 
         marginLeft: 10,
         textAlign: 'center',
+    },
+    moodModulesIndivSelected: {
+        marginRight: 5, 
+        marginLeft: 10,
+        textAlign: 'center',
+        borderColor: '#000000',
+        borderWidth: 1,
     },
     moodFaces:{
         marginTop: 10,
