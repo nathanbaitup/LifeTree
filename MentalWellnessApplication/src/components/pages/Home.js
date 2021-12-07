@@ -69,6 +69,7 @@ const showDailyUseDetails = () => {
             }
         ]);
 };
+
 // The styling for home page.
 const styles = StyleSheet.create({
     mainContainer: {
