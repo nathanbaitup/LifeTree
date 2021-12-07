@@ -3,19 +3,20 @@ import { Text, View, ImageBackground, Dimensions, FlatList, StyleSheet } from 'r
 import { SearchBar } from 'react-native-elements';
 
 export default class EntriesList extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            //currently used as test data, will be removed and replaced with data taken from database.
-            allEntries: [],
-            searchText: '',
-            filteredData: [],
-        };
+    // Used to store data that will be updated within the application. Useful for in-memory searching through a list of entries.
+    state = {
+        // All entries that are stored for a user.
+        allEntries: [],
+        // The updated array that is displayed when a user does a search.
+        filteredEntries: [],
+        //Will store the user-provided search term to filter through the journal lists and return results that contain the search term.
+        searchText: '',
+    };
 
-        this.arrayHolder = [];
-    }
 
+    // When the component is loaded on the users device, it sets the state to all entries that the user has stored.
+    // TODO: This will be updated from hardcoded data to data that is stored in firebase cloud database.
     componentDidMount() {
         let allEntries = [
             { key: '0', date: 'Jan', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar sollicitudin hendrerit. Donec a dolor lacus. Fusce feugiat velit vitae odio pretium ultricies. Proin sollicitudin nulla in ornare ullamcorper. In ut eros eget nisl placerat placerat sit amet sit amet nibh. Morbi porta fringilla metus, quis tincidunt augue lacinia ac. Quisque ornare velit imperdiet dictum fringilla. Donec in turpis ligula. Vestibulum et porta leo. Nulla molestie elit quam, in ornare neque malesuada ac. Curabitur aliquam in massa quis mattis. Aliquam sit amet est id ipsum pretium eleifend a id sem. Nam congue nisl ipsum, id ullamcorper eros elementum sed. ', mood: 'happy' },
@@ -32,71 +33,57 @@ export default class EntriesList extends Component {
         this.setState({ allEntries: allEntries });
     }
 
-
     // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
     // Used to allow the user to search for journal entires based on the date for easier viewing.
     search = (searchText) => {
         this.setState({ searchText: searchText });
-        let filteredData = this.state.allEntries.filter(function (item) {
-            return item.date.includes(searchText) || item.mood.includes(searchText);
+        let filteredEntries = this.state.allEntries.filter(function (item) {
+            // Returns eihter all entries with the same month or same mood searched for by the user.
+            // TODO: Change the date so that it is using D Month, Yr format ( 1 December , 2021).
+            return item.date.includes(searchText) || item.mood.includes(searchText.toLowerCase());
         });
-
-        this.setState({ filteredData: filteredData });
+        this.setState({ filteredEntries: filteredEntries });
     };
     // END REFERENCE
 
-
-
     render() {
         return (
+            // Sets the background image to half opacity.
             <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+                
+                <SearchBar
+                    round={true}
+                    lightTheme={true}
+                    placeholder='Search by Date or Mood...'
+                    autoCapitalize='none'
+                    onChangeText={this.search}
+                    value={this.state.searchText} />
 
-                <View style={styles.mainContainer}>
-                    
-                    <SearchBar round={true}
-                        lightTheme={true}
-                        placeholder='Search by Date or Mood...'
-                        autoCapitalize='none'
-                        onChangeText={this.search}
-                        value={this.state.searchText} />
-
-                    <View style={styles.contentContainer}>
-                        <FlatList
-                            // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
-                            // Used to allow the user to search for journal entires based on the date for easier viewing.
-                            data={this.state.filteredData && this.state.filteredData.length > 0 ? this.state.filteredData : this.state.allEntries}
-                            keyExtractor={(item) => `item-${item.key}`}
-                            // END REFERENCE
-                            renderItem={({ item }) => <View style={styles.listView}>
-                                <Text style={styles.entryDate}>{item.date}</Text>
-                                <Text style={styles.entryDesc} numberOfLines = {2} >{item.description}</Text>
-                                <Text style={styles.entryMood}> What</Text>
-                            </View>}
-
-                        />
-
-                    </View>
+                <View style={styles.contentContainer}>
+                    <FlatList
+                        // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
+                        // Used to allow the user to search for journal entires based on the date for easier viewing.
+                        data={this.state.filteredEntries && this.state.filteredEntries.length > 0 ? this.state.filteredEntries : this.state.allEntries}
+                        keyExtractor={(item) => `item-${item.key}`}
+                        // END REFERENCE
+                        renderItem={({ item }) => <View style={styles.listView}>
+                            <Text style={styles.entryDate}>{item.date}</Text>
+                            <Text style={styles.entryDesc} numberOfLines={2} >{item.description}</Text>
+                            {/* Uses arrayed styled to set default styling and to set the colour of the text based on the mood. */}
+                            <Text style={[styles.entryMood, { color: item.mood === 'happy' ? '#108206' : item.mood === 'meh' ? '#e38e07' : item.mood === 'sad' ? '#112dec' : '#f90505' }]}>your mood: {item.mood} </Text>
+                        </View>
+                        }/>
                 </View>
             </ImageBackground>
         );
     }
 }
 
-// Function used to store width of device being used for responsive design on the homescreen.
-const width = Dimensions.get('window').width;
+// Function used to store height of device being used for responsive design on the homescreen.
 const height = Dimensions.get('window').height;
 
+// The styling for the Entries List.
 const styles = StyleSheet.create({
-    filterBar: {
-        flexDirection: 'row',
-        backgroundColor: '#FFFFFF',
-        borderTopColor: '#c2c2c2',
-        borderTopWidth: 1,
-        padding: 15,
-    },
-    filter: {
-        marginLeft: width / 1.6,
-    },
     contentContainer: {
         margin: 20,
         padding: 10,
@@ -115,7 +102,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         height: 44,
         color: '#000000',
-        
     },
     entryDate: {
         paddingTop: 8,
@@ -125,4 +111,10 @@ const styles = StyleSheet.create({
         color: '#000000',
         fontWeight: 'bold',
     },
+    entryMood: {
+        paddingLeft: 10,
+        paddingBottom: 5,
+        fontSize: 14,
+        textAlign: 'right',
+    }
 });
