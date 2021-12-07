@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, Dimensions, FlatList, StyleSheet } from 'react-native';
+import { Text, View, ImageBackground, Dimensions, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+
+import ViewSingleEntry from './ViewSingleEntry';
 
 export default class EntriesList extends Component {
 
@@ -10,10 +12,11 @@ export default class EntriesList extends Component {
         allEntries: [],
         // The updated array that is displayed when a user does a search.
         filteredEntries: [],
-        //Will store the user-provided search term to filter through the journal lists and return results that contain the search term.
+        // Will store the user-provided search term to filter through the journal lists and return results that contain the search term.
         searchText: '',
+        // Remembers the selected ID to load more data about the entry.
+        selectedID: null,
     };
-
 
     // When the component is loaded on the users device, it sets the state to all entries that the user has stored.
     // TODO: This will be updated from hardcoded data to data that is stored in firebase cloud database.
@@ -46,7 +49,25 @@ export default class EntriesList extends Component {
     };
     // END REFERENCE
 
+    unsetCurrentEntry = () => {
+        this.setState({selectedID: null});
+    };
+
+    currentEntryID = () => {
+        return this.state.selectedID;
+    }
+
+
     render() {
+        if (this.state.selectedID) {
+            return (
+                <View>
+                    <ViewSingleEntry currentEntryID={this.currentEntryID()} onBack={this.unsetCurrentEntry}/>
+
+                </View>
+            );
+        }
+
         return (
             // Sets the background image to half opacity.
             <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
@@ -66,12 +87,12 @@ export default class EntriesList extends Component {
                         data={this.state.filteredEntries && this.state.filteredEntries.length > 0 ? this.state.filteredEntries : this.state.allEntries}
                         keyExtractor={(item) => `item-${item.key}`}
                         // END REFERENCE
-                        renderItem={({ item }) => <View style={styles.listView}>
+                        renderItem={({ item }) => <TouchableOpacity style={styles.listView} onPress={() => this.setState({selectedID: item.key})}>
                             <Text style={styles.entryDate}>{item.date}</Text>
                             <Text style={styles.entryDesc} numberOfLines={2} >{item.description}</Text>
                             {/* Uses arrayed styled to set default styling and to set the colour of the text based on the mood. */}
                             <Text style={[styles.entryMood, { color: item.mood === 'happy' ? '#108206' : item.mood === 'meh' ? '#e38e07' : item.mood === 'sad' ? '#112dec' : '#f90505' }]}>your mood: {item.mood} </Text>
-                        </View>
+                        </TouchableOpacity>
                         }/>
                 </View>
             </ImageBackground>
