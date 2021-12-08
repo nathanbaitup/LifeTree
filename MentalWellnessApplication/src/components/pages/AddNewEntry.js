@@ -9,7 +9,8 @@ export default class AddNewEntry extends Component {
         isHappySelected: false,
 
         journalEntry: '',
-        dateOfEntry: null,
+        displayDateOfEntry: null,
+        usefulDateOfEntry: null,
         moodForEntry: '',
     };
 
@@ -53,9 +54,11 @@ export default class AddNewEntry extends Component {
 
     componentDidMount() {
         const date = new Date();
-        var options = {day: 'numeric', month: 'long', year: 'numeric'};
-        const dateOfEntry = date.toLocaleDateString('en-US', options);
-        this.setState({dateOfEntry: dateOfEntry});  
+        var displayOptions = {day: 'numeric', month: 'long', year: 'numeric'};
+        const displayDateOfEntry = date.toLocaleDateString('en-US', displayOptions);
+        const usefulDateOfEntry = date.toISOString().split('T')[0];
+        this.setState({usefulDateOfEntry: usefulDateOfEntry});
+        this.setState({displayDateOfEntry: displayDateOfEntry});  
     }
 
     updateStateMood = () => {
@@ -108,7 +111,7 @@ export default class AddNewEntry extends Component {
                                 value={this.state.journalEntry}
                             />
 
-                            <Text style={styles.date}>Todays Date: {this.state.dateOfEntry} </Text>
+                            <Text style={styles.date}>Todays Date: {this.state.displayDateOfEntry} </Text>
                             <View style={styles.submitButtonContainer}>
                                 {/* TODO: MAKE ONPRESS TO SAVE DATA WHEN BACKEND HAS BEEN CONNECTED */}
                                 <TouchableOpacity style={styles.submitButton} onPress={console.log(this.state.journalEntry)} >
