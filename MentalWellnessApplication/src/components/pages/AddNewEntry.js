@@ -7,6 +7,7 @@ export default class AddNewEntry extends Component {
         isSadSelected: false,
         isMehSelected: false,
         isHappySelected: false,
+        journalEntry: '',
     };
 
     // Used for onPress to set the state to angry and deselect all other options.
@@ -47,7 +48,7 @@ export default class AddNewEntry extends Component {
     };
 
 
-    // TODO: Make clear when a mood has been selected.
+    // TODO: ADD DATE TO BE STORED TO THE STATE.
     render() {
         return (
             <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
@@ -78,10 +79,12 @@ export default class AddNewEntry extends Component {
                             placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you at all. We promise! '
                             numberOfLines={10}
                             multiline = {true}
+                            onChangeText={(journalEntry) => {this.setState({journalEntry:journalEntry});}}
+                            value={this.state.journalEntry}
                         />
                         <View style={styles.submitButtonContainer}>
                             {/* TODO: MAKE ONPRESS TO SAVE DATA WHEN BACKEND HAS BEEN CONNECTED */}
-                            <TouchableOpacity style={styles.submitButton} >
+                            <TouchableOpacity style={styles.submitButton} onPress={console.log(this.state.journalEntry)} >
                                 <Text style={styles.submitText}>Submit</Text>
                             </TouchableOpacity>
                         </View>
@@ -118,7 +121,6 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         textAlign: 'center',
         paddingLeft: 10,
-
     },
     moodModSelected: {
         marginTop: 10,
@@ -127,8 +129,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#000000',
         borderRadius: 5,
-        paddingLeft: 10,
-        
+        paddingLeft: 10,  
     },
     moodFaces:{
         marginTop: 10,
