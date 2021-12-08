@@ -48,27 +48,26 @@ export default class ViewSingleEntry extends Component {
                     <Text style={styles.header}>How you were feeling: </Text>
 
                     <View style={styles.moodModules}>
-                        <View style={[styles.moodModulesIndiv, {borderWidth : this.state.selectedEntry.mood === 'angry' ? 1 : 0}]} >
+                        <View style={this.state.selectedEntry.mood === 'angry' ? styles.moodModSelected : styles.moodModUnselected} >
                             <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
                             <Text>Angry</Text>
                         </View>
-                        <View style={[styles.moodModulesIndiv, {borderWidth : this.state.selectedEntry.mood === 'sad' ? 1 : 0}]}>
+                        <View style={this.state.selectedEntry.mood === 'sad' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
                             <Text>Sad</Text>
                         </View>
-                        <View style={[styles.moodModulesIndiv, {borderWidth : this.state.selectedEntry.mood === 'meh' ? 1 : 0}]}>
+                        <View style={this.state.selectedEntry.mood === 'meh' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
                             <Text>Meh</Text>
                         </View>
-                        <View style={[styles.moodModulesIndiv, {borderWidth : this.state.selectedEntry.mood === 'happy' ? 1 : 0} ]}>
+                        <View style={this.state.selectedEntry.mood === 'happy' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
                             <Text>Happy</Text>
                         </View>
                     </View>
 
-                    <Text style={[{ textAlign: 'center' },
-                    { color: this.state.selectedEntry.mood === 'happy' ? '#108206' : this.state.selectedEntry.mood === 'meh' ? '#e38e07' : this.state.selectedEntry.mood === 'sad' ? '#112dec' : '#f90505' }]}>
-                        {this.state.selectedEntry.mood}
+                    <Text style={[{ textAlign: 'center' }, {color: this.state.selectedEntry.mood === 'happy' ? '#108206' : this.state.selectedEntry.mood === 'meh' ? '#e38e07' : this.state.selectedEntry.mood === 'sad' ? '#112dec' : '#f90505' }]}>
+                       You were feeling: {this.state.selectedEntry.mood}
                     </Text>
                     <View>
                         <Text style={styles.journalHeader}>Your comments for the day: </Text>
@@ -109,10 +108,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom: 50,
     },
-    moodModulesIndiv: {
-        marginRight: 5, 
-        marginLeft: 10,
+    moodModUnselected: {
+        marginTop: 10,
+        marginLeft: 5,
         textAlign: 'center',
+        paddingLeft: 10,
+    },
+    moodModSelected: {
+        marginTop: 10,
+        marginLeft: 5,
+        textAlign: 'center',
+        borderWidth: 1,
+        borderColor: '#000000',
+        borderRadius: 5,
+        paddingLeft: 10,  
     },
     moodFaces:{
         marginTop: 10,
