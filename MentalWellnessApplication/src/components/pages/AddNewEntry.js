@@ -3,7 +3,47 @@ import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity, I
 
 export default class AddNewEntry extends Component {
     state = {
-        isSelected: false,
+        isAngrySelected: false,
+        isSadSelected: false,
+        isMehSelected: false,
+        isHappySelected: false,
+    };
+
+    // Used for onPress to set the state to angry and deselect all other options.
+    isAngry = () => {
+        if (!this.state.isAngrySelected){
+            this.setState({ isAngrySelected: true });
+            this.setState({ isSadSelected: false });
+            this.setState({ isMehSelected: false });
+            this.setState({ isHappySelected: false });
+        }
+    };
+    // Used for onPress to set the state to sad and deselect all other options.
+    isSad = () => {
+        if (!this.state.isSadSelected){
+            this.setState({ isAngrySelected: false });
+            this.setState({ isSadSelected: true });
+            this.setState({ isMehSelected: false });
+            this.setState({ isHappySelected: false });
+        }
+    };
+    // Used for onPress to set the state to meh and deselect all other options.
+    isMeh = () => {
+        if (!this.state.isMehSelected){
+            this.setState({ isAngrySelected: false });
+            this.setState({ isSadSelected: false });
+            this.setState({ isMehSelected: true });
+            this.setState({ isHappySelected: false });
+        }
+    };
+    // Used for onPress to set the state to happy and deselect all other options.
+    isHappy = () => {
+        if (!this.state.isHappySelected){
+            this.setState({ isAngrySelected: false });
+            this.setState({ isSadSelected: false });
+            this.setState({ isMehSelected: false });
+            this.setState({ isHappySelected: true });
+        }
     };
 
 
@@ -15,19 +55,19 @@ export default class AddNewEntry extends Component {
                 <View style={styles.contentContainer}>
                     <Text style={styles.header}>How are you feeling today? </Text>
                     <View style={styles.moodModules}>
-                    <TouchableOpacity style={this.state.isSelected ? styles.moodModulesIndivSelected :styles.moodModulesIndivUnselected} onPress={() => this.setState({isselected: !this.state.isSelected})} >
+                    <TouchableOpacity style={this.state.isAngrySelected ? styles.moodModSelected :styles.moodModUnselected} onPress={this.isAngry} >
                         <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
                             <Text>Angry</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.moodModulesIndiv}>
+                        <TouchableOpacity style={this.state.isSadSelected ? styles.moodModSelected :styles.moodModUnselected} onPress={this.isSad}>
                         <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
                             <Text>Sad</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.moodModulesIndiv}>
+                        <TouchableOpacity style={this.state.isMehSelected ? styles.moodModSelected :styles.moodModUnselected} onPress={this.isMeh}>
                         <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
                             <Text>Meh</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.moodModulesIndiv}>
+                        <TouchableOpacity style={this.state.isHappySelected ? styles.moodModSelected :styles.moodModUnselected} onPress={this.isHappy}>
                         <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
                             <Text>Happy</Text>
                         </TouchableOpacity>
@@ -73,17 +113,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom: 50,
     },
-    moodModulesIndivUnselected: {
-        marginRight: 5, 
-        marginLeft: 10,
+    moodModUnselected: {
+        marginTop: 10,
+        marginLeft: 5,
         textAlign: 'center',
+        paddingLeft: 10,
+
     },
-    moodModulesIndivSelected: {
-        marginRight: 5, 
-        marginLeft: 10,
+    moodModSelected: {
+        marginTop: 10,
+        marginLeft: 5,
         textAlign: 'center',
-        borderColor: '#000000',
         borderWidth: 1,
+        borderColor: '#000000',
+        borderRadius: 5,
+        paddingLeft: 10,
+        
     },
     moodFaces:{
         marginTop: 10,
