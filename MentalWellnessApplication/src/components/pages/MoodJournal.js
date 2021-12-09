@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ImageBackground, StyleSheet } from 'react-native';
+import { Text, View, ImageBackground, StyleSheet, ScrollView } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 export default class MoodJournal extends Component {
@@ -55,27 +55,46 @@ export default class MoodJournal extends Component {
         return (
 
             <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-                <View style={styles.contentContainer}>
-                    <Text style={styles.title}> Your Mood Journal at a glance: </Text>
-                    {/* REFERENCE ACCESSED 08/12/2021 https://github.com/wix/react-native-calendars 
-                    Used third party calendar dependency to be able to highlight specific dates that correspond to a users mood.*/}
-                    <Calendar
-                        current={Date.current}
-                        minDate={'2015-01-01'}
-                        enableSwipeMonths={true}
-                        markedDates={allDatesObject} />
+                <ScrollView>
+                    <View style={styles.contentContainer}>
+                        <Text style={styles.title}> Your Mood Journal at a glance: </Text>
+                        {/* REFERENCE ACCESSED 08/12/2021 https://github.com/wix/react-native-calendars 
+                         Used third party calendar dependency to be able to highlight specific dates that correspond to a users mood.*/}
+                        <Calendar
+                            current={Date.current}
+                            minDate={'2015-01-01'}
+                            enableSwipeMonths={true}
+                            markedDates={allDatesObject} />
 
-                    <View style={styles.keyContainer} >
-                        <Text style={styles.keyTitle}>Mood Key:</Text>
-                        <Text style={styles.keyIndiv}>Happy = Green</Text>
-                        <Text style={styles.keyIndiv}>Meh = Orange</Text>
-                        <Text style={styles.keyIndiv}>Sad = Blue</Text>
-                        <Text style={styles.keyIndiv}>Angry = Red</Text>
+                         <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                        <View style={styles.keyContainer} >
+                            <Text style={styles.keyTitle}>Mood Key:</Text>
+
+                            <View style={styles.keyContainer2}>
+                                <View style={[styles.keyIndivContainer, {marginRight : 10}]}>
+                                    <Text style={styles.keyIndiv}>Happy:</Text>
+                                    <Text style={[styles.keyBackground, { backgroundColor: '#108206' }]} />
+                                </View>
+                                <View style={[styles.keyIndivContainer, {marginRight : 20}]}>
+                                    <Text style={styles.keyIndiv}>Meh:</Text>
+                                    <Text style={[styles.keyBackground, { backgroundColor: '#e38e07' }]} />
+                                </View>
+                            </View>
+                            <View style={styles.keyContainer2}>
+                                <View style={styles.keyIndivContainer}>
+                                    <Text style={styles.keyIndiv}> Sad: </Text>
+                                    <Text style={[styles.keyBackground, { backgroundColor: '#112dec', marginLeft: 8}]} />
+                                </View>
+                                <View style={[styles.keyIndivContainer, {paddingLeft : 10, paddingRight : 20}]}>
+                                    <Text style={styles.keyIndiv}>Angry:</Text>
+                                    <Text style={[styles.keyBackground, { backgroundColor: '#f90505' }]} />
+                                </View>
+                            </View>
+                        </View>
+                        </View>
+
                     </View>
-
-
-
-                </View>
+                </ScrollView>
             </ImageBackground>
         );
     }
@@ -93,15 +112,45 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         paddingBottom: 20,
         paddingTop: 20,
+        color: '#000000'
     },
     keyTitle: {
-        fontSize:16,
+        fontSize: 16,
         fontWeight: 'bold',
         padding: 10,
+        color: '#000000',
+        textAlign: 'center'
     },
-    keyIndiv : {
+    keyIndiv: {
         paddingLeft: 10,
         padding: 5,
         fontSize: 14,
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#000000',
     },
+    keyBackground: {
+        borderRadius: 7,
+        width: 30,
+        height: 30,
+    },
+    keyIndivContainer: {
+        flexDirection: 'row',
+        height: 40,
+    },
+    keyContainer: {
+        marginTop: 15,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#000000',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 200,
+
+    },
+    keyContainer2: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });

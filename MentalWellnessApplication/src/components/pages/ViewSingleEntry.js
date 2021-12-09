@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TextInput, Image, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { PropTypes } from 'prop-types';
 
 export default class ViewSingleEntry extends Component {
@@ -42,7 +42,8 @@ export default class ViewSingleEntry extends Component {
     render() {
         return (
             // TODO: Import updated add an entry page from entries branch to get the mood images to highlight the users mood for an entry.
-            <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+            <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }}>
+                <ScrollView>
                 <View style={styles.contentContainer}>
                     <Text style={styles.dateTitle}>Date of Entry: {this.state.selectedEntry.date}</Text>
                     <Text style={styles.header}>How you were feeling: </Text>
@@ -50,19 +51,19 @@ export default class ViewSingleEntry extends Component {
                     <View style={styles.moodModules}>
                         <View style={this.state.selectedEntry.mood === 'angry' ? styles.moodModSelected : styles.moodModUnselected} >
                             <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
-                            <Text>Angry</Text>
+                            <Text style={styles.moodText}>Angry</Text>
                         </View>
                         <View style={this.state.selectedEntry.mood === 'sad' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
-                            <Text>Sad</Text>
+                            <Text style={styles.moodText}>Sad</Text>
                         </View>
                         <View style={this.state.selectedEntry.mood === 'meh' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
-                            <Text>Meh</Text>
+                            <Text style={styles.moodText}>Meh</Text>
                         </View>
                         <View style={this.state.selectedEntry.mood === 'happy' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
-                            <Text>Happy</Text>
+                            <Text style={styles.moodText}>Happy</Text>
                         </View>
                     </View>
 
@@ -85,6 +86,7 @@ export default class ViewSingleEntry extends Component {
                         </View>
                     </View>
                 </View>
+                </ScrollView>
             </ImageBackground>
         );
     }
@@ -121,13 +123,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#000000',
         borderRadius: 5,
-        paddingLeft: 10,  
+        paddingLeft: 10,
+        //TODO: add css styling to mood texts and comments box to make text black in colour.  
     },
     moodFaces:{
         marginTop: 10,
         height: 50,
         width: 66,
         alignItems: 'center',
+    },
+    moodText: {
+        color: '#000000',
     },
     journalEntry: {
         marginTop: 5,
@@ -136,6 +142,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         maxHeight: 250,
         height: 150,
+        color: '#000000',
     },
     journalHeader: {
         fontSize: 18,
@@ -164,8 +171,9 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
     dateTitle: {
-        padding: 15,
+        padding: 10,
         fontWeight: 'bold',
         fontSize: 18,
+        color: '#000000',
     }
 });
