@@ -12,8 +12,8 @@ export default class MoodJournal extends Component {
         { key: '3', displayDate: 'December-04-2021', usefulDate: '2021-12-07', mood: 'sad' },
         { key: '4', displayDate: 'December-05-2021', usefulDate: '2021-12-18', mood: 'meh' },
         { key: '5', displayDate: 'December-06-2021', usefulDate: '2021-12-17', mood: 'happy' },
-        { key: '0', displayDate: 'December-07-2021', usefulDate: '2021-12-28', mood: 'crying' },
-        { key: '0', displayDate: 'December-08-2021', usefulDate: '2021-12-29', mood: 'crying' }];
+        { key: '6', displayDate: 'December-07-2021', usefulDate: '2021-12-28', mood: 'crying' },
+        { key: '7', displayDate: 'December-08-2021', usefulDate: '2021-12-29', mood: 'crying' }];
 
         // Generates a list of all the dates from allData.
         const allDates = [];
@@ -40,8 +40,16 @@ export default class MoodJournal extends Component {
 
         // For each day in allDates array, cycle through the day, select the mood colour anf add the current day to the calendar.
         allDates.forEach((day) => {
+            
 
-            selectedMood = allMoods[day];  // Not working, expected to cycle through all moods based on the day and assign a colour to the calendar
+            // Create a different loop to get the mood in terms of the selected day.
+
+            for (let i = 0; i < allMoods.length; i++) {
+                
+            }
+
+            selectedMood = allMoods[0]; // Not working, expected to cycle through all moods based on the day and assign a colour to the calendar
+            console.log(selectedMood);
             allDatesObject[day] = {
                 selected: true,
                 marked: false,
