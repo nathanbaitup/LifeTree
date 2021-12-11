@@ -54,28 +54,27 @@ export default class MoodJournal extends Component {
                 selectedColor: selectedMood === 'happy' ? '#108206' : selectedMood === 'meh' ? '#e38e07' : selectedMood === 'sad' ? '#112dec' : selectedMood === 'angry' ? '#f90505' : '#000000',
             };
         });
-
         // END REFERENCE
 
-
         return (
-
             <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
                 <ScrollView>
                     <View style={styles.contentContainer}>
                         <Text style={styles.title}> Your Mood Journal at a glance: </Text>
+                        
                         {/* REFERENCE ACCESSED 08/12/2021 https://github.com/wix/react-native-calendars 
                          Used third party calendar dependency to be able to highlight specific dates that correspond to a users mood.*/}
                         <Calendar
                             current={Date.current}
                             minDate={'2015-01-01'}
                             enableSwipeMonths={true}
-                            markedDates={allDatesObject} />
+                            markedDates={allDatesObject}
+                        />
+                        {/* END REFERENCE */}
 
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                             <View style={styles.keyContainer} >
                                 <Text style={styles.keyTitle}>Mood Key:</Text>
-
                                 <View style={styles.keyContainer2}>
                                     <View style={[styles.keyIndivContainer, { marginRight: 10 }]}>
                                         <Text style={styles.keyIndiv}>Happy:</Text>
@@ -98,7 +97,6 @@ export default class MoodJournal extends Component {
                                 </View>
                             </View>
                         </View>
-
                     </View>
                 </ScrollView>
             </ImageBackground>
