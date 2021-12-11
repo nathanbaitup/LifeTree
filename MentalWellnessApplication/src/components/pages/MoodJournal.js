@@ -12,8 +12,8 @@ export default class MoodJournal extends Component {
         { key: '3', displayDate: 'December-04-2021', usefulDate: '2021-12-07', mood: 'sad' },
         { key: '4', displayDate: 'December-05-2021', usefulDate: '2021-12-18', mood: 'meh' },
         { key: '5', displayDate: 'December-06-2021', usefulDate: '2021-12-17', mood: 'happy' },
-        { key: '6', displayDate: 'December-07-2021', usefulDate: '2021-12-28', mood: 'crying' },
-        { key: '7', displayDate: 'December-08-2021', usefulDate: '2021-12-29', mood: 'crying' }];
+        { key: '6', displayDate: 'December-07-2021', usefulDate: '2021-12-28', mood: 'angry' },
+        { key: '7', displayDate: 'December-08-2021', usefulDate: '2021-12-29', mood: 'angry' }];
 
         // Generates a list of all the dates from allData.
         const allDates = [];
@@ -38,18 +38,16 @@ export default class MoodJournal extends Component {
         let allDatesObject = {};
         let selectedMood = '';
 
-        // For each day in allDates array, cycle through the day, select the mood colour anf add the current day to the calendar.
+        // For each day in allDates array, cycle through the day, select the mood colour and add the current day to the calendar.
         allDates.forEach((day) => {
-            
 
-            // Create a different loop to get the mood in terms of the selected day.
-
+            // Checks if the day is the same as the date and then adds the mood for the date to the calendar.
             for (let i = 0; i < allMoods.length; i++) {
-                
+                if (day === allDates[i]) {
+                    selectedMood = allMoods[i];
+                }
             }
 
-            selectedMood = allMoods[0]; // Not working, expected to cycle through all moods based on the day and assign a colour to the calendar
-            console.log(selectedMood);
             allDatesObject[day] = {
                 selected: true,
                 marked: false,
@@ -74,31 +72,31 @@ export default class MoodJournal extends Component {
                             enableSwipeMonths={true}
                             markedDates={allDatesObject} />
 
-                         <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <View style={styles.keyContainer} >
-                            <Text style={styles.keyTitle}>Mood Key:</Text>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={styles.keyContainer} >
+                                <Text style={styles.keyTitle}>Mood Key:</Text>
 
-                            <View style={styles.keyContainer2}>
-                                <View style={[styles.keyIndivContainer, {marginRight : 10}]}>
-                                    <Text style={styles.keyIndiv}>Happy:</Text>
-                                    <Text style={[styles.keyBackground, { backgroundColor: '#108206' }]} />
+                                <View style={styles.keyContainer2}>
+                                    <View style={[styles.keyIndivContainer, { marginRight: 10 }]}>
+                                        <Text style={styles.keyIndiv}>Happy:</Text>
+                                        <Text style={[styles.keyBackground, { backgroundColor: '#108206' }]} />
+                                    </View>
+                                    <View style={[styles.keyIndivContainer, { marginRight: 20 }]}>
+                                        <Text style={styles.keyIndiv}>Meh:</Text>
+                                        <Text style={[styles.keyBackground, { backgroundColor: '#e38e07' }]} />
+                                    </View>
                                 </View>
-                                <View style={[styles.keyIndivContainer, {marginRight : 20}]}>
-                                    <Text style={styles.keyIndiv}>Meh:</Text>
-                                    <Text style={[styles.keyBackground, { backgroundColor: '#e38e07' }]} />
+                                <View style={styles.keyContainer2}>
+                                    <View style={styles.keyIndivContainer}>
+                                        <Text style={styles.keyIndiv}> Sad: </Text>
+                                        <Text style={[styles.keyBackground, { backgroundColor: '#112dec', marginLeft: 8 }]} />
+                                    </View>
+                                    <View style={[styles.keyIndivContainer, { paddingLeft: 10, paddingRight: 20 }]}>
+                                        <Text style={styles.keyIndiv}>Angry:</Text>
+                                        <Text style={[styles.keyBackground, { backgroundColor: '#f90505' }]} />
+                                    </View>
                                 </View>
                             </View>
-                            <View style={styles.keyContainer2}>
-                                <View style={styles.keyIndivContainer}>
-                                    <Text style={styles.keyIndiv}> Sad: </Text>
-                                    <Text style={[styles.keyBackground, { backgroundColor: '#112dec', marginLeft: 8}]} />
-                                </View>
-                                <View style={[styles.keyIndivContainer, {paddingLeft : 10, paddingRight : 20}]}>
-                                    <Text style={styles.keyIndiv}>Angry:</Text>
-                                    <Text style={[styles.keyBackground, { backgroundColor: '#f90505' }]} />
-                                </View>
-                            </View>
-                        </View>
                         </View>
 
                     </View>
