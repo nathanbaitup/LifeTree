@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
+import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, ImageBackground, ScrollView, StyleSheet } from 'react-native';
 
 export default class Home extends Component {
 
     state = {
-        title: 'Good Day, User!', // Added to the state as it can be updated later.
+        title: 'Good Afternoon, User!', // Added to the state as it can be updated later.
         daysUsed: 1,
         dailyStreak: 0,
         dailyStreakText: '🔥: ',
@@ -21,9 +21,10 @@ export default class Home extends Component {
     render() {
         return (
             <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
+            <ScrollView>
             <View style={styles.mainContainer}>
                 <View style={styles.heading} >
-                    <Text style={styles.title}> {this.state.title} </Text>
+                    <Text style={styles.title}>{this.state.title} </Text>
                     <TouchableOpacity >
                         <Image style={styles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
                     </TouchableOpacity>
@@ -45,6 +46,7 @@ export default class Home extends Component {
                         accessibilityLabel='Find out more about how many used days affects the application' />
                 </View>
             </View>
+            </ScrollView>
             </ImageBackground>
         );
     }
@@ -69,6 +71,7 @@ const showDailyUseDetails = () => {
             }
         ]);
 };
+
 // The styling for home page.
 const styles = StyleSheet.create({
     mainContainer: {
@@ -91,11 +94,10 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         alignItems: 'flex-start',
-        paddingRight: width / 4
+        paddingRight: width / 4,
+        color: '#000000',
     },
     profilePic: {
-        //justifyContent: 'flex-end',
-        //alignItems: 'flex-end',
         width: 40,
         height: 40,
         borderRadius: 40,
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: (height / 4)
+        paddingTop: (height / 7),
     },
     inspireQuote: {
         fontSize: 14,
@@ -123,6 +125,8 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         textAlign: 'center',
         paddingTop: 15,
+        color: '#000000',
+        marginBottom: 20,
     },
     detailsBTN: {
         paddingTop: 5,
@@ -133,6 +137,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         overflow: 'hidden',
         padding: 10,
+        color: '#000000',
 
     },
     dailyStreak: {
