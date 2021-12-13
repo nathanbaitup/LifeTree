@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Text, View, Button, ImageBackground, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
+//imports the config from the firebase config file
+import { firebase } from '../../resources/firebase/config';
+
 
 export default function Welcome({ navigation }) {
     // REFERENCE ACCESSED 13/12/2021 https://www.freecodecamp.org/news/react-native-firebase-tutorial/
@@ -9,9 +12,34 @@ export default function Welcome({ navigation }) {
     const [password, setPassword] = useState('');
 
     const onLoginPress = () => {
-
+        // Calls the signInWithEmailAndPassword API from Auth to take the email and password entered and check if the user exists.
+        // If successful, the user data is stored to the variable 'user' to be parsed through the application and the user
+        // is signed in and taken to the home page.
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then((response) => {
+                const uid = response.user.uid;
+                const usersRef = firebase.firestore().collection('users');
+                usersRef
+                    .doc(uid)
+                    .get()
+                    .then(firestoreDocument => {
+                        if (!firestoreDocument.exists) {
+                            alert('User does not exist. Please check your credentials.');
+                            return;
+                        }
+                        const user = firestoreDocument.data();
+                        navigation.navigate('Home');
+                    })
+                    .catch(error => {
+                        alert('Error: ' + error);
+                    });
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            });
     };
-    
     // END REFERENCE
 
     return (
@@ -51,10 +79,7 @@ export default function Welcome({ navigation }) {
                 <View style={styles.footer}>
                     <Text style={styles.createAnAccountText} > Don&apos;t have an account yet? <Text onPress={() => navigation.navigate('CreateAccount')} style={styles.createAccountLink}> Sign up</Text> </Text>
                 </View>
-
-
-
-                <Button title="Continue as Guest" onPress={() => navigation.navigate('Home')} />
+                {/* <Button title="Continue as Guest" onPress={() => navigation.navigate('Home')} /> */}
             </View>
         </ImageBackground>
     );
@@ -126,5 +151,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#6db8bf',
     }
-
 });

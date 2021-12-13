@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
 
+import { firebase } from '../../resources/firebase/config';
+
 export default function CreateAccount({ navigation }) {
 
     // REFERENCE ACCESSED 13/12/2021 https://www.freecodecamp.org/news/react-native-firebase-tutorial/
@@ -11,7 +13,39 @@ export default function CreateAccount({ navigation }) {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const onRegisterPress = () => {
-
+        // Checks if password and confirm password are matching
+        if (password !== confirmPassword) {
+            alert('Please check your passwords are entered correctly as they dont match.');
+            return;
+        }
+        // Calls the createUserWithEmailAndPassword API from Auth to create a new account in the Firebase Console.
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((response) => {
+                const uid = response.user.uid;
+                const data = {
+                    id: uid,
+                    email,
+                    fullName,
+                };
+                // If account creation is successful, the user data is stored to Firestore (database)
+                // to allow all data related to the account creation to be stored.
+                // If data is successfully stored to Firestore, then the user is returned to the homescreen. 
+                const usersRef = firebase.firestore().collection('users');
+                usersRef
+                    .doc(uid)
+                    .set(data)
+                    .then(() => {
+                        navigation.navigate('Home');
+                    })
+                    .catch((error) => {
+                        alert('Error: ' + error);
+                    });
+            })
+            .catch((error) => {
+                alert('Error: ' + error);
+            });
     };
     // END REFERENCE
 
