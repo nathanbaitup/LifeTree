@@ -29,6 +29,13 @@
             {
               "client_id": "533082351504-uo55mn56t7ess5ctinp8sr9l5e6camup.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "533082351504-er371loshkmkjtko722i9ss3idghhnqr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.MentalWellnessApplication"
+              }
             }
           ]
         }

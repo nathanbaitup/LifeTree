@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
 
-import { firebase } from '../../resources/firebase/config';
+// Imports auth and firestore from the firebase console.
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 export default function CreateAccount({ navigation }) {
 
@@ -19,8 +21,7 @@ export default function CreateAccount({ navigation }) {
             return;
         }
         // Calls the createUserWithEmailAndPassword API from Auth to create a new account in the Firebase Console.
-        firebase
-            .auth()
+        auth()
             .createUserWithEmailAndPassword(email, password)
             .then((response) => {
                 const uid = response.user.uid;
@@ -32,12 +33,12 @@ export default function CreateAccount({ navigation }) {
                 // If account creation is successful, the user data is stored to Firestore (database)
                 // to allow all data related to the account creation to be stored.
                 // If data is successfully stored to Firestore, then the user is returned to the homescreen. 
-                const usersRef = firebase.firestore().collection('users');
+                const usersRef = firestore().collection('users');
                 usersRef
                     .doc(uid)
                     .set(data)
                     .then(() => {
-                        navigation.navigate('Home');
+                        navigation.navigate('HomeScreen');
                     })
                     .catch((error) => {
                         alert('Error: ' + error);

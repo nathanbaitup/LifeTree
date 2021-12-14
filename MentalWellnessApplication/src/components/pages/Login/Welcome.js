@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, Button, ImageBackground, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, ImageBackground, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-//imports the config from the firebase config file
-import { firebase } from '../../resources/firebase/config';
+// Imports authentication and firestore from firebase
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 
 export default function Welcome({ navigation }) {
@@ -15,12 +16,11 @@ export default function Welcome({ navigation }) {
         // Calls the signInWithEmailAndPassword API from Auth to take the email and password entered and check if the user exists.
         // If successful, the user data is stored to the variable 'user' to be parsed through the application and the user
         // is signed in and taken to the home page.
-        firebase
-            .auth()
+        auth()
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
                 const uid = response.user.uid;
-                const usersRef = firebase.firestore().collection('users');
+                const usersRef = firestore().collection('users');
                 usersRef
                     .doc(uid)
                     .get()
@@ -29,8 +29,8 @@ export default function Welcome({ navigation }) {
                             alert('User does not exist. Please check your credentials.');
                             return;
                         }
-                        const user = firestoreDocument.data();
-                        navigation.navigate('Home');
+                        //const user = firestoreDocument.data();
+                        navigation.navigate('HomeScreen');
                     })
                     .catch(error => {
                         alert('Error: ' + error);
@@ -79,7 +79,6 @@ export default function Welcome({ navigation }) {
                 <View style={styles.footer}>
                     <Text style={styles.createAnAccountText} > Don&apos;t have an account yet? <Text onPress={() => navigation.navigate('CreateAccount')} style={styles.createAccountLink}> Sign up</Text> </Text>
                 </View>
-                {/* <Button title="Continue as Guest" onPress={() => navigation.navigate('Home')} /> */}
             </View>
         </ImageBackground>
     );
