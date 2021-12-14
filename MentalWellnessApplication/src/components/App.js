@@ -26,6 +26,8 @@ if (!global.atob) { global.atob = decode; }
 const Stack = createStackNavigator();
 
 export default function App() {
+    // REFERENCE ACCESSED 14/12/2021 https://www.freecodecamp.org/news/react-native-firebase-tutorial/
+    // Used to learn firebase authentication and keep a persistent user.
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
 
@@ -51,6 +53,8 @@ export default function App() {
             }
         });
     }, []);
+    // END REFERENCE
+
 
     return (
         <NavigationContainer>
