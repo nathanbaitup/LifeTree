@@ -1,131 +1,179 @@
-import React, { Component } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Keyboard } from 'react-native';
 
-export default class AddNewEntry extends Component {
-    state = {
-        isAngrySelected: false,
-        isSadSelected: false,
-        isMehSelected: false,
-        isHappySelected: false,
+// Imports firestore from firebase to save user entries to the firstore database.
+import firestore from '@react-native-firebase/firestore';
 
-        journalEntry: '',
-        displayDateOfEntry: null,
-        usefulDateOfEntry: null,
-        moodForEntry: '',
-    };
+export default function AddNewEntry(props) {
 
-    // Used for onPress to set the state to angry and deselect all other options.
-    isAngry = () => {
-        if (!this.state.isAngrySelected) {
-            this.setState({ isAngrySelected: true });
-            this.setState({ isSadSelected: false });
-            this.setState({ isMehSelected: false });
-            this.setState({ isHappySelected: false });
-        }
-    };
-    // Used for onPress to set the state to sad and deselect all other options.
-    isSad = () => {
-        if (!this.state.isSadSelected) {
-            this.setState({ isAngrySelected: false });
-            this.setState({ isSadSelected: true });
-            this.setState({ isMehSelected: false });
-            this.setState({ isHappySelected: false });
-        }
-    };
-    // Used for onPress to set the state to meh and deselect all other options.
-    isMeh = () => {
-        if (!this.state.isMehSelected) {
-            this.setState({ isAngrySelected: false });
-            this.setState({ isSadSelected: false });
-            this.setState({ isMehSelected: true });
-            this.setState({ isHappySelected: false });
-        }
-    };
-    // Used for onPress to set the state to happy and deselect all other options.
-    isHappy = () => {
-        if (!this.state.isHappySelected) {
-            this.setState({ isAngrySelected: false });
-            this.setState({ isSadSelected: false });
-            this.setState({ isMehSelected: false });
-            this.setState({ isHappySelected: true });
-        }
-    };
+    // Initializing the state so that when a user selects a mood, it is outlined to show they have selected it.
+    const [angry, setAngry] = useState(false);
+    const [sad, setSad] = useState(false);
+    const [meh, setMeh] = useState(false);
+    const [happy, setHappy] = useState(false);
 
+    // Initialises the state to display the date to the user in a nice format.
+    const [displayDate, setDisplayDate] = useState(null);
 
-    componentDidMount() {
+    // Initializing the state so that once a user has entered all of their details it can be stored to the firestore database.
+    const [journalEntry, setJournalEntry] = useState('');
+    const [usefulDate, setUsefulDate] = useState(null);
+    const [entryMood, setEntryMood] = useState('');
+
+    // Creates a reference to the journals collection in firestore to save data.
+    const journalsRef = firestore().collection('journals');
+
+    // Gets the users ID from props passed in from App.js.
+    const userID = props.extraData.id;
+
+    useEffect(() => {
+        // Gets the current date and creates an object on how to display the date.
         const date = new Date();
-        var displayOptions = {day: 'numeric', month: 'long', year: 'numeric'};
+        const displayOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+
+        // Displays the date on the component in a nice format.
         const displayDateOfEntry = date.toLocaleDateString('en-US', displayOptions);
+        setDisplayDate(displayDateOfEntry);
+
+        // Takes the date in ISO format to be saved to the firestore databse and be displayed on the mood calendar.
         const usefulDateOfEntry = date.toISOString().split('T')[0];
-        this.setState({usefulDateOfEntry: usefulDateOfEntry});
-        this.setState({displayDateOfEntry: displayDateOfEntry});  
-    }
+        setUsefulDate(usefulDateOfEntry);
 
-    updateStateMood = () => {
-        if (this.state.isAngrySelected){
-            this.setState({moodForEntry: 'angry'});
-        } else if (this.state.isSadSelected) {
-            this.setState({moodForEntry: 'sad'});
-        } else if (this.state.isMehSelected){
-            this.setState({moodForEntry: 'meh'});
-        } else if (this.state.isHappySelected){
-            this.setState({moodForEntry: 'happy'});
-        } else {
-            this.setState({moodForEntry: 'no mood selected'});
+    }, []);
+
+
+    // On submission, checks if there is an input for journal entry, then creates a timestamp and collects the userID,
+    // mood, date, and jorunal entry to be stored in the firestore databse, then clears the fields and notifies the user if
+    // the upload was successful or if an error occurs.
+    const onSubmitButtonPress = () => {
+        // REFERENCE ACCESSED 14/12/2021 https://www.freecodecamp.org/news/react-native-firebase-tutorial/ (8. Writing and Reading Data from Firestore)
+        // Used to learn how to save data to firestore.
+        if (journalEntry && journalEntry.length > 0) {
+            const timestamp = firestore.FieldValue.serverTimestamp();
+            const data = {
+                authorID: userID,
+                moodSelected: entryMood,
+                journalText: journalEntry,
+                dateOfEntry: usefulDate,
+                createdAt: timestamp
+            };
+            journalsRef
+                .add(data)
+                .then((_doc) => {
+                    Keyboard.dismiss();
+
+                    setJournalEntry('');
+                    setEntryMood('');
+                    setAngry(false);
+                    setSad(false);
+                    setMeh(false);
+                    setHappy(false);
+
+                    alert('Entry Successfully Added');
+
+                })
+                .catch((error) => {
+                    alert('Error: ' + error);
+                });
         }
-    }
+        //END REFERENCE
+    };
 
+    // ---------- Functions to set the user mood ----------
+    // Used to highlight the users mood as well as set the mood to the state.
+    const isAngry = () => {
+        if (!angry) {
+            setAngry(true);
+            setSad(false);
+            setMeh(false);
+            setHappy(false);
+            setEntryMood('Angry');
+        }
+    };
+    const isSad = () => {
+        if (!sad) {
+            setAngry(false);
+            setSad(true);
+            setMeh(false);
+            setHappy(false);
+            setEntryMood('Sad');
+        }
+    };
+    const isMeh = () => {
+        if (!meh) {
+            setAngry(false);
+            setSad(false);
+            setMeh(true);
+            setHappy(false);
+            setEntryMood('Meh');
+        }
+    };
+    const isHappy = () => {
+        if (!happy) {
+            setAngry(false);
+            setSad(false);
+            setMeh(false);
+            setHappy(true);
+            setEntryMood('Happy');
+        }
+    };
 
-    // TODO: ADD DATE TO BE STORED TO THE STATE.
-    render() {
-        return (
-            <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-                <View style={styles.mainContainer}>
-                    <View style={styles.contentContainer}>
-                        <Text style={styles.header}>How are you feeling today? </Text>
-                        <View style={styles.moodModules}>
-                            <TouchableOpacity style={this.state.isAngrySelected ? styles.moodModSelected : styles.moodModUnselected} onPress={this.isAngry} >
-                                <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
-                                <Text>Angry</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={this.state.isSadSelected ? styles.moodModSelected : styles.moodModUnselected} onPress={this.isSad}>
-                                <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
-                                <Text>Sad</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={this.state.isMehSelected ? styles.moodModSelected : styles.moodModUnselected} onPress={this.isMeh}>
-                                <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
-                                <Text>Meh</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={this.state.isHappySelected ? styles.moodModSelected : styles.moodModUnselected} onPress={this.isHappy}>
-                                <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
-                                <Text>Happy</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                            <Text style={styles.journalHeader}>Any comments for the day? </Text>
-                            <TextInput style={styles.journalEntry}
-                                placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you at all. We promise! '
-                                numberOfLines={10}
-                                multiline={true}
-                                onChangeText={(journalEntry) => { this.setState({ journalEntry: journalEntry }); }}
-                                value={this.state.journalEntry}
-                            />
+    return (
+        <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+            <View style={styles.mainContainer}>
+                <View style={styles.contentContainer}>
+                    <Text style={styles.header}>How are you feeling today?</Text>
 
-                            <Text style={styles.date}>Todays Date: {this.state.displayDateOfEntry} </Text>
-                            <View style={styles.submitButtonContainer}>
-                                {/* TODO: MAKE ONPRESS TO SAVE DATA WHEN BACKEND HAS BEEN CONNECTED */}
-                                <TouchableOpacity style={styles.submitButton} onPress={console.log(this.state.journalEntry)} >
-                                    <Text style={styles.submitText}>Submit</Text>
-                                </TouchableOpacity>
-                            </View>
+                    <View style={styles.moodModules}>
+
+                        <TouchableOpacity style={angry ? styles.moodModSelected : styles.moodModUnselected} onPress={isAngry} >
+                            <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
+                            <Text>Angry</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={sad ? styles.moodModSelected : styles.moodModUnselected} onPress={isSad}>
+                            <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
+                            <Text>Sad</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={meh ? styles.moodModSelected : styles.moodModUnselected} onPress={isMeh}>
+                            <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
+                            <Text>Meh</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={happy ? styles.moodModSelected : styles.moodModUnselected} onPress={isHappy}>
+                            <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
+                            <Text>Happy</Text>
+
+                        </TouchableOpacity>
+                    </View>
+
+                    <View>
+                        <Text style={styles.journalHeader}>Any comments for the day? </Text>
+                        <TextInput style={styles.journalEntry}
+                            placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you. We promise! '
+                            numberOfLines={10}
+                            multiline={true}
+                            onChangeText={(text) => setJournalEntry(text)}
+                            value={journalEntry}
+                        />
+
+                        <Text style={styles.date}>Todays Date: {displayDate} </Text>
+                        <View style={styles.submitButtonContainer}>
+
+                            {/* TODO: MAKE ONPRESS TO SAVE DATA WHEN BACKEND HAS BEEN CONNECTED */}
+                            <TouchableOpacity style={styles.submitButton} onPress={onSubmitButtonPress} >
+                                <Text style={styles.submitText}>Submit</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-            </ImageBackground>
-        );
-    }
+            </View>
+        </ImageBackground>
+    );
 }
 
+// Styling for the document.
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
