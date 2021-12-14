@@ -29,8 +29,8 @@ export default function Welcome({ navigation }) {
                             alert('User does not exist. Please check your credentials.');
                             return;
                         }
-                        //const user = firestoreDocument.data();
-                        navigation.navigate('HomeScreen');
+                        const user = firestoreDocument.data();
+                        navigation.navigate('HomeScreen', {user});
                     })
                     .catch(error => {
                         alert('Error: ' + error);

@@ -38,7 +38,7 @@ export default function CreateAccount({ navigation }) {
                     .doc(uid)
                     .set(data)
                     .then(() => {
-                        navigation.navigate('HomeScreen');
+                        navigation.navigate('HomeScreen', {user: data});
                     })
                     .catch((error) => {
                         alert('Error: ' + error);
