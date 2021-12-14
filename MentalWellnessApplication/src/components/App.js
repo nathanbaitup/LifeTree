@@ -17,11 +17,6 @@ import CreateAccount from './pages/Login/CreateAccount';
 // Imports the Tab Bar so that when a user logs in, they will be directed to the home page with the tab navigation.
 import TabNavigator from './TabNavigator';
 
-import { decode, encode } from 'base-64';
-if (!global.btoa) { global.btoa = encode; }
-if (!global.atob) { global.atob = decode; }
-
-
 //Variable that is used to create a stack navigator to direct the user between the login screen and the rest of the application.
 const Stack = createStackNavigator();
 
@@ -31,6 +26,12 @@ export default function App() {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
 
+    //TODO: Add a loading indicator to display that login is loading and app isnt just stuck. Will use loading state, tutorial loading screen did not work.
+
+    // Checks to see if user is already logged in and if true, saves the users data to the state for use in rest of the application.
+    // This then sets loading to false to display the page that should be returned.
+    // If there is an error at anypoint within finding the user, loading is set to false and the user is returned to the welcome screen,
+    // where they can reneter their login details.
     useEffect(() => {
         const usersRef = firestore().collection('users');
         auth().onAuthStateChanged(user => {
@@ -42,7 +43,6 @@ export default function App() {
                         const userData = document.data();
                         setLoading(false);
                         setUser(userData);
-                        console.log(user);
                     })
                     .catch((error) => {
                         alert(error.message);
@@ -55,7 +55,7 @@ export default function App() {
     }, []);
     // END REFERENCE
 
-
+    // If there is a user, take the user to the application else got to the welcome page.
     return (
         <NavigationContainer>
             {/* REFERENCE ACCESSED 13/12/2021 https://dev.to/easybuoy/combining-stack-tab-drawer-navigations-in-react-native-with-react-navigation-5-da
