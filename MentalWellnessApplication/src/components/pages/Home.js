@@ -1,37 +1,27 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, ImageBackground, ScrollView, StyleSheet } from 'react-native';
 
-export default class Home extends Component {
+export default function Home(props) {
 
-    state = {
-        title: 'Good Afternoon, User!', // Added to the state as it can be updated later.
-        daysUsed: 1,
-        dailyStreak: 0,
-        dailyStreakText: '🔥: ',
-    }
+    const username = props.extraData.fullName;
 
-    showDailyStreakText = () => {
-        this.setState({ dailyStreakText: 'Daily Streak: ' }, () => {
-            setTimeout(() => {
-                this.setState({ dailyStreakText: '🔥: ' });
-            }, 2000);
-        });
-    };
+    const [daysUsed, setDaysUsed] = useState(0);
+    const [dailyStreak, setDailyStreak] = useState(0);
+    const [dailyStreakText, setDailyStreakText] = useState('🔥: ');
 
-    render() {
         return (
             <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
             <ScrollView>
             <View style={styles.mainContainer}>
                 <View style={styles.heading} >
-                    <Text style={styles.title}>{this.state.title} </Text>
+                    <Text style={styles.title}>Welcome, {username} </Text>
                     <TouchableOpacity >
                         <Image style={styles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
                     </TouchableOpacity>
                 </View>
-                <View onPress={this.showDailyStreakText}>
-                    <TouchableOpacity style={styles.dailyStreak} onPress={this.showDailyStreakText}>
-                        <Text style={styles.dailyStreakCounter} onPress={this.showDailyStreakText}> {this.state.dailyStreakText} {this.state.dailyStreak}</Text>
+                <View>
+                    <TouchableOpacity style={styles.dailyStreak} onPress={() => setDailyStreakText('Daily Streak: ')}>
+                        <Text style={styles.dailyStreakCounter} > {dailyStreakText} {dailyStreak}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.treeFrame}>
@@ -39,7 +29,7 @@ export default class Home extends Component {
                     {/* Not needed for MVP, placeholder template for Quotes API. */}
                     <Text style={styles.inspireQuote}>Anything is possible to those who believe. {'\n'} Mark: 9:23</Text>
 
-                    <Text style={styles.daysUsed}> Days Used: {this.state.daysUsed}</Text>
+                    <Text style={styles.daysUsed}> Days Used: {daysUsed}</Text>
                     <Button style={styles.detailsBTN}
                         onPress={showDailyUseDetails}
                         title="Find Out More"
@@ -50,7 +40,6 @@ export default class Home extends Component {
             </ImageBackground>
         );
     }
-}
 
 // Function used to store height of device being used for responsive design on the homescreen.
 const height = Dimensions.get('window').height;
@@ -91,7 +80,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingLeft: 5,
         textAlign: 'left',
-        fontSize: 30,
+        fontSize: 26,
         fontWeight: 'bold',
         alignItems: 'flex-start',
         paddingRight: width / 4,
