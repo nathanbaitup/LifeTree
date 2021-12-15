@@ -1,74 +1,74 @@
-import React, { Component } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { PropTypes } from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, ImageBackground, TextInput, Image, TouchableOpacity } from 'react-native';
 
-export default class ViewSingleEntry extends Component {
-    // Parses the onBack function so when the back button is clicked the user is returned to the entries list.
-    // Parses the key of the entry to be used to retrieve the journal entry in its entirety. 
-    static propTypes = {
-        onBack: PropTypes.func.isRequired,
-        currentEntryID: PropTypes.string.isRequired,
-    };
+import firestore from '@react-native-firebase/firestore';
 
-    state = {
-        entry: this.props.currentEntryID,
-        allEntries: [],
-        selectedEntry: [],
-    }
+export default function ViewSingleEntry(props) {
+    
+    const [allEntries, setAllEntries] = useState([]);
+    const [journalEntry, setJournalEntry] = useState([]);
 
-    // When the component is loaded on the users device, it sets the state to all entries that the user has stored.
-    // Also takes the parsed entry key to find the correct entry to display to the user.
-    componentDidMount() {
-        // TODO: This will not be necessary with backend as all data can be retrieved from the entries list and parsed into this page.
-        let allEntries = [
-            { key: '0', date: 'Jan', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar sollicitudin hendrerit. Donec a dolor lacus. Fusce feugiat velit vitae odio pretium ultricies. Proin sollicitudin nulla in ornare ullamcorper. In ut eros eget nisl placerat placerat sit amet sit amet nibh. Morbi porta fringilla metus, quis tincidunt augue lacinia ac. Quisque ornare velit imperdiet dictum fringilla. Donec in turpis ligula. Vestibulum et porta leo. Nulla molestie elit quam, in ornare neque malesuada ac. Curabitur aliquam in massa quis mattis. Aliquam sit amet est id ipsum pretium eleifend a id sem. Nam congue nisl ipsum, id ullamcorper eros elementum sed. ', mood: 'happy' },
-            { key: '1', date: 'Jan', description: 'blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah', mood: 'happy' },
-            { key: '2', date: 'Jan', description: 'blah blah', mood: 'happy' },
-            { key: '3', date: 'Jun', description: 'blah blah', mood: 'meh' },
-            { key: '4', date: 'Aug', description: 'blah blah', mood: 'happy' },
-            { key: '5', date: 'Aug', description: 'blah blah', mood: 'angry' },
-            { key: '6', date: 'Sep', description: 'blah blah', mood: 'happy' },
-            { key: '7', date: 'May', description: 'blah blah', mood: 'meh' },
-            { key: '8', date: 'Jul', description: 'blah blah', mood: 'happy' },
-            { key: '9', date: 'Mar', description: 'blah blah', mood: 'sad' },
-        ];
-        this.setState({ allEntries: allEntries });
+    
+    const userID = props.extraData;
+    const onBack = props.onBack;
+    const entryID = props.currentEntryID;
 
-        // Uses the entry key to locate the correct journal entry to display within the page.
-        let selectedEntry = allEntries.find(entry => entry.key === this.state.entry);
-        this.setState({ selectedEntry: selectedEntry });
-    }
+    const journalsRef = firestore().collection('journalList');
+    
+    // Selects all journal entries where the user ID matches the authorID and sorts the list by newest date first.
+    useEffect(() => {
+        journalsRef
+            .where('authorID', '==', userID)
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(
+                querySnapshot => {
+                    const newJournals = [];
+                    querySnapshot.forEach((doc) => {
+                        const journal = doc.data();
+                        journal.id = doc.id;
+                        newJournals.push(journal);
+                    });
+                    setAllEntries(newJournals);
+                },
+                error => {
+                    alert(error);
+                }
+            );
+            let selectedEntry = allEntries.find(entry => entry.createdAt === entryID);
+            setJournalEntry(selectedEntry); 
+    }, []);
 
-    render() {
+
+
+
         return (
             // TODO: Import updated add an entry page from entries branch to get the mood images to highlight the users mood for an entry.
-            <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }}>
-                <ScrollView>
+            <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
                 <View style={styles.contentContainer}>
-                    <Text style={styles.dateTitle}>Date of Entry: {this.state.selectedEntry.date}</Text>
+                    <Text style={styles.dateTitle}>Date of Entry:  {console.log(allEntries)} </Text>
                     <Text style={styles.header}>How you were feeling: </Text>
 
                     <View style={styles.moodModules}>
-                        <View style={this.state.selectedEntry.mood === 'angry' ? styles.moodModSelected : styles.moodModUnselected} >
+                        <View style={journalEntry.moodSelected === 'Angry' ? styles.moodModSelected : styles.moodModUnselected} >
                             <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
-                            <Text style={styles.moodText}>Angry</Text>
+                            <Text>Angry</Text>
                         </View>
-                        <View style={this.state.selectedEntry.mood === 'sad' ? styles.moodModSelected : styles.moodModUnselected}>
+                        <View style={journalEntry.moodSelected === 'Sad' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
-                            <Text style={styles.moodText}>Sad</Text>
+                            <Text>Sad</Text>
                         </View>
-                        <View style={this.state.selectedEntry.mood === 'meh' ? styles.moodModSelected : styles.moodModUnselected}>
+                        <View style={journalEntry.moodSelected === 'Meh' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
-                            <Text style={styles.moodText}>Meh</Text>
+                            <Text>Meh</Text>
                         </View>
-                        <View style={this.state.selectedEntry.mood === 'happy' ? styles.moodModSelected : styles.moodModUnselected}>
+                        <View style={journalEntry.moodSelected === 'Happy' ? styles.moodModSelected : styles.moodModUnselected}>
                             <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
-                            <Text style={styles.moodText}>Happy</Text>
+                            <Text>Happy</Text>
                         </View>
                     </View>
 
-                    <Text style={[{ textAlign: 'center' }, {color: this.state.selectedEntry.mood === 'happy' ? '#108206' : this.state.selectedEntry.mood === 'meh' ? '#e38e07' : this.state.selectedEntry.mood === 'sad' ? '#112dec' : '#f90505' }]}>
-                       You were feeling: {this.state.selectedEntry.mood}
+                    <Text style={[{ textAlign: 'center' }, {color: journalEntry.moodSelected === 'Happy' ? '#108206' : journalEntry.moodSelected === 'Meh' ? '#e38e07' : journalEntry.moodSelected === 'Sad' ? '#112dec' : '#f90505' }]}>
+                       You were feeling: {journalEntry.moodSelected}
                     </Text>
                     <View>
                         <Text style={styles.journalHeader}>Your comments for the day: </Text>
@@ -77,20 +77,19 @@ export default class ViewSingleEntry extends Component {
                             numberOfLines={5}
                             multiline
                             editable={false}
-                            value={this.state.selectedEntry.description}
+                            value={journalEntry.journalText}
                         />
                         <View style={styles.returnButtonContainer}>
-                            <TouchableOpacity style={styles.returnButton} onPress={this.props.onBack}>
+                            <TouchableOpacity style={styles.returnButton} onPress={onBack}>
                                 <Text style={styles.returnText}>Return to Entries</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-                </ScrollView>
             </ImageBackground>
         );
     }
-}
+
 
 // The styling for the page.
 const styles = StyleSheet.create({
@@ -123,17 +122,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#000000',
         borderRadius: 5,
-        paddingLeft: 10,
-        //TODO: add css styling to mood texts and comments box to make text black in colour.  
+        paddingLeft: 10,  
     },
     moodFaces:{
         marginTop: 10,
         height: 50,
         width: 66,
         alignItems: 'center',
-    },
-    moodText: {
-        color: '#000000',
     },
     journalEntry: {
         marginTop: 5,
@@ -142,7 +137,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         maxHeight: 250,
         height: 150,
-        color: '#000000',
     },
     journalHeader: {
         fontSize: 18,
@@ -171,9 +165,8 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
     dateTitle: {
-        padding: 10,
+        padding: 15,
         fontWeight: 'bold',
         fontSize: 18,
-        color: '#000000',
     }
 });

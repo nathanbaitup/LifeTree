@@ -42,8 +42,7 @@ export default function EntriesList(props) {
                 error => {
                     alert(error);
                 }
-            );
-        
+            );        
     }, []);
 
     // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
@@ -62,17 +61,13 @@ export default function EntriesList(props) {
     const unsetCurrentEntry = () => {
         setSelectedID(null);
     };
-    // Returns the selectedID to the ViewSingleEntry page.
-    const currentEntryID = () => {
-        return selectedID;
-    };
 
     // Checks if the selectedID has been set and if so, displays the ViewSingleEntry page to view a users entry.
     if (selectedID) {
         return (
             <View>
-                <ViewSingleEntry currentEntryID={currentEntryID()} onBack={unsetCurrentEntry} />
-
+                <ViewSingleEntry {...props} extraData={userID} currentEntryID={selectedID} onBack={unsetCurrentEntry} />
+                    
             </View>
         );
     }
