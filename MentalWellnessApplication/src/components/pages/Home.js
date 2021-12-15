@@ -5,6 +5,8 @@ import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, ImageBa
 import firestore from '@react-native-firebase/firestore';
 
 export default function Home(props) {
+    //TODO: Add counter for daily streak
+    //TODO: Based on what the days used counter equals, update the image of the tree.
 
     // The full name of the current logged in user. Used in the app title.
     const username = props.extraData.fullName;
