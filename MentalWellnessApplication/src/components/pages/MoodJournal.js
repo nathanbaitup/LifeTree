@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { } from 'react';
 import { Text, View, ImageBackground, StyleSheet, ScrollView } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-export default class MoodJournal extends Component {
 
-    render() {
+export default function MoodJournal (props) {
 
         let allData = [{ key: '0', displayDate: 'December-01-2021', usefulDate: '2021-12-01', mood: 'happy' },
         { key: '1', displayDate: 'December-02-2021', usefulDate: '2021-12-05', mood: 'happy' },
@@ -102,7 +101,7 @@ export default class MoodJournal extends Component {
             </ImageBackground>
         );
     }
-}
+
 
 const styles = StyleSheet.create({
     contentContainer: {
