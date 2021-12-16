@@ -22,6 +22,8 @@ export default function BottomTabNavigator(props) {
 
     // Creates a variable of the current user data to parse through each component.
     const userData = props.extraData;
+    // Parses the logout function for use within the settings page.
+    const logout = props.logout;
 
     return (
         // The Navigation bar creation tag that sets the default tab to 'home', adds tint styling for when an
@@ -95,7 +97,7 @@ export default function BottomTabNavigator(props) {
                     tabBarIcon: ({ color, size }) => (
                         <Icon name='cog' color={color} size={size} />)
                 }} >
-                {props => <Settings {...props} extraData={userData} />}
+                {props => <Settings {...props} extraData={userData} logout={logout} />}
             </Tab.Screen>
 
 
