@@ -1,55 +1,112 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, ImageBackground, ScrollView, StyleSheet } from 'react-native';
 
-export default class Home extends Component {
+// Imports firestore from firebase to save the days used and daily streak in the database.
+import firestore from '@react-native-firebase/firestore';
 
-    state = {
-        title: 'Good Afternoon, User!', // Added to the state as it can be updated later.
-        daysUsed: 1,
-        dailyStreak: 0,
-        dailyStreakText: '🔥: ',
-    }
+export default function Home(props) {
+    //TODO: Add counter for daily streak
+    //TODO: Based on what the days used counter equals, update the image of the tree.
 
-    showDailyStreakText = () => {
-        this.setState({ dailyStreakText: 'Daily Streak: ' }, () => {
-            setTimeout(() => {
-                this.setState({ dailyStreakText: '🔥: ' });
-            }, 2000);
-        });
-    };
+    // The full name of the current logged in user. Used in the app title.
+    const username = props.extraData.fullName;
+    // The ID of the current logged in user. Used to update the daily counter.
+    const userID = props.extraData.id;
 
-    render() {
-        return (
-            <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
+    // Initialising the state so that if a new user logs in they are set to the default values.
+    const [daysUsed, setDaysUsed] = useState(0);
+    const [dailyStreak, setDailyStreak] = useState(0);
+    const [dailyStreakText, setDailyStreakText] = useState('🔥: ');
+
+    // Creates a reference to the userCounter collection in firestore to retrieve and update data. 
+    const userCounterRef = firestore().collection('userCounter');
+
+    // Gets the current day on the device.
+    const date = new Date();
+    const currentDay = date.toISOString().split('T')[0];
+
+    useEffect(() => {
+        // Set to a timeout to run the code after a set time so that all user properties are correctly loaded.
+        setTimeout(() => {
+            userCounterRef.doc(userID).get().then((doc) => {
+                // If the document exists, where authorID = userID then add to allData.
+                if (doc.exists) {
+                    // Sets the state variables to equal the database fields.
+                    setDaysUsed(doc.data().daysUsedApplication);
+                    setDailyStreak(doc.data().dailyStreak);
+
+                    // Checks if the current day is equal to the date stored in the database to update the days used counter.
+                    if (currentDay === doc.data().currentDay) {
+                        // Nothing happens as day counter is correct.
+                    } else {
+                        // The userCounter collection is updated with the new date and the daysUsed counter is incremented by 1.
+                        userCounterRef
+                            .doc(userID)
+                            .set({
+                                authorID: userID,
+                                currentDay: currentDay,
+                                daysUsedApplication: (daysUsed + 1),
+                                dailyStreak: dailyStreak
+                            })
+                            .then(() => {
+                                setDaysUsed(daysUsed + 1);
+                            })
+                            .catch((error) => {
+                                alert(error.message);
+                            });
+                    }
+                } else {
+                    // If the document doesnt exist, it is created and the defualt data from the state is saved to the database.
+
+                    // The data that is used to create the document if it doesn't exist.
+                    const data = {
+                        authorID: userID,
+                        currentDay: currentDay,
+                        daysUsedApplication: daysUsed,
+                        dailyStreak: dailyStreak
+                    };
+                    userCounterRef
+                        .doc(userID)
+                        .set(data)
+                        .catch((error) => {
+                            alert(error.message);
+                        });
+                }
+            });
+        }, 500);
+
+    }, []);
+
+    return (
+        <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <ScrollView>
-            <View style={styles.mainContainer}>
-                <View style={styles.heading} >
-                    <Text style={styles.title}>{this.state.title} </Text>
-                    <TouchableOpacity >
-                        <Image style={styles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
-                    </TouchableOpacity>
-                </View>
-                <View onPress={this.showDailyStreakText}>
-                    <TouchableOpacity style={styles.dailyStreak} onPress={this.showDailyStreakText}>
-                        <Text style={styles.dailyStreakCounter} onPress={this.showDailyStreakText}> {this.state.dailyStreakText} {this.state.dailyStreak}</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.treeFrame}>
-                    <Image source={require('../resources/img/trees/standard/tree-0.png')} style={styles.tree} />
-                    {/* Not needed for MVP, placeholder template for Quotes API. */}
-                    <Text style={styles.inspireQuote}>Anything is possible to those who believe. {'\n'} Mark: 9:23</Text>
+                <View style={styles.mainContainer}>
+                    <View style={styles.heading} >
+                        <Text style={styles.title}>Welcome, {username} </Text>
+                        <TouchableOpacity >
+                            <Image style={styles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <TouchableOpacity style={styles.dailyStreak} onPress={() => setDailyStreakText('Daily Streak: ')}>
+                            <Text style={styles.dailyStreakCounter} > {dailyStreakText} {dailyStreak}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.treeFrame}>
+                        <Image source={require('../resources/img/trees/standard/tree-0.png')} style={styles.tree} />
+                        {/* Not needed for MVP, placeholder template for Quotes API. */}
+                        <Text style={styles.inspireQuote}>Anything is possible to those who believe. {'\n'} Mark: 9:23</Text>
 
-                    <Text style={styles.daysUsed}> Days Used: {this.state.daysUsed}</Text>
-                    <Button style={styles.detailsBTN}
-                        onPress={showDailyUseDetails}
-                        title="Find Out More"
-                        accessibilityLabel='Find out more about how many used days affects the application' />
+                        <Text style={styles.daysUsed}> Days Used: {daysUsed}</Text>
+                        <Button style={styles.detailsBTN}
+                            onPress={showDailyUseDetails}
+                            title="Find Out More"
+                            accessibilityLabel='Find out more about how many used days affects the application' />
+                    </View>
                 </View>
-            </View>
             </ScrollView>
-            </ImageBackground>
-        );
-    }
+        </ImageBackground>
+    );
 }
 
 // Function used to store height of device being used for responsive design on the homescreen.
@@ -78,7 +135,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
     },
-    background:{
+    background: {
         width: '100%',
         height: '100%',
         justifyContent: 'center',
@@ -91,7 +148,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingLeft: 5,
         textAlign: 'left',
-        fontSize: 30,
+        fontSize: 26,
         fontWeight: 'bold',
         alignItems: 'flex-start',
         paddingRight: width / 4,
