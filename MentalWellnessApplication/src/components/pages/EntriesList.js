@@ -1,104 +1,107 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, ImageBackground, Dimensions, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
+// Imports firestore from firebase to save user entries to the firstore database.
+import firestore from '@react-native-firebase/firestore';
+
+// Imports the View Single Entry component so when an entry is pressed the user is able to view the entry.
 import ViewSingleEntry from './ViewSingleEntry';
 
-export default class EntriesList extends Component {
+export default function EntriesList(props) {
 
-    // Used to store data that will be updated within the application. Useful for in-memory searching through a list of entries.
-    state = {
-        // All entries that are stored for a user.
-        allEntries: [],
-        // The updated array that is displayed when a user does a search.
-        filteredEntries: [],
-        // Will store the user-provided search term to filter through the journal lists and return results that contain the search term.
-        searchText: '',
-        // Remembers the selected ID to load more data about the entry.
-        selectedID: null,
-    };
+    // All entries that are stored for a user.
+    const [allEntries, setAllEntries] = useState([]);
+    // The updated array that is displayed when a user does a search.
+    const [filteredEntries, setFilteredEntries] = useState([]);
+    // Will store the user-provided search term to filter through the journal lists and return results that contain the search term.
+    const [searchText, setSearchText] = useState('');
+    // Remembers the selected ID to load more data about the entry.
+    const [selectedID, setSelectedID] = useState(null);
 
-    // When the component is loaded on the users device, it sets the state to all entries that the user has stored.
-    // TODO: This will be updated from hardcoded data to data that is stored in firebase cloud database.
-    componentDidMount() {
-        let allEntries = [
-            { key: '0', date: 'Jan', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar sollicitudin hendrerit. Donec a dolor lacus. Fusce feugiat velit vitae odio pretium ultricies. Proin sollicitudin nulla in ornare ullamcorper. In ut eros eget nisl placerat placerat sit amet sit amet nibh. Morbi porta fringilla metus, quis tincidunt augue lacinia ac. Quisque ornare velit imperdiet dictum fringilla. Donec in turpis ligula. Vestibulum et porta leo. Nulla molestie elit quam, in ornare neque malesuada ac. Curabitur aliquam in massa quis mattis. Aliquam sit amet est id ipsum pretium eleifend a id sem. Nam congue nisl ipsum, id ullamcorper eros elementum sed. ', mood: 'happy' },
-            { key: '1', date: 'Jan', description: 'blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah', mood: 'happy' },
-            { key: '2', date: 'Jan', description: 'blah blah', mood: 'happy' },
-            { key: '3', date: 'Jun', description: 'blah blah', mood: 'meh' },
-            { key: '4', date: 'Aug', description: 'blah blah', mood: 'happy' },
-            { key: '5', date: 'Aug', description: 'blah blah', mood: 'angry' },
-            { key: '6', date: 'Sep', description: 'blah blah', mood: 'happy' },
-            { key: '7', date: 'May', description: 'blah blah', mood: 'meh' },
-            { key: '8', date: 'Jul', description: 'blah blah', mood: 'happy' },
-            { key: '9', date: 'Mar', description: 'blah blah', mood: 'sad' },
-        ];
-        this.setState({ allEntries: allEntries });
-    }
+    // Makes a reference to load the journal list collection from firestore.
+    const journalsRef = firestore().collection('journalList');
+    // Gets the users ID from props passed in from App.js.
+    const userID = props.extraData.id;
+
+    // Selects all journal entries where the user ID matches the authorID and sorts the list by newest date first.
+    useEffect(() => {
+        journalsRef
+            .where('authorID', '==', userID)
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(
+                querySnapshot => {
+                    const newJournals = [];
+                    querySnapshot.forEach((doc) => {
+                        const journal = doc.data();
+                        journal.id = doc.id;
+                        newJournals.push(journal);
+                    });
+                    setAllEntries(newJournals);
+                },
+                error => {
+                    alert(error);
+                }
+            );        
+    }, []);
 
     // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
     // Used to allow the user to search for journal entires based on the date for easier viewing.
-    search = (searchText) => {
-        this.setState({ searchText: searchText });
-        let filteredEntries = this.state.allEntries.filter(function (item) {
+    const search = (searchText) => {
+        setSearchText(searchText);
+        const filteredEntries = allEntries.filter(function (item) {
             // Returns eihter all entries with the same month or same mood searched for by the user.
-            // TODO: Change the date so that it is using D Month, Yr format ( 1 December , 2021).
-            return item.date.includes(searchText) || item.mood.includes(searchText.toLowerCase());
+            return item.dateOfEntry.includes(searchText) || item.moodSelected.toLowerCase().includes(searchText.toLowerCase());
         });
-        this.setState({ filteredEntries: filteredEntries });
+        setFilteredEntries(filteredEntries);
     };
     // END REFERENCE
 
-    unsetCurrentEntry = () => {
-        this.setState({selectedID: null});
+    // Sets the selectedID back to null when returning from the ViewSingleEntry page.
+    const unsetCurrentEntry = () => {
+        setSelectedID(null);
     };
 
-    currentEntryID = () => {
-        return this.state.selectedID;
-    }
-
-
-    render() {
-        if (this.state.selectedID) {
-            return (
-                <View>
-                    <ViewSingleEntry currentEntryID={this.currentEntryID()} onBack={this.unsetCurrentEntry}/>
-
-                </View>
-            );
-        }
-
+    // Checks if the selectedID has been set and if so, displays the ViewSingleEntry page to view a users entry.
+    if (selectedID) {
         return (
-            // Sets the background image to half opacity.
-            <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-                
-                <SearchBar
-                    round={true}
-                    lightTheme={true}
-                    placeholder='Search by Date or Mood...'
-                    autoCapitalize='none'
-                    onChangeText={this.search}
-                    value={this.state.searchText} />
-
-                <View style={styles.contentContainer}>
-                    <FlatList
-                        // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
-                        // Used to allow the user to search for journal entires based on the date for easier viewing.
-                        data={this.state.filteredEntries && this.state.filteredEntries.length > 0 ? this.state.filteredEntries : this.state.allEntries}
-                        keyExtractor={(item) => `item-${item.key}`}
-                        // END REFERENCE
-                        renderItem={({ item }) => <TouchableOpacity style={styles.listView} onPress={() => this.setState({selectedID: item.key})}>
-                            <Text style={styles.entryDate}>{item.date}</Text>
-                            <Text style={styles.entryDesc} numberOfLines={2} >{item.description}</Text>
-                            {/* Uses arrayed styled to set default styling and to set the colour of the text based on the mood. */}
-                            <Text style={[styles.entryMood, { color: item.mood === 'happy' ? '#108206' : item.mood === 'meh' ? '#e38e07' : item.mood === 'sad' ? '#112dec' : '#f90505' }]}>your mood: {item.mood} </Text>
-                        </TouchableOpacity>
-                        }/>
-                </View>
-            </ImageBackground>
+            <View>
+                <ViewSingleEntry {...props} extraData={userID} currentEntryID={selectedID} onBack={unsetCurrentEntry} />
+                    
+            </View>
         );
     }
+
+    return (
+        // Sets the background image to half opacity.
+        <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+            <SearchBar
+                round={true}
+                lightTheme={true}
+                placeholder='Search by Date or Mood...'
+                autoCapitalize='none'
+                onChangeText={search}
+                value={searchText} />
+
+            <View style={styles.contentContainer}>
+                <FlatList
+                    // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
+                    // Used to allow the user to search for journal entires based on the date for easier viewing.
+                    data={filteredEntries && filteredEntries.length > 0 ? filteredEntries : allEntries}
+                    keyExtractor={(item) => item.id}
+                    // END REFERENCE
+                    renderItem={({ item }) => <TouchableOpacity style={styles.listView} onPress={() => setSelectedID(item.createdAt)}>
+                        <Text style={styles.entryDate}>{item.dateOfEntry}</Text>
+                        <Text style={styles.entryDesc} numberOfLines={2} >{item.journalText}</Text>
+                        {/* Uses arrayed styles to set default styling and to set the colour of the text based on the mood. */}
+                        <Text style={[styles.entryMood, { color: item.moodSelected === 'Happy' ? '#108206' : item.moodSelected === 'Meh' ? '#e38e07' : item.moodSelected === 'Sad' ? '#112dec' : '#f90505' }]}>Your mood: {item.moodSelected} </Text>
+                    </TouchableOpacity>
+                    } />
+            </View>
+        </ImageBackground>
+    );
 }
+
 
 // Function used to store height of device being used for responsive design on the homescreen.
 const height = Dimensions.get('window').height;
