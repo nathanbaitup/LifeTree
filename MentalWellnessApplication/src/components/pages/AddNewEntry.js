@@ -12,17 +12,14 @@ export default function AddNewEntry(props) {
     const [meh, setMeh] = useState(false);
     const [happy, setHappy] = useState(false);
 
-    // Initialises the state to display the date to the user in a nice format.
-    const [displayDate, setDisplayDate] = useState(null);
-
     // Initializing the state so that once a user has entered all of their details it can be stored to the firestore database.
     const [journalEntry, setJournalEntry] = useState('');
     const [usefulDate, setUsefulDate] = useState(null);
+    const [displayDate, setDisplayDate] = useState(null);
     const [entryMood, setEntryMood] = useState('');
 
-    // Creates a reference to the journals collection in firestore to save data.
-    const journalsRef = firestore().collection('journals');
-
+    // Creates a reference to the journal list collection in firestore to save data.
+    const journalsRef = firestore().collection('journalList');
     // Gets the users ID from props passed in from App.js.
     const userID = props.extraData.id;
 
@@ -54,7 +51,8 @@ export default function AddNewEntry(props) {
                 authorID: userID,
                 moodSelected: entryMood,
                 journalText: journalEntry,
-                dateOfEntry: usefulDate,
+                moodCalendarDate: usefulDate,
+                dateOfEntry : displayDate,
                 createdAt: timestamp
             };
             journalsRef
