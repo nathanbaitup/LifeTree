@@ -55,6 +55,17 @@ export default function App() {
     }, []);
     // END REFERENCE
 
+    // Creates a log out function to log the user out of their account and return them to the welcome page.
+    const logout = () => {
+        auth().signOut().then(() => {
+            setUser(null);
+            alert('You have been logged out');
+            return (
+                <Welcome />
+            );
+        });
+    };
+
     // If there is a user, take the user to the application else got to the welcome page.
     return (
         <NavigationContainer>
@@ -63,7 +74,7 @@ export default function App() {
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {user ? (
                     <Stack.Screen name='HomeScreen' >
-                        {props => <TabNavigator {...props} extraData={user} />}
+                        {props => <TabNavigator {...props} extraData={user} logout={logout} />}
                     </Stack.Screen>
                 ) : (
                     <>

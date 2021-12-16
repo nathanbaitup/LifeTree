@@ -1,15 +1,28 @@
-import React, { Component } from 'react';
-import { Text, View, ImageBackground } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, ImageBackground, Button, StyleSheet } from 'react-native';
 
-// TODO: Enable logging off functionality on settings to return user to the welcome page.
-export default class Settings extends Component {
-    render() {
+export default function Settings (props) {
+
+    // Parsing the logout function from App.js
+    const logout = props.logout;
+
         return (
             <ImageBackground source={require('../resources/img/background.png')} style = {{width:'100%', height:'100%', opacity:50}} >
-            <View>
+            <View style={styles.contentContainer}>
                 <Text> Settings Page </Text>
+                <Button title="Logout" onPress={logout} />
             </View>
             </ImageBackground>
         );
     }
-}
+
+    // The styling for the settings page.
+const styles = StyleSheet.create({
+    contentContainer: {
+        margin: 20,
+        padding: 10,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 25,
+    },
+
+});
