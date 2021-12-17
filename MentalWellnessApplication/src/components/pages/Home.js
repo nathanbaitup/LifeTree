@@ -4,6 +4,9 @@ import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, ImageBa
 // Imports firestore from firebase to save the days used and daily streak in the database.
 import firestore from '@react-native-firebase/firestore';
 
+// Imports storage from firebase to retrieve image data relating to the bonsai tree
+import storage from '@react-native-firebase/storage';
+
 export default function Home(props) {
     //TODO: Add counter for daily streak
     //TODO: Based on what the days used counter equals, update the image of the tree.
@@ -17,6 +20,8 @@ export default function Home(props) {
     const [daysUsed, setDaysUsed] = useState(0);
     const [dailyStreak, setDailyStreak] = useState(0);
     const [dailyStreakText, setDailyStreakText] = useState('🔥: ');
+    const [imageName, setImageName] = useState('tree-00.png');
+    const [treeImageUrl, setTreeImageUrl] = useState(null);
 
     // Creates a reference to the userCounter collection in firestore to retrieve and update data. 
     const userCounterRef = firestore().collection('userCounter');
@@ -24,6 +29,46 @@ export default function Home(props) {
     // Gets the current day on the device.
     const date = new Date();
     const currentDay = date.toISOString().split('T')[0];
+    const imageRef = storage().ref('/images/trees/standard/' + imageName);
+
+    const setTreeDisplay = () => {
+        if (daysUsed === 0) {
+            setImageName('tree-00.png');
+        }; 
+        if (daysUsed >= 1) {
+            setImageName('tree-01.png');
+        }; 
+        if (daysUsed >= 3) {
+            setImageName('tree-02.png');
+        };
+        if (daysUsed >= 5) {
+            setImageName('tree-03.png');
+        };
+        if (daysUsed >= 10) {
+            setImageName('tree-04.png');
+        };
+        if (daysUsed >= 15) {
+            setImageName('tree-05.png');
+        }; 
+        if (daysUsed >= 20) {
+            setImageName('tree-06.png');
+        }; 
+        if (daysUsed >= 50) {
+            setImageName('tree-07.png');
+        }; 
+        if (daysUsed >= 75) {
+            setImageName('tree-08.png');
+        };
+        if (daysUsed >= 100) {
+            setImageName('tree-09.png');
+        }; 
+        if (daysUsed >= 150) {
+            setImageName('tree-10.png');
+        }; 
+        if (daysUsed >= 200) {
+            setImageName('tree-11.png');
+        };
+    };
 
     useEffect(() => {
         // Set to a timeout to run the code after a set time so that all user properties are correctly loaded.
@@ -31,9 +76,21 @@ export default function Home(props) {
             userCounterRef.doc(userID).get().then((doc) => {
                 // If the document exists, where authorID = userID then add to allData.
                 if (doc.exists) {
+
                     // Sets the state variables to equal the database fields.
                     setDaysUsed(doc.data().daysUsedApplication);
                     setDailyStreak(doc.data().dailyStreak);
+
+                    setTreeDisplay()
+
+                    imageRef
+                        .getDownloadURL()
+                        .then((downloadURL) => {
+                            setTreeImageUrl(downloadURL)
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
 
                     // Checks if the current day is equal to the date stored in the database to update the days used counter.
                     if (currentDay === doc.data().currentDay) {
@@ -93,7 +150,8 @@ export default function Home(props) {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.treeFrame}>
-                        <Image source={require('../resources/img/trees/standard/tree-0.png')} style={styles.tree} />
+                        {/* <Image source={require('../resources/img/trees/standard/tree-0.png')} style={styles.tree} /> */}
+                        <Image source={{uri: treeImageUrl}} style={styles.tree} />
                         {/* Not needed for MVP, placeholder template for Quotes API. */}
                         <Text style={styles.inspireQuote}>Anything is possible to those who believe. {'\n'} Mark: 9:23</Text>
 
