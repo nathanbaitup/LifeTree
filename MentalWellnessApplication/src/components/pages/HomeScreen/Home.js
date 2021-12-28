@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Button, Text, View, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 
+// Imports the documents styling.
 import {homeStyles} from './Styles';
 
 // Imports firestore and storage from firebase to save the days used and retrieve image data relating to the bonsai tree.

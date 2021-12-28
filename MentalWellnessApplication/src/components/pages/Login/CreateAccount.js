@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
+import { Text, View, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
+
+// Imports the documents styling.
+import {loginStyles} from './Styles';
 
 // Imports auth and firestore from the firebase console.
 import auth from '@react-native-firebase/auth';
@@ -53,15 +56,15 @@ export default function CreateAccount({ navigation }) {
 
     return (
         <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-            <View style={styles.header}>
-                <Text style={styles.mainTitle}>Welcome to LifeTree </Text>
+            <View style={loginStyles.header}>
+                <Text style={loginStyles.mainTitle}>Welcome to LifeTree </Text>
                 <Text>Register for an account below:</Text>
             </View>
-            <View style={styles.contentContainer}>
-                <Image style={styles.logo} source={require('../../resources/img/faces/happy.png')} />
+            <View style={loginStyles.contentContainer}>
+                <Image style={loginStyles.logo} source={require('../../resources/img/faces/happy.png')} />
 
                 <TextInput
-                    style={styles.textInput}
+                    style={loginStyles.textInput}
                     placeholder='enter your full name...'
                     placeholderTextColor='#aaaaaa'
                     onChangeText={(textName) => setFullName(textName)}
@@ -70,7 +73,7 @@ export default function CreateAccount({ navigation }) {
                 />
 
                 <TextInput
-                    style={styles.textInput}
+                    style={loginStyles.textInput}
                     placeholder='enter your email address...'
                     placeholderTextColor='#aaaaaa'
                     onChangeText={(textEmail) => setEmail(textEmail)}
@@ -79,7 +82,7 @@ export default function CreateAccount({ navigation }) {
                 />
 
                 <TextInput
-                    style={styles.textInput}
+                    style={loginStyles.textInput}
                     secureTextEntry
                     placeholder='enter a password...'
                     placeholderTextColor='#aaaaaa'
@@ -89,7 +92,7 @@ export default function CreateAccount({ navigation }) {
                 />
 
                 <TextInput
-                    style={styles.textInput}
+                    style={loginStyles.textInput}
                     secureTextEntry
                     placeholder='confirm your password...'
                     placeholderTextColor='#aaaaaa'
@@ -99,84 +102,15 @@ export default function CreateAccount({ navigation }) {
                 />
 
                 <TouchableOpacity
-                    style={styles.loginBTN}
+                    style={loginStyles.loginBTN}
                     onPress={() => onRegisterPress()}>
-                    <Text style={styles.loginText}> Create Account </Text>
+                    <Text style={loginStyles.loginText}> Create Account </Text>
                 </TouchableOpacity>
 
-                <View style={styles.footer}>
-                    <Text style={styles.createAnAccountText} > Already have an account? <Text onPress={() => navigation.navigate('Welcome')} style={styles.createAccountLink}> Log In</Text> </Text>
+                <View style={loginStyles.footer}>
+                    <Text style={loginStyles.createAnAccountText} > Already have an account? <Text onPress={() => navigation.navigate('Welcome')} style={loginStyles.createAccountLink}> Log In</Text> </Text>
                 </View>
             </View>
         </ImageBackground>
     );
 }
-
-
-const styles = StyleSheet.create({
-
-    header: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 50,
-    },
-    mainTitle: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    contentContainer: {
-        margin: 20,
-        padding: 10,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-        justifyContent: 'center',
-    },
-    logo: {
-        marginTop: 20,
-        marginBottom: 10,
-        height: 100,
-        width: 134,
-        alignSelf: 'center',
-    },
-    textInput: {
-        height: 50,
-        borderRadius: 5,
-        overflow: 'hidden',
-        backgroundColor: '#f0efed',
-        marginBottom: 10,
-        marginTop: 10,
-        marginLeft: 20,
-        marginRight: 20,
-        paddingLeft: 10,
-    },
-    loginBTN: {
-        padding: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#00e676',
-        borderRadius: 15,
-        width: 150,
-        alignSelf: 'center',
-        marginTop: 20,
-    },
-    loginText: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 18,
-        color: '#000000',
-    },
-    footer: {
-        alignItems: 'center',
-        marginTop: 20,
-    },
-    createAnAccountText: {
-        fontSize: 16,
-    },
-    createAccountLink: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#6db8bf',
-    }
-
-});
