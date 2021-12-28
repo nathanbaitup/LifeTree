@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './pages/HomeScreen/Home';
 import AddNewEntry from './pages/Entries/AddNewEntry';
 import EntriesList from './pages/Entries/EntriesList';
-import MoodJournal from './pages/MoodJournal';
+import MoodJournal from './pages/MoodJournal/MoodJournal';
 import Settings from './pages/Settings';
 
 // Commented out as not required for the MVP and affects eslint.
