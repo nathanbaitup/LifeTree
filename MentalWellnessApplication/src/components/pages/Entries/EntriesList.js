@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, ImageBackground, Dimensions, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+
+// Imports the documents styling.
+import {listStyles} from './Styles';
 
 // Imports firestore from firebase to save user entries to the firstore database.
 import firestore from '@react-native-firebase/firestore';
@@ -74,7 +77,7 @@ export default function EntriesList(props) {
 
     return (
         // Sets the background image to half opacity.
-        <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <SearchBar
                 round={true}
                 lightTheme={true}
@@ -83,62 +86,21 @@ export default function EntriesList(props) {
                 onChangeText={search}
                 value={searchText} />
 
-            <View style={styles.contentContainer}>
+            <View style={listStyles.contentContainer}>
                 <FlatList
                     // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
                     // Used to allow the user to search for journal entires based on the date for easier viewing.
                     data={filteredEntries && filteredEntries.length > 0 ? filteredEntries : allEntries}
                     keyExtractor={(item) => item.id}
                     // END REFERENCE
-                    renderItem={({ item }) => <TouchableOpacity style={styles.listView} onPress={() => setSelectedID(item.createdAt)}>
-                        <Text style={styles.entryDate}>{item.dateOfEntry}</Text>
-                        <Text style={styles.entryDesc} numberOfLines={2} >{item.journalText}</Text>
+                    renderItem={({ item }) => <TouchableOpacity style={listStyles.listView} onPress={() => setSelectedID(item.createdAt)}>
+                        <Text style={listStyles.entryDate}>{item.dateOfEntry}</Text>
+                        <Text style={listStyles.entryDesc} numberOfLines={2} >{item.journalText}</Text>
                         {/* Uses arrayed styles to set default styling and to set the colour of the text based on the mood. */}
-                        <Text style={[styles.entryMood, { color: item.moodSelected === 'Happy' ? '#108206' : item.moodSelected === 'Meh' ? '#e38e07' : item.moodSelected === 'Sad' ? '#112dec' : '#f90505' }]}>Your mood: {item.moodSelected} </Text>
+                        <Text style={[listStyles.entryMood, { color: item.moodSelected === 'Happy' ? '#108206' : item.moodSelected === 'Meh' ? '#e38e07' : item.moodSelected === 'Sad' ? '#112dec' : '#f90505' }]}>Your mood: {item.moodSelected} </Text>
                     </TouchableOpacity>
                     } />
             </View>
         </ImageBackground>
     );
 }
-
-
-// Function used to store height of device being used for responsive design on the homescreen.
-const height = Dimensions.get('window').height;
-
-// The styling for the Entries List.
-const styles = StyleSheet.create({
-    contentContainer: {
-        margin: 20,
-        padding: 10,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-        height: height / 1.45,
-    },
-    listView: {
-        borderBottomWidth: 1,
-        borderRadius: 0.5,
-        borderColor: 'rgba(215, 210, 210, 0.4)',
-    },
-    entryDesc: {
-        paddingTop: 10,
-        paddingLeft: 10,
-        fontSize: 14,
-        height: 44,
-        color: '#000000',
-    },
-    entryDate: {
-        paddingTop: 8,
-        paddingLeft: 10,
-        paddingRight: 10,
-        fontSize: 18,
-        color: '#000000',
-        fontWeight: 'bold',
-    },
-    entryMood: {
-        paddingLeft: 10,
-        paddingBottom: 5,
-        fontSize: 14,
-        textAlign: 'right',
-    }
-});
