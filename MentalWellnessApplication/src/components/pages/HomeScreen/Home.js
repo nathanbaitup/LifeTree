@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Button, Text, View, Image, Dimensions, TouchableOpacity, ImageBackground, ScrollView, StyleSheet } from 'react-native';
+import { Alert, Button, Text, View, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+
+import {homeStyles} from './Styles';
 
 // Imports firestore and storage from firebase to save the days used and retrieve image data relating to the bonsai tree.
 import firestore from '@react-native-firebase/firestore';
@@ -14,7 +16,7 @@ export default function Home(props) {
     // Initialising the state so that if a new user logs in they are set to the default values.
     const [daysUsed, setDaysUsed] = useState(0);
     //const [dailyStreak, setDailyStreak] = useState(0);
-    const [dailyStreakText, setDailyStreakText] = useState('🔥: ');
+    // const [dailyStreakText, setDailyStreakText] = useState('🔥: ');
     const [treeImageUrl, setTreeImageUrl] = useState(null);
 
     // Creates a reference to the userCounter collection in firestore to retrieve and update data. 
@@ -117,27 +119,27 @@ export default function Home(props) {
     }, []);
 
     return (
-        <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <ScrollView>
-                <View style={styles.mainContainer}>
-                    <View style={styles.heading} >
-                        <Text style={styles.title}>Welcome, {username} </Text>
+                <View style={homeStyles.mainContainer}>
+                    <View style={homeStyles.heading} >
+                        <Text style={homeStyles.title}>Welcome, {username} </Text>
                         <TouchableOpacity >
-                            <Image style={styles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
+                            <Image style={homeStyles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
                         </TouchableOpacity>
                     </View>
                     {/* <View>
-                        <TouchableOpacity style={styles.dailyStreak} onPress={() => setDailyStreakText('Daily Streak: ')}>
-                            <Text style={styles.dailyStreakCounter} > {dailyStreakText} {dailyStreak}</Text>
+                        <TouchableOpacity style={homeStyles.dailyStreak} onPress={() => setDailyStreakText('Daily Streak: ')}>
+                            <Text style={homeStyles.dailyStreakCounter} > {dailyStreakText} {dailyStreak}</Text>
                         </TouchableOpacity>
                     </View> */}
-                    <View style={styles.treeFrame}>
-                        <Image source={{ uri: treeImageUrl }} style={styles.tree} />
+                    <View style={homeStyles.treeFrame}>
+                        <Image source={{ uri: treeImageUrl }} style={homeStyles.tree} />
                         {/* Not needed for MVP, placeholder template for Quotes API. */}
-                        <Text style={styles.inspireQuote}>Anything is possible to those who believe. {'\n'} Mark: 9:23</Text>
+                        <Text style={homeStyles.inspireQuote}>Anything is possible to those who believe. {'\n'} Mark: 9:23</Text>
 
-                        <Text style={styles.daysUsed}> Days Used: {daysUsed}</Text>
-                        <Button style={styles.detailsBTN}
+                        <Text style={homeStyles.daysUsed}> Days Used: {daysUsed}</Text>
+                        <Button style={homeStyles.detailsBTN}
                             onPress={showDailyUseDetails}
                             title="Find Out More"
                             accessibilityLabel='Find out more about how many used days affects the application' />
@@ -148,9 +150,7 @@ export default function Home(props) {
     );
 }
 
-// Function used to store height of device being used for responsive design on the homescreen.
-const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width;
+
 
 // Function that creates an alert to explain why the application should be used daily.
 const showDailyUseDetails = () => {
@@ -167,83 +167,3 @@ const showDailyUseDetails = () => {
             }
         ]);
 };
-
-// The styling for home page.
-const styles = StyleSheet.create({
-    mainContainer: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-    },
-    background: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-    },
-    heading: {
-        flexDirection: 'row',
-        paddingTop: 4,
-    },
-    title: {
-        paddingTop: 5,
-        paddingLeft: 5,
-        textAlign: 'left',
-        fontSize: 26,
-        fontWeight: 'bold',
-        alignItems: 'flex-start',
-        paddingRight: width / 4,
-        color: '#000000',
-    },
-    profilePic: {
-        width: 40,
-        height: 40,
-        borderRadius: 40,
-    },
-    tree: {
-        alignSelf: 'center',
-        width: 200,
-        height: 125,
-    },
-    treeFrame: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: (height / 7),
-    },
-    inspireQuote: {
-        fontSize: 14,
-        fontStyle: 'italic',
-        textAlign: 'center',
-        paddingTop: 10,
-        color: '#7a7a7a',
-    },
-    daysUsed: {
-        fontSize: 18,
-        fontStyle: 'italic',
-        textAlign: 'center',
-        paddingTop: 15,
-        color: '#000000',
-        marginBottom: 20,
-    },
-    detailsBTN: {
-        paddingTop: 5,
-        textTransform: 'lowercase',
-    },
-    dailyStreakCounter: {
-        backgroundColor: '#00e676',
-        borderRadius: 12,
-        overflow: 'hidden',
-        padding: 10,
-        color: '#000000',
-
-    },
-    dailyStreak: {
-        flex: 1,
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        paddingTop: 5,
-        paddingLeft: 10,
-    }
-
-
-
-});
