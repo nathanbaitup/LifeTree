@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, ImageBackground, TextInput, Image, TouchableOpacity } from 'react-native';
 
 // Imports the documents styling.
-import {loginStyles} from './Styles';
+import { loginStyles } from './Styles';
 
 // Imports authentication and firestore from firebase
 import auth from '@react-native-firebase/auth';
@@ -33,7 +33,7 @@ export default function Welcome({ navigation }) {
                             return;
                         }
                         const user = firestoreDocument.data();
-                        navigation.navigate('HomeScreen', {user});
+                        navigation.navigate('HomeScreen', { user });
                     })
                     .catch(error => {
                         alert('Error: ' + error);

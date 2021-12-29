@@ -1,0 +1,146 @@
+import React, { useState } from 'react';
+import { Text, View, ImageBackground, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
+
+// Imports the documents styling.
+import { settingStyles } from './Styles';
+
+// Imports the react-native-image-picker to allow access to a devices camera and photo library.
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+// Imports a progress indicator to show the progress of the image upload.
+import * as Progress from 'react-native-progress';
+
+// Imports auth and storage from firebase to store the users profile picture.
+import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
+
+export default function Settings(props) {
+
+    // Parsing the logout function from App.js
+    const logout = props.logout;
+    // Gets the current users details.
+    const user = auth().currentUser;
+
+    // Initialising the state to store the users profile picture.
+    const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const [transferred, setTransferred] = useState(0);
+
+    // REFERENCE ACCESSED 16/12/2021 https://www.instamobile.io/mobile-development/react-native-firebase-storage/
+    // Used to be able to use the camera and image library of the device to capture / select an image to use for the profile picture of the user and save that image to storage in firebase.
+
+    // Sets how the image should be saved
+    const options = {
+        maxWidth: 2000,
+        maxHeight: 2000,
+    };
+
+    const selectImage = () => {
+        // Launch the image library for the device and if the image was selected, then set the image to the image uri.
+        launchImageLibrary(options, response => {
+            if (response.didCancel) {
+                console.error('User cancelled image picker');
+            } else if (response.error) {
+                console.error('ImagePicker Error: ', response.error);
+            } else {
+                const source = { uri: response.assets[0].uri };
+                setImage(source);
+            }
+        });
+    };
+
+    const takeImage = () => {
+        // Launch the camera to take a profile picture, and set the image to the image uri.
+        launchCamera(options, response => {
+            if (response.didCancel) {
+                console.error('User cancelled image picker');
+            } else if (response.error) {
+                console.error('ImagePicker Error: ', response.error);
+            } else {
+                const source = { uri: response.assets[0].uri };
+                setImage(source);
+            }
+        });
+    };
+
+    const uploadImage = async () => {
+
+        // Gets the image uri and preps the image for saving. 
+        const { uri } = image;
+        const filename = uri.substring(uri.lastIndexOf('/') + 1);
+        const profilePicName = filename;
+        // eslint-disable-next-line no-undef
+        const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+
+        //enables the progress bar to render.
+        setUploading(true);
+        setTransferred(0);
+
+        // Creates a reference to where to save the profile picture.
+        const storageRef = storage().ref('users/' + user.uid + '/profilePicture/' + filename);
+        const task = storageRef.putFile(uploadUri);
+
+        // Increments the progress bar for photo upload.
+        task.on('state_changed', snapshot => {
+            setTransferred(
+                snapshot.Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+            );
+        });
+
+        // Waits for the profile picture to upload then sets the users photo url to the image.
+        try {
+            await task;
+            user.updateProfile({
+                photoURL: profilePicName
+            });
+        } catch (error) {
+            console.error(error);
+        }
+
+        // Removes the progress indicator and sets the image back to null
+        setUploading(false);
+        setImage(null);
+        Alert.alert('Your profile picture has been set!');
+    };
+
+    return (
+        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+
+            <View style={settingStyles.contentContainer}>
+                <ScrollView>
+                    <Text style={settingStyles.subtitle}>Profile Picture:</Text>
+                    <Text style={settingStyles.content}>Select a picture from your library or take a picture:</Text>
+                    {/* Displays the profile picture if not null */}
+                    {image !== null ? (
+                        <Image source={{ uri: image.uri }} style={settingStyles.imageBox} />
+                    ) : null}
+                    <TouchableOpacity style={settingStyles.pictureButton} onPress={takeImage} >
+                        <Text style={settingStyles.buttonText}>Take a picture:</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={settingStyles.pictureButton} onPress={selectImage} >
+                        <Text style={settingStyles.buttonText}>Select a profile picture:</Text>
+                    </TouchableOpacity>
+                    {/* Changes the upload image button to a progress indicator upon image upload. */}
+                    {uploading ? (
+                        <View style={settingStyles.progress}>
+                            <Progress.Bar progress={transferred} width={300} />
+                        </View>
+                    ) : (
+                        <View>
+                            <TouchableOpacity style={settingStyles.pictureButton} onPress={uploadImage} >
+                                <Text style={settingStyles.buttonText}>Upload Image:</Text>
+                            </TouchableOpacity>
+                        </ View>
+                    )}
+                    <Text style={settingStyles.subtitle}>Other Settings:</Text>
+                    <TouchableOpacity style={settingStyles.logoutButton} onPress={logout} >
+                        <Text style={settingStyles.buttonText}>Logout</Text>
+                    </TouchableOpacity>
+                    <View style={settingStyles.footer}>
+                        <Text style={settingStyles.footerText}> LifeTree v1.0.0 2021</Text>
+                    </View>
+                </ScrollView>
+            </View>
+
+        </ImageBackground>
+    );
+}

@@ -2,26 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Alert, Button, Text, View, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 
 // Imports the documents styling.
-import {homeStyles} from './Styles';
+import { homeStyles } from './Styles';
 
 // Imports firestore and storage from firebase to save the days used and retrieve image data relating to the bonsai tree.
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 
 export default function Home(props) {
     // The full name of the current logged in user. Used in the app title.
     const username = props.extraData.fullName;
     // The ID of the current logged in user. Used to update the daily counter.
     const userID = props.extraData.id;
+    // Gets the current signed in user.
+    const user = auth().currentUser;
 
     // Initialising the state so that if a new user logs in they are set to the default values.
     const [daysUsed, setDaysUsed] = useState(0);
-    //const [dailyStreak, setDailyStreak] = useState(0);
-    // const [dailyStreakText, setDailyStreakText] = useState('🔥: ');
     const [treeImageUrl, setTreeImageUrl] = useState(null);
+    const [profilePicUrl, setProfilePicUrl] = useState(null);
 
     // Creates a reference to the userCounter collection in firestore to retrieve and update data. 
     const userCounterRef = firestore().collection('userCounter');
+    // Creates a reference to where the users profile picture is saved and grabs the image based on the users photo URL.
+    const profilePicRef = storage().ref('users/' + user.uid + '/profilePicture/' + user.photoURL);
 
     // Gets the current day on the device.
     const date = new Date();
@@ -54,16 +58,16 @@ export default function Home(props) {
             } else if (days >= 1) {
                 imageRef = storage().ref('/images/trees/standard/tree-01.png');
             } else if (days == 0) {
-                 imageRef = storage().ref('/images/trees/standard/tree-00.png');
+                imageRef = storage().ref('/images/trees/standard/tree-00.png');
             }
             imageRef
-            .getDownloadURL()
-            .then((downloadURL) => {
-                setTreeImageUrl(downloadURL);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+                .getDownloadURL()
+                .then((downloadURL) => {
+                    setTreeImageUrl(downloadURL);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         }
         catch (error) {
             console.error(error);
@@ -71,6 +75,16 @@ export default function Home(props) {
     };
 
     useEffect(() => {
+
+        // Sets the profile picture, if not available, sets to a default image.
+        profilePicRef
+            .getDownloadURL()
+            .then((downloadURL) => {
+                setProfilePicUrl(downloadURL);
+            }).catch(() => {
+                setProfilePicUrl('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+            });
+
         // Set to a timeout to run the code after a set time so that all user properties are correctly loaded.
         setTimeout(() => {
             userCounterRef.doc(userID).get().then((doc) => {
@@ -126,7 +140,7 @@ export default function Home(props) {
                     <View style={homeStyles.heading} >
                         <Text style={homeStyles.title}>Welcome, {username} </Text>
                         <TouchableOpacity >
-                            <Image style={homeStyles.profilePic} source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
+                            <Image style={homeStyles.profilePic} source={{ uri: profilePicUrl }} />
                         </TouchableOpacity>
                     </View>
                     {/* <View>

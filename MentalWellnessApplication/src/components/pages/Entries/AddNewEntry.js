@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, ImageBackground, TextInput, TouchableOpacity, Image, Keyboard } from 'react-native';
 
 // Imports the documents styling.
-import {entryStyles} from './Styles';
+import { entryStyles } from './Styles';
 
 // Imports firestore from firebase to save user entries to the firstore database.
 import firestore from '@react-native-firebase/firestore';
@@ -55,7 +55,7 @@ export default function AddNewEntry(props) {
                 moodSelected: entryMood,
                 journalText: journalEntry,
                 moodCalendarDate: usefulDate,
-                dateOfEntry : displayDate,
+                dateOfEntry: displayDate,
                 createdAt: timestamp
             };
             journalsRef

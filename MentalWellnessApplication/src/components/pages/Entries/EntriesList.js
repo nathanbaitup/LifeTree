@@ -3,7 +3,7 @@ import { Text, View, ImageBackground, FlatList, TouchableOpacity } from 'react-n
 import { SearchBar } from 'react-native-elements';
 
 // Imports the documents styling.
-import {listStyles} from './Styles';
+import { listStyles } from './Styles';
 
 // Imports firestore from firebase to save user entries to the firstore database.
 import firestore from '@react-native-firebase/firestore';
@@ -45,7 +45,7 @@ export default function EntriesList(props) {
                 error => {
                     alert(error);
                 }
-            );        
+            );
     }, []);
 
     // REFERENCE ACCESSED 07/12/2021 https://stackoverflow.com/a/55949691
@@ -70,7 +70,7 @@ export default function EntriesList(props) {
         return (
             <View>
                 <ViewSingleEntry {...props} extraData={userID} currentEntryID={selectedID} onBack={unsetCurrentEntry} />
-                    
+
             </View>
         );
     }

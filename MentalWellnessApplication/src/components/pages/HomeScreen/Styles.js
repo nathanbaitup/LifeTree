@@ -22,10 +22,10 @@ export const  homeStyles = StyleSheet.create({
         paddingTop: 5,
         paddingLeft: 5,
         textAlign: 'left',
-        fontSize: 26,
+        fontSize: 22,
         fontWeight: 'bold',
         alignItems: 'flex-start',
-        paddingRight: width / 4,
+        paddingRight: width / 5,
         color: '#000000',
     },
     profilePic: {

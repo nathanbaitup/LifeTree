@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, ImageBackground, TextInput, Image, TouchableOpacity } from 'react-native';
 
 // Imports the documents styling.
-import {entryStyles} from './Styles';
+import { entryStyles } from './Styles';
 
 // Imports firestore from firebase to display the selected user entry.
 import firestore from '@react-native-firebase/firestore';

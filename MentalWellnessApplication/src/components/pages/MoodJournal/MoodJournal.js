@@ -3,7 +3,7 @@ import { Text, View, ImageBackground, ScrollView } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 // Imports the documents styling.
-import {journalStyles} from './Styles';
+import { journalStyles } from './Styles';
 
 // Imports firestore from firebase to save user entries to the firstore database.
 import firestore from '@react-native-firebase/firestore';
@@ -23,7 +23,7 @@ export default function MoodJournal(props) {
     const allMoods = [];
 
     // Gets all data from firebase where the signed in user ID matches the authorID and pushes the data to the allData array.
-    useEffect(() =>{
+    useEffect(() => {
         journalRef
             .where('authorID', '==', userID)
             .orderBy('createdAt', 'desc')
@@ -79,7 +79,7 @@ export default function MoodJournal(props) {
     // END REFERENCE
 
     return (
-        <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <ScrollView>
                 <View style={journalStyles.contentContainer}>
                     <Text style={journalStyles.title}> Your Mood Journal at a glance: </Text>
