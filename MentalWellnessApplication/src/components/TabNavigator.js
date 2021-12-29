@@ -6,11 +6,11 @@ import { View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Importing all of the different components for each different page.
-import Home from './pages/Home';
-import AddNewEntry from './pages/AddNewEntry';
-import EntriesList from './pages/EntriesList';
-import MoodJournal from './pages/MoodJournal';
-import Settings from './pages/Settings';
+import Home from './pages/HomeScreen/Home';
+import AddNewEntry from './pages/Entries/AddNewEntry';
+import EntriesList from './pages/Entries/EntriesList';
+import MoodJournal from './pages/MoodJournal/MoodJournal';
+import Settings from './pages/Settings/Settings';
 
 // Commented out as not required for the MVP and affects eslint.
 //import HRMonitoring from './pages/HRMonitoring';

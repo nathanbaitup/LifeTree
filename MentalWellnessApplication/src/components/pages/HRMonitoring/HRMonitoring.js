@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, ImageBackground } from 'react-native';
 
+// Imports the documents styling.
+import {hrStyles} from './Styles';
+
 export default class HRMonitoring extends Component {
     render() {
         return (

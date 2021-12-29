@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Image, Keyboard } from 'react-native';
+import { Text, View, ImageBackground, TextInput, TouchableOpacity, Image, Keyboard } from 'react-native';
+
+// Imports the documents styling.
+import { entryStyles } from './Styles';
 
 // Imports firestore from firebase to save user entries to the firstore database.
 import firestore from '@react-native-firebase/firestore';
@@ -52,12 +55,12 @@ export default function AddNewEntry(props) {
                 moodSelected: entryMood,
                 journalText: journalEntry,
                 moodCalendarDate: usefulDate,
-                dateOfEntry : displayDate,
+                dateOfEntry: displayDate,
                 createdAt: timestamp
             };
             journalsRef
                 .add(data)
-                .then((_doc) => {
+                .then(() => {
                     Keyboard.dismiss();
 
                     setJournalEntry('');
@@ -117,38 +120,38 @@ export default function AddNewEntry(props) {
     };
 
     return (
-        <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-            <View style={styles.mainContainer}>
-                <View style={styles.contentContainer}>
-                    <Text style={styles.header}>How are you feeling today?</Text>
+        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+            <View style={entryStyles.mainContainer}>
+                <View style={entryStyles.contentContainer}>
+                    <Text style={entryStyles.header}>How are you feeling today?</Text>
 
-                    <View style={styles.moodModules}>
+                    <View style={entryStyles.moodModules}>
 
-                        <TouchableOpacity style={angry ? styles.moodModSelected : styles.moodModUnselected} onPress={isAngry} >
-                            <Image source={require('../resources/img/faces/angry.png')} style={styles.moodFaces} />
+                        <TouchableOpacity style={angry ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isAngry} >
+                            <Image source={require('../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
                             <Text>Angry</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={sad ? styles.moodModSelected : styles.moodModUnselected} onPress={isSad}>
-                            <Image source={require('../resources/img/faces/sad.png')} style={styles.moodFaces} />
+                        <TouchableOpacity style={sad ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isSad}>
+                            <Image source={require('../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
                             <Text>Sad</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={meh ? styles.moodModSelected : styles.moodModUnselected} onPress={isMeh}>
-                            <Image source={require('../resources/img/faces/meh.png')} style={styles.moodFaces} />
+                        <TouchableOpacity style={meh ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isMeh}>
+                            <Image source={require('../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
                             <Text>Meh</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={happy ? styles.moodModSelected : styles.moodModUnselected} onPress={isHappy}>
-                            <Image source={require('../resources/img/faces/happy.png')} style={styles.moodFaces} />
+                        <TouchableOpacity style={happy ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isHappy}>
+                            <Image source={require('../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
                             <Text>Happy</Text>
 
                         </TouchableOpacity>
                     </View>
 
                     <View>
-                        <Text style={styles.journalHeader}>Any comments for the day? </Text>
-                        <TextInput style={styles.journalEntry}
+                        <Text style={entryStyles.journalHeader}>Any comments for the day? </Text>
+                        <TextInput style={entryStyles.journalEntry}
                             placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you. We promise! '
                             numberOfLines={10}
                             multiline={true}
@@ -156,12 +159,12 @@ export default function AddNewEntry(props) {
                             value={journalEntry}
                         />
 
-                        <Text style={styles.date}>Todays Date: {displayDate} </Text>
-                        <View style={styles.submitButtonContainer}>
+                        <Text style={entryStyles.date}>Todays Date: {displayDate} </Text>
+                        <View style={entryStyles.submitButtonContainer}>
 
                             {/* TODO: MAKE ONPRESS TO SAVE DATA WHEN BACKEND HAS BEEN CONNECTED */}
-                            <TouchableOpacity style={styles.submitButton} onPress={onSubmitButtonPress} >
-                                <Text style={styles.submitText}>Submit</Text>
+                            <TouchableOpacity style={entryStyles.submitButton} onPress={onSubmitButtonPress} >
+                                <Text style={entryStyles.submitText}>Submit</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -171,85 +174,3 @@ export default function AddNewEntry(props) {
     );
 }
 
-// Styling for the document.
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    contentContainer: {
-        margin: 20,
-        padding: 10,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-    },
-    header: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#000000'
-    },
-    date: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#000000'
-    },
-    moodModules: {
-        flexDirection: 'row',
-        paddingBottom: 50,
-    },
-    moodModUnselected: {
-        marginTop: 10,
-        marginLeft: 5,
-        textAlign: 'center',
-        paddingLeft: 10,
-    },
-    moodModSelected: {
-        marginTop: 10,
-        marginLeft: 5,
-        textAlign: 'center',
-        borderWidth: 1,
-        borderColor: '#000000',
-        borderRadius: 5,
-        paddingLeft: 10,
-    },
-    moodFaces: {
-        marginTop: 10,
-        height: 50,
-        width: 66,
-        alignItems: 'center',
-    },
-    journalEntry: {
-        marginTop: 5,
-        marginBottom: 20,
-        backgroundColor: '#ebebeb',
-        borderRadius: 10,
-        maxHeight: 250,
-        height: 150,
-    },
-    journalHeader: {
-        fontSize: 16,
-        fontStyle: 'italic',
-        fontWeight: 'bold',
-        color: '#000000',
-    },
-    submitButtonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        paddingTop: 20,
-    },
-    submitButton: {
-        padding: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#00e676',
-        borderRadius: 15,
-        width: 150,
-    },
-    submitText: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 18,
-        color: '#000000',
-    },
-});
