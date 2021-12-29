@@ -21,13 +21,15 @@ export const journalStyles = StyleSheet.create({
         color: '#000000',
         textAlign: 'center'
     },
-    keyIndiv: {
+    contentText: {
         paddingLeft: 10,
         padding: 5,
         fontSize: 14,
         alignItems: 'center',
         justifyContent: 'center',
         color: '#000000',
+        textAlign: 'center',
+        fontStyle: 'italic',
     },
     keyBackground: {
         borderRadius: 7,

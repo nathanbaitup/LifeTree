@@ -54,7 +54,15 @@ const entryStyles = StyleSheet.create({
         maxHeight: 250,
         height: 150,
     },
-    journalHeader: {
+    obsessionEntry: {
+        marginTop: 5,
+        marginBottom: 20,
+        backgroundColor: '#ebebeb',
+        borderRadius: 10,
+        maxHeight: 40,
+        height: 40,
+    },
+    subHeader: {
         fontSize: 16,
         fontStyle: 'italic',
         fontWeight: 'bold',

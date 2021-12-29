@@ -20,6 +20,7 @@ export default function AddNewEntry(props) {
     const [usefulDate, setUsefulDate] = useState(null);
     const [displayDate, setDisplayDate] = useState(null);
     const [entryMood, setEntryMood] = useState('');
+    const [obsession, setObsession] = useState('');
 
     // Creates a reference to the journal list collection in firestore to save data.
     const journalsRef = firestore().collection('journalList');
@@ -54,6 +55,7 @@ export default function AddNewEntry(props) {
                 authorID: userID,
                 moodSelected: entryMood,
                 journalText: journalEntry,
+                obsessionText: obsession,
                 moodCalendarDate: usefulDate,
                 dateOfEntry: displayDate,
                 createdAt: timestamp
@@ -65,6 +67,7 @@ export default function AddNewEntry(props) {
 
                     setJournalEntry('');
                     setEntryMood('');
+                    setObsession('');
                     setAngry(false);
                     setSad(false);
                     setMeh(false);
@@ -150,7 +153,7 @@ export default function AddNewEntry(props) {
                     </View>
 
                     <View>
-                        <Text style={entryStyles.journalHeader}>Any comments for the day? </Text>
+                        <Text style={entryStyles.subHeader}>Any comments for the day? </Text>
                         <TextInput style={entryStyles.journalEntry}
                             placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you. We promise! '
                             numberOfLines={10}
@@ -158,11 +161,16 @@ export default function AddNewEntry(props) {
                             onChangeText={(text) => setJournalEntry(text)}
                             value={journalEntry}
                         />
-
+                        <Text style={entryStyles.subHeader}>Obsession of the day?</Text>
+                        <TextInput style={entryStyles.obsessionEntry}
+                            placeholder='Enter your random obsession here!'
+                            numberOfLines={1}
+                            multiline={true}
+                            onChangeText={(text) => setObsession(text)}
+                            value={obsession}
+                        />
                         <Text style={entryStyles.date}>Todays Date: {displayDate} </Text>
                         <View style={entryStyles.submitButtonContainer}>
-
-                            {/* TODO: MAKE ONPRESS TO SAVE DATA WHEN BACKEND HAS BEEN CONNECTED */}
                             <TouchableOpacity style={entryStyles.submitButton} onPress={onSubmitButtonPress} >
                                 <Text style={entryStyles.submitText}>Submit</Text>
                             </TouchableOpacity>

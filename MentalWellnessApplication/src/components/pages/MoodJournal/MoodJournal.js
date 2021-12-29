@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, ImageBackground, ScrollView } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { Text, View, ImageBackground, ScrollView, Alert } from 'react-native';
+import { Calendar, Agenda } from 'react-native-calendars';
 
 // Imports the documents styling.
 import { journalStyles } from './Styles';
@@ -21,6 +21,8 @@ export default function MoodJournal(props) {
     const allDates = [];
     // Generates a list of all the moods from allData.
     const allMoods = [];
+    // Generates a list of all the obsessions from allData.
+    const allObsessions = [];
 
     // Gets all data from firebase where the signed in user ID matches the authorID and pushes the data to the allData array.
     useEffect(() => {
@@ -53,12 +55,19 @@ export default function MoodJournal(props) {
         allMoods.push(allData[i].moodSelected);
     }
 
+    // For loop that adds the obsessions from allData to allObsessions.
+    for (let i = 0; i < allData.length; i++) {
+        allObsessions.push(allData[i].obsessionText);
+    }
+
     // REFERENCE ACCESSED 08/12/2021 https://github.com/wix/react-native-calendars/issues/160#issuecomment-408405419
     // Used to learn how to make the calendar load a list of dates.
 
     // Turns dates into objects that can be used with the calendar to be displayed.
     let allDatesObject = {};
     let selectedMood = '';
+    let selectedObsession = '';
+    let allObsessionsObject = () => { };
 
     // For each day in allDates array, cycle through the day, select the mood colour and add the current day to the calendar.
     allDates.forEach((day) => {
@@ -70,10 +79,21 @@ export default function MoodJournal(props) {
             }
         }
 
+        // Checks if the day is the same as the date and then adds the obsession for the date to the calendar.
+        for (let i = 0; i < allObsessions.length; i++) {
+            if (day === allDates[i]) {
+                selectedObsession = allObsessions[i];
+            }
+        }
+
         allDatesObject[day] = {
             selected: true,
-            marked: false,
+            marked: selectedObsession === '' ? false : selectedObsession == null ? false : true,
             selectedColor: selectedMood === 'Happy' ? '#108206' : selectedMood === 'Meh' ? '#e38e07' : selectedMood === 'Sad' ? '#112dec' : selectedMood === 'Angry' ? '#f90505' : '#000000',
+        };
+
+        allObsessionsObject[day] = () => {
+            Alert.alert(selectedObsession);
         };
     });
     // END REFERENCE
@@ -91,6 +111,20 @@ export default function MoodJournal(props) {
                         minDate={'2015-01-01'}
                         enableSwipeMonths={true}
                         markedDates={allDatesObject}
+                        // When a specific day is pressed it dispays the obsession if it exists.
+                        onDayPress={(day) => {
+                            for (let i = 0; i < allObsessions.length; i++) {
+                                if (day.dateString === allDates[i]) {
+                                    selectedObsession = allObsessions[i];
+                                    if (selectedObsession === '' || selectedObsession == null) {
+                                        break;
+                                    } else {
+                                        Alert.alert('Your daily obsession:', selectedObsession);
+                                        break;
+                                    }
+                                }
+                            }
+                        }}
                     />
                     {/* END REFERENCE */}
 
@@ -99,25 +133,26 @@ export default function MoodJournal(props) {
                             <Text style={journalStyles.keyTitle}>Mood Key:</Text>
                             <View style={journalStyles.keyContainer2}>
                                 <View style={[journalStyles.keyIndivContainer, { marginRight: 10 }]}>
-                                    <Text style={journalStyles.keyIndiv}>Happy:</Text>
+                                    <Text style={journalStyles.contentText}>Happy:</Text>
                                     <Text style={[journalStyles.keyBackground, { backgroundColor: '#108206' }]} />
                                 </View>
                                 <View style={[journalStyles.keyIndivContainer, { marginRight: 20 }]}>
-                                    <Text style={journalStyles.keyIndiv}>Meh:</Text>
+                                    <Text style={journalStyles.contentText}>Meh:</Text>
                                     <Text style={[journalStyles.keyBackground, { backgroundColor: '#e38e07' }]} />
                                 </View>
                             </View>
                             <View style={journalStyles.keyContainer2}>
                                 <View style={journalStyles.keyIndivContainer}>
-                                    <Text style={journalStyles.keyIndiv}> Sad: </Text>
+                                    <Text style={journalStyles.contentText}> Sad: </Text>
                                     <Text style={[journalStyles.keyBackground, { backgroundColor: '#112dec', marginLeft: 8 }]} />
                                 </View>
                                 <View style={[journalStyles.keyIndivContainer, { paddingLeft: 10, paddingRight: 20 }]}>
-                                    <Text style={journalStyles.keyIndiv}>Angry:</Text>
+                                    <Text style={journalStyles.contentText}>Angry:</Text>
                                     <Text style={[journalStyles.keyBackground, { backgroundColor: '#f90505' }]} />
                                 </View>
                             </View>
                         </View>
+                        <Text style={journalStyles.contentText}>If a date is marked, then an obsession has been set. Press on the date to display it!</Text>
                     </View>
                 </View>
             </ScrollView>
