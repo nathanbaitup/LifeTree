@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, ImageBackground, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, ImageBackground, ScrollView } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+
+// Imports the documents styling.
+import {journalStyles} from './Styles';
 
 // Imports firestore from firebase to save user entries to the firstore database.
 import firestore from '@react-native-firebase/firestore';
@@ -78,8 +81,8 @@ export default function MoodJournal(props) {
     return (
         <ImageBackground source={require('../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <ScrollView>
-                <View style={styles.contentContainer}>
-                    <Text style={styles.title}> Your Mood Journal at a glance: </Text>
+                <View style={journalStyles.contentContainer}>
+                    <Text style={journalStyles.title}> Your Mood Journal at a glance: </Text>
 
                     {/* REFERENCE ACCESSED 08/12/2021 https://github.com/wix/react-native-calendars 
                          Used third party calendar dependency to be able to highlight specific dates that correspond to a users mood.*/}
@@ -92,26 +95,26 @@ export default function MoodJournal(props) {
                     {/* END REFERENCE */}
 
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        <View style={styles.keyContainer} >
-                            <Text style={styles.keyTitle}>Mood Key:</Text>
-                            <View style={styles.keyContainer2}>
-                                <View style={[styles.keyIndivContainer, { marginRight: 10 }]}>
-                                    <Text style={styles.keyIndiv}>Happy:</Text>
-                                    <Text style={[styles.keyBackground, { backgroundColor: '#108206' }]} />
+                        <View style={journalStyles.keyContainer} >
+                            <Text style={journalStyles.keyTitle}>Mood Key:</Text>
+                            <View style={journalStyles.keyContainer2}>
+                                <View style={[journalStyles.keyIndivContainer, { marginRight: 10 }]}>
+                                    <Text style={journalStyles.keyIndiv}>Happy:</Text>
+                                    <Text style={[journalStyles.keyBackground, { backgroundColor: '#108206' }]} />
                                 </View>
-                                <View style={[styles.keyIndivContainer, { marginRight: 20 }]}>
-                                    <Text style={styles.keyIndiv}>Meh:</Text>
-                                    <Text style={[styles.keyBackground, { backgroundColor: '#e38e07' }]} />
+                                <View style={[journalStyles.keyIndivContainer, { marginRight: 20 }]}>
+                                    <Text style={journalStyles.keyIndiv}>Meh:</Text>
+                                    <Text style={[journalStyles.keyBackground, { backgroundColor: '#e38e07' }]} />
                                 </View>
                             </View>
-                            <View style={styles.keyContainer2}>
-                                <View style={styles.keyIndivContainer}>
-                                    <Text style={styles.keyIndiv}> Sad: </Text>
-                                    <Text style={[styles.keyBackground, { backgroundColor: '#112dec', marginLeft: 8 }]} />
+                            <View style={journalStyles.keyContainer2}>
+                                <View style={journalStyles.keyIndivContainer}>
+                                    <Text style={journalStyles.keyIndiv}> Sad: </Text>
+                                    <Text style={[journalStyles.keyBackground, { backgroundColor: '#112dec', marginLeft: 8 }]} />
                                 </View>
-                                <View style={[styles.keyIndivContainer, { paddingLeft: 10, paddingRight: 20 }]}>
-                                    <Text style={styles.keyIndiv}>Angry:</Text>
-                                    <Text style={[styles.keyBackground, { backgroundColor: '#f90505' }]} />
+                                <View style={[journalStyles.keyIndivContainer, { paddingLeft: 10, paddingRight: 20 }]}>
+                                    <Text style={journalStyles.keyIndiv}>Angry:</Text>
+                                    <Text style={[journalStyles.keyBackground, { backgroundColor: '#f90505' }]} />
                                 </View>
                             </View>
                         </View>
@@ -121,59 +124,3 @@ export default function MoodJournal(props) {
         </ImageBackground>
     );
 }
-
-
-const styles = StyleSheet.create({
-    contentContainer: {
-        margin: 20,
-        padding: 10,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-    },
-    title: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        paddingBottom: 20,
-        paddingTop: 20,
-        color: '#000000'
-    },
-    keyTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        padding: 10,
-        color: '#000000',
-        textAlign: 'center'
-    },
-    keyIndiv: {
-        paddingLeft: 10,
-        padding: 5,
-        fontSize: 14,
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#000000',
-    },
-    keyBackground: {
-        borderRadius: 7,
-        width: 30,
-        height: 30,
-    },
-    keyIndivContainer: {
-        flexDirection: 'row',
-        height: 40,
-    },
-    keyContainer: {
-        marginTop: 15,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#000000',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 200,
-
-    },
-    keyContainer2: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
-});
