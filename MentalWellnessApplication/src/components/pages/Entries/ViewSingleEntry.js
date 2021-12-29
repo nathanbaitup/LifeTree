@@ -13,6 +13,7 @@ export default function ViewSingleEntry(props) {
     const [selectedMood, setSelectedMood] = useState('');
     const [journalEntry, setJournalEntry] = useState('');
     const [displayDate, setDisplayDate] = useState('');
+    const [obsession, setObsession] = useState('');
 
     // Parses the userID from the entries list.
     const userID = props.extraData;
@@ -38,6 +39,7 @@ export default function ViewSingleEntry(props) {
                         setSelectedMood(journal.moodSelected);
                         setJournalEntry(journal.journalText);
                         setDisplayDate(journal.dateOfEntry);
+                        setObsession(journal.obsessionText);
                     });
                 },
                 error => {
@@ -75,13 +77,21 @@ export default function ViewSingleEntry(props) {
                     You were feeling: {selectedMood}
                 </Text>
                 <View>
-                    <Text style={entryStyles.journalHeader}>Your comments for the day: </Text>
+                    <Text style={entryStyles.subHeader}>Your comments for the day: </Text>
                     <TextInput style={entryStyles.journalEntry}
                         placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you at all. We promise! '
                         numberOfLines={5}
                         multiline
                         editable={false}
                         value={journalEntry}
+                    />
+
+                    <Text style={entryStyles.subHeader}>Obsession of the day?</Text>
+                    <TextInput style={entryStyles.obsessionEntry}
+                        placeholder='Enter your random obsession here!'
+                        numberOfLines={1}
+                        multiline={true}
+                        value={obsession}
                     />
                     <View style={entryStyles.returnButtonContainer}>
                         <TouchableOpacity style={entryStyles.returnButton} onPress={onBack}>
