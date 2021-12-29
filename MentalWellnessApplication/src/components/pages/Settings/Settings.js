@@ -136,7 +136,7 @@ export default function Settings(props) {
                         <Text style={settingStyles.buttonText}>Logout</Text>
                     </TouchableOpacity>
                     <View style={settingStyles.footer}>
-                        <Text style={settingStyles.footerText}> LifeTree v1.0.0 2021</Text>
+                        <Text style={settingStyles.footerText}> LifeTree v1.0.1 2021</Text>
                     </View>
                 </ScrollView>
             </View>
