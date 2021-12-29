@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "533082351504",
+    "project_id": "lifetree-c1ed8",
+    "storage_bucket": "lifetree-c1ed8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533082351504:android:fae6a4744677f00d2b7515",
+        "android_client_info": {
+          "package_name": "com.mentalwellnessapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533082351504-uo55mn56t7ess5ctinp8sr9l5e6camup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU7JPK8m7Dc8luQixecnC2G9pkNMRCCjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533082351504-uo55mn56t7ess5ctinp8sr9l5e6camup.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "533082351504-er371loshkmkjtko722i9ss3idghhnqr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.MentalWellnessApplication"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
