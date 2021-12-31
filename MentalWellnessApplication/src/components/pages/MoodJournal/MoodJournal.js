@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, ImageBackground, ScrollView, Alert } from 'react-native';
-import { Calendar, Agenda } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 
 // Imports the documents styling.
 import { journalStyles } from './Styles';
@@ -99,7 +99,7 @@ export default function MoodJournal(props) {
     // END REFERENCE
 
     return (
-        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <ScrollView>
                 <View style={journalStyles.contentContainer}>
                     <Text style={journalStyles.title}> Your Mood Journal at a glance: </Text>

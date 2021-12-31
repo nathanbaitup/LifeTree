@@ -55,13 +55,13 @@ export default function CreateAccount({ navigation }) {
 
 
     return (
-        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <View style={loginStyles.header}>
                 <Text style={loginStyles.mainTitle}>Welcome to LifeTree </Text>
                 <Text>Register for an account below:</Text>
             </View>
             <View style={loginStyles.contentContainer}>
-                <Image style={loginStyles.logo} source={require('../../resources/img/faces/happy.png')} />
+                <Image style={loginStyles.logo} source={require('../../../resources/img/faces/happy.png')} />
 
                 <TextInput
                     style={loginStyles.textInput}

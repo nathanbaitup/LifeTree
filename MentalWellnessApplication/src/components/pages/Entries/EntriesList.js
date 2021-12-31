@@ -77,7 +77,7 @@ export default function EntriesList(props) {
 
     return (
         // Sets the background image to half opacity.
-        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <SearchBar
                 round={true}
                 lightTheme={true}
