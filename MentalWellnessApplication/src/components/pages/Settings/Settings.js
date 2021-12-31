@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, ImageBackground, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
+import { Alert, Image, ImageBackground, Linking, Text, TouchableOpacity, ScrollView, View } from 'react-native';
 
 // Imports the documents styling.
 import { settingStyles } from './Styles';
@@ -136,6 +136,11 @@ export default function Settings(props) {
                         <Text style={settingStyles.buttonText}>Logout</Text>
                     </TouchableOpacity>
                     <View style={settingStyles.footer}>
+                        <TouchableOpacity onPress={() => Linking.openURL('https://zenquotes.io/')}>
+                            <Text style={settingStyles.footerText}>Inspirational quotes provided by: </Text>
+                            <Text style={settingStyles.hyperLink} onPress={() => Linking.openURL('https://zenquotes.io/')}>ZenQuotes API</Text>
+                        </TouchableOpacity>
+
                         <Text style={settingStyles.footerText}> LifeTree v1.0.2 2021</Text>
                     </View>
                 </ScrollView>

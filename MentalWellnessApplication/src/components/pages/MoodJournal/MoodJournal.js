@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, ImageBackground, ScrollView, Alert } from 'react-native';
-import { Calendar, Agenda } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 
 // Imports the documents styling.
 import { journalStyles } from './Styles';

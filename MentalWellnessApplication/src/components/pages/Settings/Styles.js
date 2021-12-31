@@ -64,6 +64,11 @@ export const settingStyles = StyleSheet.create({
         paddingTop : 30,
         textAlign: 'center',
         color: '#bababa',
+    },
+    hyperLink: {
+        textDecorationLine: 'underline',
+        color: 'blue',
+        textAlign: 'center',
     }
 
 });

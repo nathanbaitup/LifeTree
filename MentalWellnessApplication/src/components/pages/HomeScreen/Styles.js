@@ -15,6 +15,7 @@ export const  homeStyles = StyleSheet.create({
         justifyContent: 'center',
     },
     heading: {
+        flex: 1,
         flexDirection: 'row',
         paddingTop: 4,
     },
@@ -24,14 +25,17 @@ export const  homeStyles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 22,
         fontWeight: 'bold',
-        alignItems: 'flex-start',
-        paddingRight: width / 5,
+        alignSelf: 'flex-start',
+        justifyContent: 'flex-start',
         color: '#000000',
     },
     profilePic: {
         width: 40,
         height: 40,
         borderRadius: 40,
+        alignSelf: 'flex-end',
+        justifyContent: 'flex-end',
+        left: width/3.5
     },
     tree: {
         alignSelf: 'center',
@@ -50,6 +54,8 @@ export const  homeStyles = StyleSheet.create({
         textAlign: 'center',
         paddingTop: 10,
         color: '#7a7a7a',
+        paddingLeft: 4,
+        paddingRight: 4,
     },
     daysUsed: {
         fontSize: 18,
