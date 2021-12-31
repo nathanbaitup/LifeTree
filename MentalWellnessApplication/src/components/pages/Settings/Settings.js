@@ -141,7 +141,7 @@ export default function Settings(props) {
                             <Text style={settingStyles.hyperLink} onPress={() => Linking.openURL('https://zenquotes.io/')}>ZenQuotes API</Text>
                         </TouchableOpacity>
 
-                        <Text style={settingStyles.footerText}> LifeTree v1.0.2 2021</Text>
+                        <Text style={settingStyles.footerText}> LifeTree v1.0.3 2021</Text>
                     </View>
                 </ScrollView>
             </View>
