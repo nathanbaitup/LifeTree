@@ -4,12 +4,15 @@ import { Alert, Button, Text, View, Image, TouchableOpacity, ImageBackground, Sc
 // Imports the documents styling.
 import { homeStyles } from './Styles';
 
+import ajax from '../../utils/ajax';
+
 // Imports firestore and storage from firebase to save the days used and retrieve image data relating to the bonsai tree.
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
 
 export default function Home(props) {
+    
     // The full name of the current logged in user. Used in the app title.
     const username = props.extraData.fullName;
     // The ID of the current logged in user. Used to update the daily counter.
@@ -21,6 +24,8 @@ export default function Home(props) {
     const [daysUsed, setDaysUsed] = useState(0);
     const [treeImageUrl, setTreeImageUrl] = useState(null);
     const [profilePicUrl, setProfilePicUrl] = useState(null);
+    const [quoteAPI, setQuoteAPI] = useState(null);
+    const [quoteAuthor, setQuoteAuthor] = useState(null);
 
     // Creates a reference to the userCounter collection in firestore to retrieve and update data. 
     const userCounterRef = firestore().collection('userCounter');
@@ -74,8 +79,14 @@ export default function Home(props) {
         }
     };
 
-    useEffect(() => {
+    const setDailyQuote = async () => {
+        let quotes = await ajax.fetchRandomQuotes();
+        const jsonText = JSON.stringify(quotes);
+        setQuoteAPI(jsonText.split('"')[3]);
+        setQuoteAuthor(jsonText.split('"')[7]);
+    };
 
+    const setProfilePic = async () => {
         // Sets the profile picture, if not available, sets to a default image.
         profilePicRef
             .getDownloadURL()
@@ -84,17 +95,26 @@ export default function Home(props) {
             }).catch(() => {
                 setProfilePicUrl('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
             });
+    };
 
+    useEffect(() => {
+
+        setProfilePic();
+        setDailyQuote();
+        
         // Set to a timeout to run the code after a set time so that all user properties are correctly loaded.
         setTimeout(() => {
             userCounterRef.doc(userID).get().then((doc) => {
                 // If the document exists, where authorID = userID then add to allData.
                 if (doc.exists) {
                     const storedDaysUsed = doc.data().daysUsedApplication;
+
                     setTreeDisplay(storedDaysUsed);
+                    
                     if (currentDay === doc.data().currentDay) {
                         setDaysUsed(storedDaysUsed);
                     } else {
+
                         // The userCounter collection is updated with the new date and the daysUsed counter is incremented by 1.
                         userCounterRef
                             .doc(userID)
@@ -119,6 +139,7 @@ export default function Home(props) {
                         daysUsedApplication: daysUsed,
                         //dailyStreak: dailyStreak
                     };
+
                     userCounterRef
                         .doc(userID)
                         .set(data)
@@ -129,9 +150,9 @@ export default function Home(props) {
                     setTreeDisplay(0);
                 }
             });
-        }, 500);
 
-    }, []);
+        }, 500);
+    },[]);
 
     return (
         <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
@@ -150,9 +171,7 @@ export default function Home(props) {
                     </View> */}
                     <View style={homeStyles.treeFrame}>
                         <Image source={{ uri: treeImageUrl }} style={homeStyles.tree} />
-                        {/* Not needed for MVP, placeholder template for Quotes API. */}
-                        <Text style={homeStyles.inspireQuote}>Anything is possible to those who believe. {'\n'} Mark: 9:23</Text>
-
+                        <Text style={homeStyles.inspireQuote}>{quoteAPI} {'\n'} -{quoteAuthor}</Text>
                         <Text style={homeStyles.daysUsed}> Days Used: {daysUsed}</Text>
                         <Button style={homeStyles.detailsBTN}
                             onPress={showDailyUseDetails}
