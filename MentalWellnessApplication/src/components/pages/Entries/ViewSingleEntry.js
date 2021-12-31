@@ -49,26 +49,26 @@ export default function ViewSingleEntry(props) {
     }, []);
 
     return (
-        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <View style={entryStyles.contentContainer}>
                 <Text style={entryStyles.dateTitle}>Date of Entry: {displayDate} </Text>
                 <Text style={entryStyles.header}>How you were feeling: </Text>
 
                 <View style={entryStyles.moodModules}>
                     <View style={selectedMood === 'Angry' ? entryStyles.moodModSelected : entryStyles.moodModUnselected} >
-                        <Image source={require('../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
+                        <Image source={require('../../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
                         <Text>Angry</Text>
                     </View>
                     <View style={selectedMood === 'Sad' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
-                        <Image source={require('../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
+                        <Image source={require('../../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
                         <Text>Sad</Text>
                     </View>
                     <View style={selectedMood === 'Meh' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
-                        <Image source={require('../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
+                        <Image source={require('../../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
                         <Text>Meh</Text>
                     </View>
                     <View style={selectedMood === 'Happy' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
-                        <Image source={require('../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
+                        <Image source={require('../../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
                         <Text>Happy</Text>
                     </View>
                 </View>

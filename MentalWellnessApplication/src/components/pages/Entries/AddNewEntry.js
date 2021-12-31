@@ -123,7 +123,7 @@ export default function AddNewEntry(props) {
     };
 
     return (
-        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <View style={entryStyles.mainContainer}>
                 <View style={entryStyles.contentContainer}>
                     <Text style={entryStyles.header}>How are you feeling today?</Text>
@@ -131,22 +131,22 @@ export default function AddNewEntry(props) {
                     <View style={entryStyles.moodModules}>
 
                         <TouchableOpacity style={angry ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isAngry} >
-                            <Image source={require('../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
+                            <Image source={require('../../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
                             <Text>Angry</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={sad ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isSad}>
-                            <Image source={require('../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
+                            <Image source={require('../../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
                             <Text>Sad</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={meh ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isMeh}>
-                            <Image source={require('../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
+                            <Image source={require('../../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
                             <Text>Meh</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={happy ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isHappy}>
-                            <Image source={require('../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
+                            <Image source={require('../../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
                             <Text>Happy</Text>
 
                         </TouchableOpacity>

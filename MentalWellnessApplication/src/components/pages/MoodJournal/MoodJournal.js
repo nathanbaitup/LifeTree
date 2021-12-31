@@ -99,7 +99,7 @@ export default function MoodJournal(props) {
     // END REFERENCE
 
     return (
-        <ImageBackground source={require('../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+        <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <ScrollView>
                 <View style={journalStyles.contentContainer}>
                     <Text style={journalStyles.title}> Your Mood Journal at a glance: </Text>
