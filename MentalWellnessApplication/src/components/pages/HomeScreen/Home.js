@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Button, Text, View, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { Alert, Button, Image, ImageBackground, Text, TouchableOpacity, ScrollView, View, } from 'react-native';
 
 // Imports the documents styling.
 import { homeStyles } from './Styles';
-
+// Imports the API handler.
 import ajax from '../../utils/ajax';
 
 // Imports firestore and storage from firebase to save the days used and retrieve image data relating to the bonsai tree.
@@ -12,30 +12,116 @@ import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
 
 export default function Home(props) {
-    
-    // The full name of the current logged in user. Used in the app title.
+    // Gets all information regarding the current user.
     const username = props.extraData.fullName;
-    // The ID of the current logged in user. Used to update the daily counter.
     const userID = props.extraData.id;
-    // Gets the current signed in user.
     const user = auth().currentUser;
 
     // Initialising the state so that if a new user logs in they are set to the default values.
     const [daysUsed, setDaysUsed] = useState(0);
+    const [dailyStreak, setDailyStreak] = useState(0);
+    const [dailyStreakText, setDailyStreakText] = useState('🔥: ');
     const [treeImageUrl, setTreeImageUrl] = useState(null);
     const [profilePicUrl, setProfilePicUrl] = useState(null);
     const [quoteAPI, setQuoteAPI] = useState(null);
     const [quoteAuthor, setQuoteAuthor] = useState(null);
 
-    // Creates a reference to the userCounter collection in firestore to retrieve and update data. 
+    // Creates references to firebase objects to get the user collection and profile picture. 
     const userCounterRef = firestore().collection('userCounter');
-    // Creates a reference to where the users profile picture is saved and grabs the image based on the users photo URL.
     const profilePicRef = storage().ref('users/' + user.uid + '/profilePicture/' + user.photoURL);
 
     // Gets the current day on the device.
     const date = new Date();
     const currentDay = date.toISOString().split('T')[0];
 
+    // Initiates all data on the home page. Called in useEffect.
+    const setHomeScreenData = async () => {
+        // Takes the current user ID to check if the user exists in the collection.
+        // If the user exists, the days used, date and streak are saved to check if it is a new day,
+        // Where the days used counter and daily streak counter are updated respectfully.
+        // If the user does not exist in the collection, then a document is created for them using
+        // default data from the state.
+        userCounterRef.doc(userID).get().then((doc) => {
+            if (doc.exists) {
+                const storedDaysUsed = doc.data().daysUsedApplication;
+                const storedDate = doc.data().currentDay;
+                const storedStreak = doc.data().dailyStreak;
+
+                setTreeDisplay(storedDaysUsed);
+
+                if (currentDay === storedDate) {
+                    setDaysUsed(storedDaysUsed);
+                    setDailyStreak(storedStreak);
+                } else {
+                    const userStoredDate = new Date(storedDate).setUTCHours(0, 0, 0, 0);
+                    // REFERENCE ACCESSED 31/12/2021 https://stackoverflow.com/a/1296374
+                    // Used to get the previous date.
+                    const previousDateFromCurrent = new Date(new Date().setDate(new Date().getDate() - 1)).setUTCHours(0, 0, 0, 0);
+                    // END REFERENCE
+                    if (previousDateFromCurrent === userStoredDate) {
+                        userCounterRef
+                            .doc(userID)
+                            .set({
+                                authorID: userID,
+                                currentDay: currentDay,
+                                daysUsedApplication: (storedDaysUsed + 1),
+                                dailyStreak: (storedStreak + 1),
+                            })
+                            .then(() => {
+                                setDaysUsed(storedDaysUsed + 1);
+                                setDailyStreak(storedStreak + 1);
+                            });
+                    } else {
+                        userCounterRef
+                            .doc(userID)
+                            .set({
+                                authorID: userID,
+                                currentDay: currentDay,
+                                daysUsedApplication: (storedDaysUsed + 1),
+                                dailyStreak: 0,
+                            })
+                            .then(() => {
+                                setDaysUsed(storedDaysUsed + 1);
+                                setDailyStreak(0);
+                            });
+                    }
+                }
+            } else {
+                const data = {
+                    authorID: userID,
+                    currentDay: currentDay,
+                    daysUsedApplication: daysUsed,
+                    dailyStreak: dailyStreak,
+                };
+                userCounterRef
+                    .doc(userID)
+                    .set(data)
+                    .catch((error) => {
+                        alert(error.message);
+                    });
+                setTreeDisplay(0);
+            }
+        });
+
+    };
+    // Gets and sets the random API quote, called in useEffect.
+    const setDailyQuote = async () => {
+        let quotes = await ajax.fetchRandomQuotes();
+        const jsonText = JSON.stringify(quotes);
+        setQuoteAPI(jsonText.split('"')[3]);
+        setQuoteAuthor(jsonText.split('"')[7]);
+    };
+    // Sets the users profile picture, called in useEffect.
+    const setProfilePic = async () => {
+        // Sets the profile picture, if not available, sets to a default image.
+        profilePicRef
+            .getDownloadURL()
+            .then((downloadURL) => {
+                setProfilePicUrl(downloadURL);
+            }).catch(() => {
+                setProfilePicUrl('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+            });
+    };
     // Sets the bonsai tree to be displayed based on the number of days the application is used.
     const setTreeDisplay = (days) => {
         let imageRef = null;
@@ -78,97 +164,32 @@ export default function Home(props) {
             console.error(error);
         }
     };
-
-    const setDailyQuote = async () => {
-        let quotes = await ajax.fetchRandomQuotes();
-        const jsonText = JSON.stringify(quotes);
-        setQuoteAPI(jsonText.split('"')[3]);
-        setQuoteAuthor(jsonText.split('"')[7]);
-    };
-
-    const setProfilePic = async () => {
-        // Sets the profile picture, if not available, sets to a default image.
-        profilePicRef
-            .getDownloadURL()
-            .then((downloadURL) => {
-                setProfilePicUrl(downloadURL);
-            }).catch(() => {
-                setProfilePicUrl('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
-            });
-    };
-
+    // React hook that sets up the home page on component load.
     useEffect(() => {
-
         setProfilePic();
         setDailyQuote();
-        
-        // Set to a timeout to run the code after a set time so that all user properties are correctly loaded.
-        setTimeout(() => {
-            userCounterRef.doc(userID).get().then((doc) => {
-                // If the document exists, where authorID = userID then add to allData.
-                if (doc.exists) {
-                    const storedDaysUsed = doc.data().daysUsedApplication;
+        setHomeScreenData();
+    }, []);
 
-                    setTreeDisplay(storedDaysUsed);
-                    
-                    if (currentDay === doc.data().currentDay) {
-                        setDaysUsed(storedDaysUsed);
-                    } else {
-
-                        // The userCounter collection is updated with the new date and the daysUsed counter is incremented by 1.
-                        userCounterRef
-                            .doc(userID)
-                            .set({
-                                authorID: userID,
-                                currentDay: currentDay,
-                                daysUsedApplication: (storedDaysUsed + 1),
-                                //dailyStreak: dailyStreak
-                            })
-                            .then(() => {
-                                setDaysUsed(storedDaysUsed + 1);
-                            })
-                            .catch((error) => {
-                                alert(error.message);
-                            });
-                    }
-                } else {
-                    // The data that is used to create the document if it doesn't exist.
-                    const data = {
-                        authorID: userID,
-                        currentDay: currentDay,
-                        daysUsedApplication: daysUsed,
-                        //dailyStreak: dailyStreak
-                    };
-
-                    userCounterRef
-                        .doc(userID)
-                        .set(data)
-                        .catch((error) => {
-                            alert(error.message);
-                        });
-
-                    setTreeDisplay(0);
-                }
-            });
-
-        }, 500);
-    },[]);
-
+    // Renders the page.
     return (
         <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <ScrollView>
                 <View style={homeStyles.mainContainer}>
                     <View style={homeStyles.heading} >
-                        <Text style={homeStyles.title}>Welcome, {username} </Text>
+                        <Text style={homeStyles.title}>Hello, {username}! </Text>
                         <TouchableOpacity >
                             <Image style={homeStyles.profilePic} source={{ uri: profilePicUrl }} />
                         </TouchableOpacity>
                     </View>
-                    {/* <View>
-                        <TouchableOpacity style={homeStyles.dailyStreak} onPress={() => setDailyStreakText('Daily Streak: ')}>
+                    <View>
+                        <TouchableOpacity style={homeStyles.dailyStreak} onPress={() => {
+                            setDailyStreakText('Daily Streak: ');
+                            setTimeout(() => { setDailyStreakText('🔥: '); }, 1000);
+                        }}>
                             <Text style={homeStyles.dailyStreakCounter} > {dailyStreakText} {dailyStreak}</Text>
                         </TouchableOpacity>
-                    </View> */}
+                    </View>
                     <View style={homeStyles.treeFrame}>
                         <Image source={{ uri: treeImageUrl }} style={homeStyles.tree} />
                         <Text style={homeStyles.inspireQuote}>{quoteAPI} {'\n'} -{quoteAuthor}</Text>
@@ -183,8 +204,6 @@ export default function Home(props) {
         </ImageBackground>
     );
 }
-
-
 
 // Function that creates an alert to explain why the application should be used daily.
 const showDailyUseDetails = () => {
