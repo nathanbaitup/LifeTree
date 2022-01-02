@@ -46,7 +46,7 @@ export const hrStyles = StyleSheet.create({
     buttonContainer: {
         alignItems: 'center',
         padding: 5,
-        backgroundColor: 'red',
+        backgroundColor: '#f57367',
         borderRadius: 10,
         borderColor: '#000000',
         borderWidth: 2,
@@ -59,5 +59,15 @@ export const hrStyles = StyleSheet.create({
         fontWeight: 'bold',
         alignItems: 'center',
         textAlign: 'center',
+    },
+    textInput: {
+        height: 100,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: '#f0efed',
+        marginBottom: 10,
+        marginTop: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
     },
 });
