@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, ImageBackground, TextInput, Image, TouchableOpacity } from 'react-native';
+import { Text, View, ImageBackground, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 // Imports the documents styling.
 import { entryStyles } from './Styles';
@@ -51,54 +51,56 @@ export default function ViewSingleEntry(props) {
     return (
         <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <View style={entryStyles.contentContainer}>
-                <Text style={entryStyles.dateTitle}>Date of Entry: {displayDate} </Text>
-                <Text style={entryStyles.header}>How you were feeling: </Text>
+                <ScrollView>
+                    <Text style={entryStyles.dateTitle}>Date of Entry: {displayDate} </Text>
+                    <Text style={entryStyles.header}>How you were feeling: </Text>
 
-                <View style={entryStyles.moodModules}>
-                    <View style={selectedMood === 'Angry' ? entryStyles.moodModSelected : entryStyles.moodModUnselected} >
-                        <Image source={require('../../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
-                        <Text>Angry</Text>
+                    <View style={entryStyles.moodModules}>
+                        <View style={selectedMood === 'Angry' ? entryStyles.moodModSelected : entryStyles.moodModUnselected} >
+                            <Image source={require('../../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
+                            <Text>Angry</Text>
+                        </View>
+                        <View style={selectedMood === 'Sad' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
+                            <Image source={require('../../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
+                            <Text>Sad</Text>
+                        </View>
+                        <View style={selectedMood === 'Meh' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
+                            <Image source={require('../../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
+                            <Text>Meh</Text>
+                        </View>
+                        <View style={selectedMood === 'Happy' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
+                            <Image source={require('../../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
+                            <Text>Happy</Text>
+                        </View>
                     </View>
-                    <View style={selectedMood === 'Sad' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
-                        <Image source={require('../../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
-                        <Text>Sad</Text>
-                    </View>
-                    <View style={selectedMood === 'Meh' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
-                        <Image source={require('../../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
-                        <Text>Meh</Text>
-                    </View>
-                    <View style={selectedMood === 'Happy' ? entryStyles.moodModSelected : entryStyles.moodModUnselected}>
-                        <Image source={require('../../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
-                        <Text>Happy</Text>
-                    </View>
-                </View>
 
-                <Text style={[{ textAlign: 'center' }, { color: selectedMood === 'Happy' ? '#108206' : selectedMood === 'Meh' ? '#e38e07' : selectedMood === 'Sad' ? '#112dec' : '#f90505' }]}>
-                    You were feeling: {selectedMood}
-                </Text>
-                <View>
-                    <Text style={entryStyles.subHeader}>Your comments for the day: </Text>
-                    <TextInput style={entryStyles.journalEntry}
-                        placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you at all. We promise! '
-                        numberOfLines={5}
-                        multiline
-                        editable={false}
-                        value={journalEntry}
-                    />
+                    <Text style={[{ textAlign: 'center' }, { color: selectedMood === 'Happy' ? '#108206' : selectedMood === 'Meh' ? '#e38e07' : selectedMood === 'Sad' ? '#112dec' : '#f90505' }]}>
+                        You were feeling: {selectedMood}
+                    </Text>
+                    <View>
+                        <Text style={entryStyles.subHeader}>Your comments for the day: </Text>
+                        <TextInput style={entryStyles.journalEntry}
+                            placeholder='Feel free to dump as much or as little information in here as you want. We wont judge you at all. We promise! '
+                            numberOfLines={5}
+                            multiline
+                            editable={false}
+                            value={journalEntry}
+                        />
 
-                    <Text style={entryStyles.subHeader}>Obsession of the day?</Text>
-                    <TextInput style={entryStyles.obsessionEntry}
-                        placeholder='Enter your random obsession here!'
-                        numberOfLines={1}
-                        multiline={true}
-                        value={obsession}
-                    />
-                    <View style={entryStyles.returnButtonContainer}>
-                        <TouchableOpacity style={entryStyles.returnButton} onPress={onBack}>
-                            <Text style={entryStyles.returnText}>Return to Entries</Text>
-                        </TouchableOpacity>
+                        <Text style={entryStyles.subHeader}>Obsession of the day?</Text>
+                        <TextInput style={entryStyles.obsessionEntry}
+                            placeholder='Enter your random obsession here!'
+                            numberOfLines={1}
+                            multiline={true}
+                            value={obsession}
+                        />
+                        <View style={entryStyles.returnButtonContainer}>
+                            <TouchableOpacity style={entryStyles.returnButton} onPress={onBack}>
+                                <Text style={entryStyles.returnText}>Return to Entries</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
+                </ScrollView>
             </View>
         </ImageBackground>
     );

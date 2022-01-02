@@ -13,7 +13,7 @@ import MoodJournal from './pages/MoodJournal/MoodJournal';
 import Settings from './pages/Settings/Settings';
 
 // Commented out as not required for the MVP and affects eslint.
-//import HRMonitoring from './pages/HRMonitoring';
+import HRMonitoring from './pages/HRMonitoring/HRMonitoring';
 
 // Variable that is used to create all of the tabs required for the navigation bar.
 const Tab = createBottomTabNavigator();
@@ -102,7 +102,7 @@ export default function BottomTabNavigator(props) {
 
 
             {/* Not needed for MVP as it is not included within the MVP, however will be an aditional feature of the application and is currently in place. */}
-            {/* <Tab.Screen
+            <Tab.Screen
                 name='HR Monitoring'
                 options={{
                     tabBarLabel: 'HR Monitoring',
@@ -110,7 +110,7 @@ export default function BottomTabNavigator(props) {
                         <Icon name='heart-pulse' color={color} size={size} />)
                 }} >
                 {props => <HRMonitoring {...props} extraData={userData} />}
-            </Tab.Screen> */}
+            </Tab.Screen>
 
         </Tab.Navigator>
     );

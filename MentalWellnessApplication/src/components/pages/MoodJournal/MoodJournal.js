@@ -100,8 +100,8 @@ export default function MoodJournal(props) {
 
     return (
         <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-            <ScrollView>
-                <View style={journalStyles.contentContainer}>
+            <View style={journalStyles.contentContainer}>
+                <ScrollView>
                     <Text style={journalStyles.title}> Your Mood Journal at a glance: </Text>
 
                     {/* REFERENCE ACCESSED 08/12/2021 https://github.com/wix/react-native-calendars 
@@ -154,8 +154,8 @@ export default function MoodJournal(props) {
                         </View>
                         <Text style={journalStyles.contentText}>If a date is marked, then an obsession has been set. Press on the date to display it!</Text>
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </View>
         </ImageBackground>
     );
 }

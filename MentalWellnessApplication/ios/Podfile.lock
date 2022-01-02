@@ -709,6 +709,8 @@ PODS:
   - React-jsinspector (0.66.3)
   - React-logger (0.66.3):
     - glog
+  - react-native-fitness (0.5.3):
+    - React-Core
   - react-native-image-picker (4.6.0):
     - React-Core
   - react-native-safe-area-context (3.3.2):
@@ -878,6 +880,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - "react-native-fitness (from `../node_modules/@ovalmoney/react-native-fitness`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -972,6 +975,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-fitness:
+    :path: "../node_modules/@ovalmoney/react-native-fitness"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-safe-area-context:
@@ -1070,6 +1075,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 433a691aee158533a6a6ee9c86cb4a1684fa2853
   React-jsinspector: d9c8eb0b53f0da206fed56612b289fec84991157
   React-logger: e522e76fa3e9ec3e7d7115b49485cc065cf4ae06
+  react-native-fitness: a359b13e7d7a24e5611992f92ece32960943cd83
   react-native-image-picker: 8c83c5c7d137e866bcb9a2db93f1e1ca866fddbf
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   React-perflogger: 73732888d37d4f5065198727b167846743232882
@@ -1097,6 +1103,6 @@ SPEC CHECKSUMS:
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: dda631ad8675707d2c2f054e08e76d47033190df
+PODFILE CHECKSUM: 99bd7a28f01aae9e799b5ded6ce2059a476b9794
 
 COCOAPODS: 1.11.2
