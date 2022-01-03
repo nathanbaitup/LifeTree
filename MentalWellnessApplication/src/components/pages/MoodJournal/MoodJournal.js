@@ -11,9 +11,11 @@ import firestore from '@react-native-firebase/firestore';
 export default function MoodJournal(props) {
     // Gets all of the data currently stored in firebase for the speicifc user for use on the calnedar.
     const [allData, setAllData] = useState([]);
-
-    // Creates a reference to the journals collection in firestore to save data.
+    const [allHeartRates, setAllHeartRates] = useState([]);
+    // Creates a reference to the journals and hrList collections in firestore to read data.
     const journalRef = firestore().collection('journalList');
+    const hrRef = firestore().collection('heartRateList');
+
     // Gets the users ID from props passed in from App.js.
     const userID = props.extraData.id;
 
@@ -43,6 +45,26 @@ export default function MoodJournal(props) {
                     console.error(error);
                 }
             );
+            
+            hrRef
+            .where('authorID', '==', userID)
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(
+                querySnapshot => {
+                    const newData = [];
+                    console.log(newData);
+                    querySnapshot.forEach(doc => {
+                        const userData = doc.data();
+                        userData.id = doc.id;
+                        newData.push(userData);
+                    });
+                    setAllHeartRates(newData);
+                },
+                error => {
+                    console.error(error);
+                }
+            );
+            
     }, []);
 
     // For loop that adds the dates from allData to allDates.

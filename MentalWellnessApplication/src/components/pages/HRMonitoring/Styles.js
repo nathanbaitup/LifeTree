@@ -22,6 +22,7 @@ export const hrStyles = StyleSheet.create({
         fontSize: 14,
         color: '#000000',
         fontStyle: 'italic',
+        textAlign: 'center',
     },
     listHeading: {
         paddingTop: 8,
@@ -69,5 +70,11 @@ export const hrStyles = StyleSheet.create({
         marginTop: 10,
         paddingRight: 10,
         paddingLeft: 10,
+    },
+    slider: {
+        width: 200, 
+        height: 50,
+        alignItems: 'center',
+        alignSelf: 'center',
     },
 });

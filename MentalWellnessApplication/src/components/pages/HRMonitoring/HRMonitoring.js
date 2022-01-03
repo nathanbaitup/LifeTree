@@ -5,20 +5,31 @@ import { ImageBackground, FlatList, Text, TextInput, TouchableOpacity, View, Ale
 import { hrStyles } from './Styles';
 // Imports Firestore from Firebase to save a users heart rate.
 import firestore from '@react-native-firebase/firestore';
-// Imports the fitness library to connect to Google Fit and Apple HealthKit.
+// Imports the fitness library to connect to Apple HealthKit.
 import Fitness from '@ovalmoney/react-native-fitness';
+
+// Imports the slider package to allow a user to select the heart rate they want to track.
+import Slider from '@react-native-community/slider';
+
+// TODO: Fix whatever is wrong with android idfk.
+// TODO: Make a graph
+// TODO: Add a FAB to input a heart rate manually.
+// TODO: Implement users slider thing in this page.
+// TODO: Display heart rate descriptions onto calnedar.
 
 export default function HRMonitoring(props) {
     // Initializing the state to store a specific user heart rate.
     const [userHeartRates, setUserHeartRates] = useState([]);
-    const [heartRateTracker, setHeartRateTracker] = useState(0);
+    const [filteredHeartRates, setFilteredHeartRates] = useState([]);
+    const [heartRateTracker, setHeartRateTracker] = useState(75);
     const [descriptionPressed, setDescriptionPressed] = useState(false);
     const [selectedHR, setSelectedHR] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
     const [description, setDescription] = useState('');
     const [editable, setEditable] = useState(true);
+
     // Creates a reference to the user ID and heart rate collection in firebase.
-    const hrRef = firestore().collection('hrList');
+    const hrRef = firestore().collection('heartRateList');
     const userID = props.extraData.id;
 
     // REFERENCE ACCESSED 02/01/2022 https://github.com/OvalMoney/react-native-fitness/blob/master/README.md
@@ -28,19 +39,13 @@ export default function HRMonitoring(props) {
         { kind: Fitness.PermissionKinds.HeartRate, access: Fitness.PermissionAccesses.Write },
     ];
 
-    const hasBeenAsked = Fitness.isAuthorized(permissions);
-    // If the user hasnt been asked for permission, ask for permission
-    if (!hasBeenAsked) {
-        Fitness.requestPermissions(permissions);
-    }
-
     // If permission is authorized, then retrive all stored heart rate data and if greater than 0, add to userHeartRates list.
     const getHeartRate = async () => {
-        Fitness.isAuthorized(permissions)
+        Fitness.requestPermissions(permissions)
             .then((authorized) => {
                 console.info('Authorized: ' + authorized);
                 Fitness.getHeartRate({
-                    startDate: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
+                    startDate: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
                     endDate: date.toISOString(),
                     interval: 'minute',
                 }).then((heartRate) => {
@@ -72,7 +77,7 @@ export default function HRMonitoring(props) {
             hrRef
                 .where('timeOfReading', '==', displayStartTime(item.startDate))
                 .where('heartRate', '==', item.quantity)
-                .where('userID', '==', userID)
+                .where('authorID', '==', userID)
                 .onSnapshot(
                     querySnapshot => {
                         querySnapshot.forEach((doc) => {
@@ -88,13 +93,15 @@ export default function HRMonitoring(props) {
     };
     // Saves the heart rate description to firebase and returns the user to the list view.
     const onSaveDescriptionPressed = async () => {
+        const timestamp = firestore.FieldValue.serverTimestamp();
         hrRef
             .add({
-                userID: userID,
+                authorID: userID,
                 heartRate: selectedHR,
                 dateOfReading: displayDate,
                 timeOfReading: selectedTime,
                 description: description,
+                createdAt: timestamp
             }).then(() => {
                 setSelectedHR('');
                 setSelectedTime('');
@@ -116,6 +123,16 @@ export default function HRMonitoring(props) {
         getHeartRate();
     }, []);
 
+    const onSliderChange = (value) => {
+        setHeartRateTracker(value);
+        const filter = userHeartRates.filter((item) => {
+            if (item.quantity >= heartRateTracker) {
+                return item.startDate, item.quantity, item.endDate;
+            }
+        });
+        setFilteredHeartRates(filter);
+    };
+
     return (
         <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
             <View style={hrStyles.contentContainer}>
@@ -127,19 +144,36 @@ export default function HRMonitoring(props) {
                 If true, changes the view to allow a user to enter a description for the heart rate. */}
                 {descriptionPressed == false ? (
                     <View>
-                        <Text style={hrStyles.subHeaderText}>Set Heart Rate display parameter: {heartRateTracker} BPM+ </Text>
+                        <Text style={hrStyles.subHeaderText}>Use the slider to set Heart Rate Display Parameter. If there are no heart rates available, then all will be displayed. </Text>
+                        <Text style={hrStyles.subHeaderText}>Currently displaying: {heartRateTracker} BPM+ </Text>
+                        <Slider style={hrStyles.slider}
+                            minimumValue={75}
+                            maximumValue={150}
+                            minimumTrackTintColor='#00e676'
+                            maximumTrackTintColor='#000000'
+                            step={1}
+                            onValueChange={value => onSliderChange(value)}
+                        />
                         <FlatList
-                            data={userHeartRates}
+                            data={filteredHeartRates }
                             keyExtractor={(item) => (item.startDate)}
                             renderItem={({ item }) =>
-                                <View style={hrStyles.listView}>
-                                    <View>
-                                        <Text style={hrStyles.listHeading}>Time: <Text style={hrStyles.listText}> {displayStartTime(item.startDate)} </Text> </Text>
-                                        <Text style={hrStyles.listHeading}>Heart Rate: <Text style={hrStyles.listText}> {item.quantity} BPM </Text> </Text>
-                                    </View>
-                                    <TouchableOpacity style={hrStyles.buttonContainer} onPress={() => onAddDescriptionPressed(item)} >
-                                        <Text style={hrStyles.buttonText}>Add description</Text>
-                                    </TouchableOpacity>
+                                <View >
+                                    {filteredHeartRates.length > 0 ? (
+                                        <View style={hrStyles.listView}>
+                                            <View>
+                                                <Text style={hrStyles.listHeading}>Time: <Text style={hrStyles.listText}> {displayStartTime(item.startDate)} </Text> </Text>
+                                                <Text style={hrStyles.listHeading}>Heart Rate: <Text style={hrStyles.listText}> {item.quantity} BPM </Text> </Text>
+                                            </View>
+                                            <TouchableOpacity style={hrStyles.buttonContainer} onPress={() => onAddDescriptionPressed(item)} >
+                                                <Text style={hrStyles.buttonText}>Add description</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    ) : (
+                                        <View style={hrStyles.listView}>
+                                            <Text style={hrStyles.listHeading}> No entries to display.</Text>
+                                        </View>
+                                    )}
                                 </View>
                             } />
                     </View>

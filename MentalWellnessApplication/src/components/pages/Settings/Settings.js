@@ -11,11 +11,7 @@ import * as Progress from 'react-native-progress';
 
 // Imports auth, firestore and storage from firebase to store the users profile picture and settings.
 import storage from '@react-native-firebase/storage';
-import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
-// Imports the slider package to allow a user to select the heart rate they want to track.
-import Slider from '@react-native-community/slider';
 
 
 export default function Settings(props) {
@@ -27,13 +23,10 @@ export default function Settings(props) {
     // Parsing the return home function from Home.js
     const returnHome = props.closeSettings;
 
-    const settingsRef = firestore().collection('settings');
-
     // Initialising the state to store the users profile picture.
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
-    const [sliderValue, setSliderValue] = useState('75');
 
     // REFERENCE ACCESSED 16/12/2021 https://www.instamobile.io/mobile-development/react-native-firebase-storage/
     // Used to be able to use the camera and image library of the device to capture / select an image to use for the profile picture of the user and save that image to storage in firebase.
@@ -112,30 +105,6 @@ export default function Settings(props) {
         Alert.alert('Your profile picture has been set!');
     };
 
-    const saveSettings = () => {
-        settingsRef.doc(user.uid).get().then((doc) => {
-            if (doc.exists) {
-                settingsRef
-                    .doc(user.uid)
-                    .set({
-                        hrCounter: sliderValue
-                    }).then(() => {
-                        Alert.alert('Settings successfully Saved.');
-                    });
-            } else {
-                settingsRef
-                    .doc(user.uid)
-                    .set({
-                        hrCounter: sliderValue
-                    }).then(() => {
-                        Alert.alert('Settings successfully Saved.');
-                    });
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-    };
-
     return (
         <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
 
@@ -151,10 +120,10 @@ export default function Settings(props) {
                         <Image source={{ uri: image.uri }} style={settingStyles.imageBox} />
                     ) : null}
                     <TouchableOpacity style={settingStyles.pictureButton} onPress={takeImage} >
-                        <Text style={settingStyles.buttonText}>Take a picture:</Text>
+                        <Text style={settingStyles.buttonText}>Take a picture</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={settingStyles.pictureButton} onPress={selectImage} >
-                        <Text style={settingStyles.buttonText}>Select a profile picture:</Text>
+                        <Text style={settingStyles.buttonText}>Select a profile picture</Text>
                     </TouchableOpacity>
                     {/* Changes the upload image button to a progress indicator upon image upload. */}
                     {uploading ? (
@@ -164,28 +133,11 @@ export default function Settings(props) {
                     ) : (
                         <View>
                             <TouchableOpacity style={settingStyles.pictureButton} onPress={uploadImage} >
-                                <Text style={settingStyles.buttonText}>Upload Image:</Text>
+                                <Text style={settingStyles.buttonText}>Upload Image</Text>
                             </TouchableOpacity>
                         </ View>
                     )}
                     <Text style={settingStyles.subtitle}>Other Settings:</Text>
-
-                    <Text style={settingStyles.subtitle}>Set your heart rate tracker: </Text>
-                    <Text style={settingStyles.content}>Set the number at which your heart rate will start being tracked.
-                        This ensures that your normal range heart rate is not included within the list. </Text>
-
-                    <Slider style={settingStyles.slider}
-                        minimumValue={75}
-                        maximumValue={150}
-                        minimumTrackTintColor='#00e676'
-                        maximumTrackTintColor='#000000'
-                        step={1}
-                        onValueChange={value => setSliderValue(value)}
-                    />
-                    <Text style={settingStyles.sliderText}> Track from: {sliderValue} BPM</Text>
-                    <TouchableOpacity style={settingStyles.saveButton} onPress={saveSettings} >
-                        <Text style={settingStyles.buttonText}>Save</Text>
-                    </TouchableOpacity>
 
                     <TouchableOpacity style={settingStyles.logoutButton} onPress={logout} >
                         <Text style={settingStyles.buttonText}>Logout</Text>

@@ -74,27 +74,4 @@ export const settingStyles = StyleSheet.create({
         color: 'blue',
         textAlign: 'center',
     },
-    slider: {
-        width: 200, 
-        height: 50,
-        alignItems: 'center',
-        alignSelf: 'center',
-    },
-    sliderText: {
-        textAlign: 'center',
-        paddingBottom: 10,
-        color: '#000000'
-    },
-    saveButton: {
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#00e676',
-        borderRadius: 15,
-        width: 80,
-        alignSelf: 'center',
-        marginBottom: 5,
-        marginTop: 5,
-    }
-
 });
