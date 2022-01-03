@@ -19,6 +19,8 @@ export default function Settings(props) {
     const logout = props.logout;
     // Gets the current users details.
     const user = auth().currentUser;
+    // Parsing the return home function from Home.js
+    const returnHome = props.closeSettings;
 
     // Initialising the state to store the users profile picture.
     const [image, setImage] = useState(null);
@@ -106,6 +108,9 @@ export default function Settings(props) {
         <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
 
             <View style={settingStyles.contentContainer}>
+            <TouchableOpacity style={settingStyles.returnHomeButton} onPress={returnHome} >
+                        <Text style={[settingStyles.buttonText, {color: '#448aff'}]}> {'>'} Return Home</Text>
+                    </TouchableOpacity>
                 <ScrollView>
                     <Text style={settingStyles.subtitle}>Profile Picture:</Text>
                     <Text style={settingStyles.content}>Select a picture from your library or take a picture:</Text>
@@ -135,6 +140,7 @@ export default function Settings(props) {
                     <TouchableOpacity style={settingStyles.logoutButton} onPress={logout} >
                         <Text style={settingStyles.buttonText}>Logout</Text>
                     </TouchableOpacity>
+                    
                     <View style={settingStyles.footer}>
                         <TouchableOpacity onPress={() => Linking.openURL('https://zenquotes.io/')}>
                             <Text style={settingStyles.footerText}>Inspirational quotes provided by: </Text>

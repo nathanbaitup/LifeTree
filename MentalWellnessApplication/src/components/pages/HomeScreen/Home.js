@@ -6,12 +6,16 @@ import { homeStyles } from './Styles';
 // Imports the API handler.
 import ajax from '../../utils/ajax';
 
+import Settings from '../Settings/Settings';
+
 // Imports firestore and storage from firebase to save the days used and retrieve image data relating to the bonsai tree.
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
 
 export default function Home(props) {
+    // Parsing logout function for Settings from App.js
+    const logout = props.logout;
     // Gets all information regarding the current user.
     const username = props.extraData.fullName;
     const userID = props.extraData.id;
@@ -25,6 +29,7 @@ export default function Home(props) {
     const [profilePicUrl, setProfilePicUrl] = useState(null);
     const [quoteAPI, setQuoteAPI] = useState(null);
     const [quoteAuthor, setQuoteAuthor] = useState(null);
+    const [settingsPressed, setSettingsPressed] = useState(false);
 
     // Creates references to firebase objects to get the user collection and profile picture. 
     const userCounterRef = firestore().collection('userCounter');
@@ -164,6 +169,10 @@ export default function Home(props) {
             console.error(error);
         }
     };
+    // Parsed into the settings page so when the close settings button is pressed the user is returned to home.
+    const closeSettings = () => {
+        setSettingsPressed(false);
+    };
     // React hook that sets up the home page on component load.
     useEffect(() => {
         setProfilePic();
@@ -171,38 +180,44 @@ export default function Home(props) {
         setHomeScreenData();
     }, []);
 
-    // Renders the page.
-    return (
-        <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-            <ScrollView>
-                <View style={homeStyles.mainContainer}>
-                    <View style={homeStyles.heading} >
-                        <Text style={homeStyles.title}>Hello, {username}! </Text>
-                        <TouchableOpacity >
-                            <Image style={homeStyles.profilePic} source={{ uri: profilePicUrl }} />
-                        </TouchableOpacity>
+    // Renders the page if settings pressed is false, else renders the settings page.
+    if (settingsPressed == false) {
+        return (
+            <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+                <ScrollView>
+                    <View style={homeStyles.mainContainer}>
+                        <View style={homeStyles.heading} >
+                            <Text style={homeStyles.title}>Hello, {username}! </Text>
+                            <TouchableOpacity onPress={() => setSettingsPressed(true)} >
+                                <Image style={homeStyles.profilePic} source={{ uri: profilePicUrl }} />
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <TouchableOpacity style={homeStyles.dailyStreak} onPress={() => {
+                                setDailyStreakText('Daily Streak: ');
+                                setTimeout(() => { setDailyStreakText('🔥: '); }, 1000);
+                            }}>
+                                <Text style={homeStyles.dailyStreakCounter} > {dailyStreakText} {dailyStreak}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={homeStyles.treeFrame}>
+                            <Image source={{ uri: treeImageUrl }} style={homeStyles.tree} />
+                            <Text style={homeStyles.inspireQuote}>{quoteAPI} {'\n'} -{quoteAuthor}</Text>
+                            <Text style={homeStyles.daysUsed}> Days Used: {daysUsed}</Text>
+                            <Button style={homeStyles.detailsBTN}
+                                onPress={showDailyUseDetails}
+                                title="Find Out More"
+                                accessibilityLabel='Find out more about how many used days affects the application' />
+                        </View>
                     </View>
-                    <View>
-                        <TouchableOpacity style={homeStyles.dailyStreak} onPress={() => {
-                            setDailyStreakText('Daily Streak: ');
-                            setTimeout(() => { setDailyStreakText('🔥: '); }, 1000);
-                        }}>
-                            <Text style={homeStyles.dailyStreakCounter} > {dailyStreakText} {dailyStreak}</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={homeStyles.treeFrame}>
-                        <Image source={{ uri: treeImageUrl }} style={homeStyles.tree} />
-                        <Text style={homeStyles.inspireQuote}>{quoteAPI} {'\n'} -{quoteAuthor}</Text>
-                        <Text style={homeStyles.daysUsed}> Days Used: {daysUsed}</Text>
-                        <Button style={homeStyles.detailsBTN}
-                            onPress={showDailyUseDetails}
-                            title="Find Out More"
-                            accessibilityLabel='Find out more about how many used days affects the application' />
-                    </View>
-                </View>
-            </ScrollView>
-        </ImageBackground>
-    );
+                </ScrollView>
+            </ImageBackground>
+        );
+    } else {
+        return (
+             <Settings {...props} closeSettings={closeSettings} logout={logout} />
+        );
+    }
 }
 
 // Function that creates an alert to explain why the application should be used daily.
