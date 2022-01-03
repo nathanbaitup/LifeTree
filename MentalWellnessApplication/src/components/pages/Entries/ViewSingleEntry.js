@@ -43,7 +43,7 @@ export default function ViewSingleEntry(props) {
                     });
                 },
                 error => {
-                    alert(error);
+                    console.error(error);
                 }
             );
     }, []);
