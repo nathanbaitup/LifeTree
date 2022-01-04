@@ -5,7 +5,10 @@ const width = Dimensions.get('window').width;
 
 export const hrStyles = StyleSheet.create({
     contentContainer: {
-        margin: 20,
+        marginLeft: 20,
+        marginRight: 20,
+        marginBottom: 5,
+        marginTop: 15,
         padding: 10,
         backgroundColor: '#FFFFFF',
         borderRadius: 25,

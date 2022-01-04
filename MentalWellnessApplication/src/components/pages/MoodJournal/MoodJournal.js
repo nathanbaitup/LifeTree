@@ -67,18 +67,10 @@ export default function MoodJournal(props) {
             
     }, []);
 
-    // For loop that adds the dates from allData to allDates.
+    // For loop that adds the dates, moods and obsessions from allData to their own arrays.
     for (let i = 0; i < allData.length; i++) {
         allDates.push(allData[i].moodCalendarDate);
-    }
-
-    // For loop that adds the moods from allData to allMoods.
-    for (let i = 0; i < allData.length; i++) {
         allMoods.push(allData[i].moodSelected);
-    }
-
-    // For loop that adds the obsessions from allData to allObsessions.
-    for (let i = 0; i < allData.length; i++) {
         allObsessions.push(allData[i].obsessionText);
     }
 

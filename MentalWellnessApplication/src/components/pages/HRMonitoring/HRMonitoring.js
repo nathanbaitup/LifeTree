@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions, ImageBackground, FlatList, Platform, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import HRGraph from './HRGraph';
 
 // Imports the documents styling.
 import { hrStyles } from './Styles';
@@ -7,19 +8,19 @@ import { hrStyles } from './Styles';
 import firestore from '@react-native-firebase/firestore';
 // Imports the fitness library to connect to Apple HealthKit.
 import Fitness from '@ovalmoney/react-native-fitness';
-
 // Imports the slider package to allow a user to select the heart rate they want to track.
 import Slider from '@react-native-community/slider';
-
 // The icon package for the tab bar.
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+// Imports the date time picker to select a time when adding a heart rate.
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 // TODO: Make a graph
 // TODO: Display heart rate descriptions onto calnedar.
 
 export default function HRMonitoring(props) {
+    // If page is loading, display indicator for loading.
+    const [loading, setLoading] = useState(true);
     // Initializing the state to store a specific user heart rate.
     const [userHeartRates, setUserHeartRates] = useState([]);
     const [filteredHeartRates, setFilteredHeartRates] = useState([]);
@@ -47,18 +48,15 @@ export default function HRMonitoring(props) {
     // Used to import time picker for both ios and android.
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
-
     const onTimeChange = (event, selectedTime) => {
         const currentTime = selectedTime || timeOfEntry;
         setShow(Platform.OS === 'ios');
         setTimeOfEntry(currentTime);
     };
-
     const showMode = (currentMode) => {
         setShow(true);
         setMode(currentMode);
     };
-
     const showTimePicker = () => {
         showMode('time');
     };
@@ -70,7 +68,6 @@ export default function HRMonitoring(props) {
         { kind: Fitness.PermissionKinds.HeartRate, access: Fitness.PermissionAccesses.Read },
         { kind: Fitness.PermissionKinds.HeartRate, access: Fitness.PermissionAccesses.Write },
     ];
-
     // If permission is authorized, then retrive all stored heart rate data and if greater than 0, add to userHeartRates list.
     const getHeartRate = async () => {
         Fitness.requestPermissions(permissions)
@@ -82,11 +79,17 @@ export default function HRMonitoring(props) {
                 }).then((heartRate) => {
                     if (heartRate.length > 0) {
                         setUserHeartRates(heartRate);
+                        setLoading(false);
                     }
+                }).catch((error) => {
+                    console.error(error);
+                    setLoading(false);
                 });
             }).catch((error) => {
                 console.error('Error: ' + error);
+                setLoading(false);
             });
+            setLoading(false);
     };
     // END REFERENCE
 
@@ -162,7 +165,7 @@ export default function HRMonitoring(props) {
         });
         setFilteredHeartRates(filter);
     };
-    
+
     // When a user has maually entered a heart rate, it is validate to remove non digit characters and added to the UserHeartRate list
     const addUserHeartRate = () => {
         const validatedHR = heartRate.replace(/[^0-9]/g, '');
@@ -171,13 +174,15 @@ export default function HRMonitoring(props) {
             quantity: validatedHR,
             startDate: timeOfEntry.toISOString(),
         };
+        setLoading(true);
         setUserHeartRates(arr => [...arr, newUserHeartRate]);
         setAddHeartRate(false);
-
+        setLoading(false);
     };
 
     useEffect(() => {
         getHeartRate();
+        userHeartRates;
     }, []);
 
     if (addHeartRate) {
@@ -232,19 +237,22 @@ export default function HRMonitoring(props) {
             </ImageBackground>
         );
 
+    } else if (loading) {
+        return (
+            <Text>Loading</Text>
+        );
     } else {
         return (
             <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-                <View style={hrStyles.contentContainer}>
-                    <Text> Graph will go here. </Text>
-                </View>
-                <View style={[hrStyles.contentContainer, { height: height / 1.55 }]}>
+                <HRGraph {...props} heartRateList={userHeartRates} />
+
+                <View style={[hrStyles.contentContainer, { height: height / 2.6 }]}>
                     <Text style={hrStyles.headerText}>Showing results for:  <Text style={{ fontStyle: 'italic' }} >{displayDate}</Text> </Text>
                     {/* Checks if descriptionPressed is false, to display the list view of all heart rates. 
                     If true, changes the view to allow a user to enter a description for the heart rate. */}
                     {descriptionPressed == false ? (
                         <View>
-                            <Text style={hrStyles.subHeaderText}>Use the slider to set Heart Rate Display Parameter. If there are no heart rates available, then all will be displayed. </Text>
+                            <Text style={hrStyles.subHeaderText}>Use the slider to set Heart Rate Display Parameter.</Text>
                             <Text style={hrStyles.subHeaderText}>Currently displaying: {heartRateTracker} BPM+ </Text>
                             <Slider style={hrStyles.slider}
                                 minimumValue={75}
@@ -255,7 +263,7 @@ export default function HRMonitoring(props) {
                                 onValueChange={value => onSliderChange(value)}
                             />
                             <FlatList
-                                style={{ height: height / 2.3 }}
+                                style={{ height: height / 5 }}
                                 data={filteredHeartRates}
                                 keyExtractor={(item) => (item.startDate)}
                                 renderItem={({ item }) =>
