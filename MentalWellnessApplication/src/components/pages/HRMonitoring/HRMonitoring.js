@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions, ImageBackground, FlatList, Platform, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import HRGraph from './HRGraph';
+import Loading from '../../utils/Loading';
 
 // Imports the documents styling.
 import { hrStyles } from './Styles';
@@ -15,7 +16,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // Imports the date time picker to select a time when adding a heart rate.
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-// TODO: Make a graph
 // TODO: Display heart rate descriptions onto calnedar.
 
 export default function HRMonitoring(props) {
@@ -182,6 +182,7 @@ export default function HRMonitoring(props) {
 
     useEffect(() => {
         getHeartRate();
+        onSliderChange(75);
         userHeartRates;
     }, []);
 
@@ -239,7 +240,7 @@ export default function HRMonitoring(props) {
 
     } else if (loading) {
         return (
-            <Text>Loading</Text>
+            <Loading  {...props} loading={loading} />
         );
     } else {
         return (
