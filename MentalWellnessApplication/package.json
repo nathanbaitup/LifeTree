@@ -12,6 +12,7 @@
   "dependencies": {
     "@ovalmoney/react-native-fitness": "^0.5.3",
     "@react-native-community/cli-platform-android": "^6.2.0",
+    "@react-native-community/datetimepicker": "^5.1.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/slider": "^4.1.12",
     "@react-native-firebase/app": "^13.1.1",

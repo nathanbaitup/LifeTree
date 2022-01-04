@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
+// Function used to store height of device being used for responsive design on the homescreen.
+const width = Dimensions.get('window').width;
 
 export const hrStyles = StyleSheet.create({
     contentContainer: {
@@ -35,6 +38,8 @@ export const hrStyles = StyleSheet.create({
     listText: {
         fontWeight: 'normal',
         fontSize: 16,
+        color: '#000000',
+        marginTop: 8,
     },
     listView: {
         borderRadius: 0.5,
@@ -72,9 +77,52 @@ export const hrStyles = StyleSheet.create({
         paddingLeft: 10,
     },
     slider: {
-        width: 200, 
+        width: 200,
         height: 50,
         alignItems: 'center',
         alignSelf: 'center',
     },
+    fab: {
+        position: 'absolute',
+        width: 60,
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+        backgroundColor: '#448aff',
+        borderRadius: 30,
+    },
+    addHRContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingBottom: 10,
+    },
+    timeContainer: {
+        alignSelf: 'flex-end',
+        left: width / 4,
+        alignItems: 'center',
+        padding: 5,
+        backgroundColor: '#00e676',
+        borderRadius: 10,
+        justifyContent: 'center',
+        height: 40,
+    },
+    timePicker: {
+        right: 13,
+    },
+    addEntryButton: {
+        alignItems: 'center',
+        padding: 5,
+        backgroundColor: '#00e676',
+        borderRadius: 10,
+        borderColor: '#000000',
+        borderWidth: 2,
+        justifyContent: 'center',
+        height: 50,
+        marginTop: 50,
+        width: 150,
+        alignSelf: 'center',
+    }
+
 });
