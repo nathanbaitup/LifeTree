@@ -13,7 +13,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Importing all of the different components for each different page.
 import Welcome from './pages/Login/Welcome';
 import CreateAccount from './pages/Login/CreateAccount';
-import AddHeartRate from './pages/HRMonitoring/AddHeartRate';
 
 // Imports the Tab Bar so that when a user logs in, they will be directed to the home page with the tab navigation.
 import TabNavigator from './TabNavigator';
@@ -74,13 +73,9 @@ export default function App() {
             Used to have both a stack and tab navigatior so that once a user has logged in they gain access to the full application navigation. */}
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {user ? (
-                    <>
                     <Stack.Screen name='HomeScreen' >
                         {props => <TabNavigator {...props} extraData={user} logout={logout} />}
                     </Stack.Screen>
-                    
-                    <Stack.Screen name='AddHeartRate' component={AddHeartRate} />
-                    </>
                 ) : (
                     <>
                         <Stack.Screen name='Welcome' component={Welcome} />
