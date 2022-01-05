@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Button, Image, ImageBackground, Text, TouchableOpacity, ScrollView, View, } from 'react-native';
+import Loading from '../../utils/Loading';
 
 // Imports the documents styling.
 import { homeStyles } from './Styles';
@@ -31,6 +32,8 @@ export default function Home(props) {
     const [quoteAuthor, setQuoteAuthor] = useState(null);
     const [settingsPressed, setSettingsPressed] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+
     // Creates references to firebase objects to get the user collection and profile picture. 
     const userCounterRef = firestore().collection('userCounter');
     const profilePicRef = storage().ref('users/' + user.uid + '/profilePicture/' + user.photoURL);
@@ -57,6 +60,7 @@ export default function Home(props) {
                 if (currentDay === storedDate) {
                     setDaysUsed(storedDaysUsed);
                     setDailyStreak(storedStreak);
+                    setLoading(false);
                 } else {
                     const userStoredDate = new Date(storedDate).setUTCHours(0, 0, 0, 0);
                     // REFERENCE ACCESSED 31/12/2021 https://stackoverflow.com/a/1296374
@@ -75,6 +79,7 @@ export default function Home(props) {
                             .then(() => {
                                 setDaysUsed(storedDaysUsed + 1);
                                 setDailyStreak(storedStreak + 1);
+                                setLoading(false);
                             });
                     } else {
                         userCounterRef
@@ -88,6 +93,7 @@ export default function Home(props) {
                             .then(() => {
                                 setDaysUsed(storedDaysUsed + 1);
                                 setDailyStreak(0);
+                                setLoading(false);
                             });
                     }
                 }
@@ -105,6 +111,7 @@ export default function Home(props) {
                         alert(error.message);
                     });
                 setTreeDisplay(0);
+                setLoading(false);
             }
         });
 
@@ -178,10 +185,15 @@ export default function Home(props) {
         setProfilePic();
         setDailyQuote();
         setHomeScreenData();
+        
     }, []);
 
-    // Renders the page if settings pressed is false, else renders the settings page.
-    if (settingsPressed == false) {
+    if (loading) {
+        return (
+            <Loading loading={loading} />
+        );
+        // Renders the page if settings pressed is false, else renders the settings page.
+    } else if (settingsPressed == false) {
         return (
             <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
                 <ScrollView>
@@ -215,7 +227,7 @@ export default function Home(props) {
         );
     } else {
         return (
-             <Settings {...props} closeSettings={closeSettings} logout={logout} />
+            <Settings {...props} closeSettings={closeSettings} logout={logout} />
         );
     }
 }

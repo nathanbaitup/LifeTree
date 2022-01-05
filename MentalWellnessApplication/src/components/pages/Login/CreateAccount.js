@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
+import Loading from '../../utils/Loading';
 
 // Imports the documents styling.
 import { loginStyles } from './Styles';
@@ -16,10 +17,14 @@ export default function CreateAccount({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const onRegisterPress = () => {
-        // Checks if password and confirm password are matching
+        setLoading(true);
+        // Checks if password and confirm password are matching and one uppercase, lowercase, number, special character present.
+        const strongPassword = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$';
         if (password !== confirmPassword) {
+            setLoading(false);
             alert('Please check your passwords are entered correctly as they dont match.');
             return;
         }
@@ -41,76 +46,84 @@ export default function CreateAccount({ navigation }) {
                     .doc(uid)
                     .set(data)
                     .then(() => {
+                        setLoading(false);
                         navigation.navigate('HomeScreen', { user: data });
                     })
                     .catch((error) => {
+                        setLoading(false);
                         alert('Error: ' + error);
                     });
             })
             .catch((error) => {
+                setLoading(false);
                 alert('Error: ' + error);
             });
     };
     // END REFERENCE
 
-
-    return (
-        <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
-            <View style={loginStyles.header}>
-                <Text style={loginStyles.mainTitle}>Welcome to LifeTree </Text>
-                <Text>Register for an account below:</Text>
-            </View>
-            <View style={loginStyles.contentContainer}>
-                <Image style={loginStyles.logo} source={require('../../../resources/img/faces/happy.png')} />
-
-                <TextInput
-                    style={loginStyles.textInput}
-                    placeholder='enter your full name...'
-                    placeholderTextColor='#aaaaaa'
-                    onChangeText={(textName) => setFullName(textName)}
-                    value={fullName}
-                    autoCapitalize='none'
-                />
-
-                <TextInput
-                    style={loginStyles.textInput}
-                    placeholder='enter your email address...'
-                    placeholderTextColor='#aaaaaa'
-                    onChangeText={(textEmail) => setEmail(textEmail)}
-                    value={email}
-                    autoCapitalize='none'
-                />
-
-                <TextInput
-                    style={loginStyles.textInput}
-                    secureTextEntry
-                    placeholder='enter a password...'
-                    placeholderTextColor='#aaaaaa'
-                    onChangeText={(textPass) => setPassword(textPass)}
-                    value={password}
-                    autoCapitalize='none'
-                />
-
-                <TextInput
-                    style={loginStyles.textInput}
-                    secureTextEntry
-                    placeholder='confirm your password...'
-                    placeholderTextColor='#aaaaaa'
-                    onChangeText={(textPass) => setConfirmPassword(textPass)}
-                    value={confirmPassword}
-                    autoCapitalize='none'
-                />
-
-                <TouchableOpacity
-                    style={loginStyles.loginBTN}
-                    onPress={() => onRegisterPress()}>
-                    <Text style={loginStyles.loginText}> Create Account </Text>
-                </TouchableOpacity>
-
-                <View style={loginStyles.footer}>
-                    <Text style={loginStyles.createAnAccountText} > Already have an account? <Text onPress={() => navigation.navigate('Welcome')} style={loginStyles.createAccountLink}> Log In</Text> </Text>
+    if (loading) {
+        return (
+            <Loading loading={loading} />
+        );
+    } else {
+        return (
+            <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
+                <View style={loginStyles.header}>
+                    <Text style={loginStyles.mainTitle}>Welcome to LifeTree </Text>
+                    <Text>Register for an account below:</Text>
                 </View>
-            </View>
-        </ImageBackground>
-    );
+                <View style={loginStyles.contentContainer}>
+                    <Image style={loginStyles.logo} source={require('../../../resources/img/faces/happy.png')} />
+
+                    <TextInput
+                        style={loginStyles.textInput}
+                        placeholder='enter your full name...'
+                        placeholderTextColor='#aaaaaa'
+                        onChangeText={(textName) => setFullName(textName)}
+                        value={fullName}
+                        autoCapitalize='none'
+                    />
+
+                    <TextInput
+                        style={loginStyles.textInput}
+                        placeholder='enter your email address...'
+                        placeholderTextColor='#aaaaaa'
+                        onChangeText={(textEmail) => setEmail(textEmail)}
+                        value={email}
+                        autoCapitalize='none'
+                    />
+
+                    <TextInput
+                        style={loginStyles.textInput}
+                        secureTextEntry
+                        placeholder='enter a password...'
+                        placeholderTextColor='#aaaaaa'
+                        onChangeText={(textPass) => setPassword(textPass)}
+                        value={password}
+                        autoCapitalize='none'
+                    />
+
+                    <TextInput
+                        style={loginStyles.textInput}
+                        secureTextEntry
+                        placeholder='confirm your password...'
+                        placeholderTextColor='#aaaaaa'
+                        onChangeText={(textPass) => setConfirmPassword(textPass)}
+                        value={confirmPassword}
+                        autoCapitalize='none'
+                    />
+
+                    <TouchableOpacity
+                        style={loginStyles.loginBTN}
+                        onPress={() => onRegisterPress()}>
+                        <Text style={loginStyles.loginText}> Create Account </Text>
+                    </TouchableOpacity>
+
+                    <View style={loginStyles.footer}>
+                        <Text style={loginStyles.createAnAccountText} > Already have an account? <Text onPress={() => navigation.navigate('Welcome')} style={loginStyles.createAccountLink}> Log In</Text> </Text>
+                    </View>
+                </View>
+            </ImageBackground>
+        );
+    }
 }
