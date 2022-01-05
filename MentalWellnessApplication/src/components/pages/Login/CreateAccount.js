@@ -18,11 +18,26 @@ export default function CreateAccount({ navigation }) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [passwordCheck, setPasswordCheck] = useState(false);
+
+    const checkPassword = (str) => {
+        // Checks if password and confirm password are matching and one uppercase, lowercase, number, special character present.
+        const strongPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+        return strongPassword.test(str);
+
+    };
 
     const onRegisterPress = () => {
         setLoading(true);
-        // Checks if password and confirm password are matching and one uppercase, lowercase, number, special character present.
-        const strongPassword = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$';
+        
+        if (!checkPassword(password)) {
+            setLoading(false);
+            setPasswordCheck(true);
+            alert('Please ensure your password is 8 characters long and contains: ' + '\n' +
+            'One uppercase letter, a number and a special character (#?!@$%^&*-)');
+            return;
+         }
+
         if (password !== confirmPassword) {
             setLoading(false);
             alert('Please check your passwords are entered correctly as they dont match.');
@@ -47,7 +62,7 @@ export default function CreateAccount({ navigation }) {
                     .set(data)
                     .then(() => {
                         setLoading(false);
-                        navigation.navigate('HomeScreen', { user: data });
+                        navigation.navigate('HomeScreen');
                     })
                     .catch((error) => {
                         setLoading(false);
@@ -112,6 +127,8 @@ export default function CreateAccount({ navigation }) {
                         value={confirmPassword}
                         autoCapitalize='none'
                     />
+
+                    <Text style={passwordCheck ? [loginStyles.contentText, {color:'red'} ] : loginStyles.contentText}>Password must be 8 or more characters and contain an upper case letter, numbers and a special character {'(#?!@$%^&*-)'}. </Text>
 
                     <TouchableOpacity
                         style={loginStyles.loginBTN}

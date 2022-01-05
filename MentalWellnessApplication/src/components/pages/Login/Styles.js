@@ -63,5 +63,11 @@ export const loginStyles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#6db8bf',
+    }, 
+    contentText:{
+        textAlign: 'center',
+        color: '#8f8f8f',
+        fontSize: 14,
+        fontStyle: 'italic',
     }
 });
