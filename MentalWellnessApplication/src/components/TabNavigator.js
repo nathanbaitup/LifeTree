@@ -10,10 +10,9 @@ import Home from './pages/HomeScreen/Home';
 import AddNewEntry from './pages/Entries/AddNewEntry';
 import EntriesList from './pages/Entries/EntriesList';
 import MoodJournal from './pages/MoodJournal/MoodJournal';
-import Settings from './pages/Settings/Settings';
 
 // Commented out as not required for the MVP and affects eslint.
-//import HRMonitoring from './pages/HRMonitoring';
+import HRMonitoring from './pages/HRMonitoring/HRMonitoring';
 
 // Variable that is used to create all of the tabs required for the navigation bar.
 const Tab = createBottomTabNavigator();
@@ -77,7 +76,7 @@ export default function BottomTabNavigator(props) {
                         </View>
                     )
                 }} >
-                {props => <Home {...props} extraData={userData} />}
+                {props => <Home {...props} extraData={userData} logout={logout} />}
             </Tab.Screen>
 
             <Tab.Screen
@@ -91,18 +90,6 @@ export default function BottomTabNavigator(props) {
             </Tab.Screen>
 
             <Tab.Screen
-                name='Settings'
-                options={{
-                    tabBarLabel: 'Settings',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name='cog' color={color} size={size} />)
-                }} >
-                {props => <Settings {...props} extraData={userData} logout={logout} />}
-            </Tab.Screen>
-
-
-            {/* Not needed for MVP as it is not included within the MVP, however will be an aditional feature of the application and is currently in place. */}
-            {/* <Tab.Screen
                 name='HR Monitoring'
                 options={{
                     tabBarLabel: 'HR Monitoring',
@@ -110,7 +97,7 @@ export default function BottomTabNavigator(props) {
                         <Icon name='heart-pulse' color={color} size={size} />)
                 }} >
                 {props => <HRMonitoring {...props} extraData={userData} />}
-            </Tab.Screen> */}
+            </Tab.Screen>
 
         </Tab.Navigator>
     );

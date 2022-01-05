@@ -80,6 +80,8 @@ export default function App() {
                     <>
                         <Stack.Screen name='Welcome' component={Welcome} />
                         <Stack.Screen name='CreateAccount' component={CreateAccount} />
+                        
+
                     </>
                 )}
             </Stack.Navigator>

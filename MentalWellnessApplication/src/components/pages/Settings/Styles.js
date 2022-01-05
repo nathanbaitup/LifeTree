@@ -51,8 +51,12 @@ export const settingStyles = StyleSheet.create({
         borderRadius: 15,
         width: 250,
         alignSelf: 'center',
-        marginBottom: 10,
         marginTop: 10,
+    },
+    returnHomeButton: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        alignSelf: 'flex-start',
     },
     buttonText: {
         textAlign: 'center',
@@ -61,7 +65,7 @@ export const settingStyles = StyleSheet.create({
         color: '#000000',
     },
     footerText: {
-        paddingTop : 30,
+        paddingTop: 30,
         textAlign: 'center',
         color: '#bababa',
     },
@@ -69,6 +73,5 @@ export const settingStyles = StyleSheet.create({
         textDecorationLine: 'underline',
         color: 'blue',
         textAlign: 'center',
-    }
-
+    },
 });
