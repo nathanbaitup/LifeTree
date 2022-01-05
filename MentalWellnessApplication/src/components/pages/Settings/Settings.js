@@ -9,9 +9,10 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 // Imports a progress indicator to show the progress of the image upload.
 import * as Progress from 'react-native-progress';
 
-// Imports auth and storage from firebase to store the users profile picture.
+// Imports auth, firestore and storage from firebase to store the users profile picture and settings.
 import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
+
 
 export default function Settings(props) {
 
@@ -19,6 +20,8 @@ export default function Settings(props) {
     const logout = props.logout;
     // Gets the current users details.
     const user = auth().currentUser;
+    // Parsing the return home function from Home.js
+    const returnHome = props.closeSettings;
 
     // Initialising the state to store the users profile picture.
     const [image, setImage] = useState(null);
@@ -38,9 +41,9 @@ export default function Settings(props) {
         // Launch the image library for the device and if the image was selected, then set the image to the image uri.
         launchImageLibrary(options, response => {
             if (response.didCancel) {
-                console.error('User cancelled image picker');
+                console.info('User cancelled image picker');
             } else if (response.error) {
-                console.error('ImagePicker Error: ', response.error);
+                console.info('ImagePicker Error: ', response.error);
             } else {
                 const source = { uri: response.assets[0].uri };
                 setImage(source);
@@ -52,9 +55,9 @@ export default function Settings(props) {
         // Launch the camera to take a profile picture, and set the image to the image uri.
         launchCamera(options, response => {
             if (response.didCancel) {
-                console.error('User cancelled image picker');
+                console.info('User cancelled image picker');
             } else if (response.error) {
-                console.error('ImagePicker Error: ', response.error);
+                console.info('ImagePicker Error: ', response.error);
             } else {
                 const source = { uri: response.assets[0].uri };
                 setImage(source);
@@ -81,9 +84,14 @@ export default function Settings(props) {
 
         // Increments the progress bar for photo upload.
         task.on('state_changed', snapshot => {
-            setTransferred(
-                snapshot.Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
-            );
+            try{
+                setTransferred(
+                    snapshot.Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+                );
+            } catch(e){
+                //
+            }
+            
         });
 
         // Waits for the profile picture to upload then sets the users photo url to the image.
@@ -106,6 +114,9 @@ export default function Settings(props) {
         <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
 
             <View style={settingStyles.contentContainer}>
+                <TouchableOpacity style={settingStyles.returnHomeButton} onPress={returnHome} >
+                    <Text style={[settingStyles.buttonText, { color: '#448aff' }]}> {'>'} Return Home</Text>
+                </TouchableOpacity>
                 <ScrollView>
                     <Text style={settingStyles.subtitle}>Profile Picture:</Text>
                     <Text style={settingStyles.content}>Select a picture from your library or take a picture:</Text>
@@ -114,10 +125,10 @@ export default function Settings(props) {
                         <Image source={{ uri: image.uri }} style={settingStyles.imageBox} />
                     ) : null}
                     <TouchableOpacity style={settingStyles.pictureButton} onPress={takeImage} >
-                        <Text style={settingStyles.buttonText}>Take a picture:</Text>
+                        <Text style={settingStyles.buttonText}>Take a picture</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={settingStyles.pictureButton} onPress={selectImage} >
-                        <Text style={settingStyles.buttonText}>Select a profile picture:</Text>
+                        <Text style={settingStyles.buttonText}>Select a profile picture</Text>
                     </TouchableOpacity>
                     {/* Changes the upload image button to a progress indicator upon image upload. */}
                     {uploading ? (
@@ -127,21 +138,23 @@ export default function Settings(props) {
                     ) : (
                         <View>
                             <TouchableOpacity style={settingStyles.pictureButton} onPress={uploadImage} >
-                                <Text style={settingStyles.buttonText}>Upload Image:</Text>
+                                <Text style={settingStyles.buttonText}>Upload Image</Text>
                             </TouchableOpacity>
                         </ View>
                     )}
                     <Text style={settingStyles.subtitle}>Other Settings:</Text>
+
                     <TouchableOpacity style={settingStyles.logoutButton} onPress={logout} >
                         <Text style={settingStyles.buttonText}>Logout</Text>
                     </TouchableOpacity>
+
                     <View style={settingStyles.footer}>
                         <TouchableOpacity onPress={() => Linking.openURL('https://zenquotes.io/')}>
                             <Text style={settingStyles.footerText}>Inspirational quotes provided by: </Text>
                             <Text style={settingStyles.hyperLink} onPress={() => Linking.openURL('https://zenquotes.io/')}>ZenQuotes API</Text>
                         </TouchableOpacity>
 
-                        <Text style={settingStyles.footerText}> LifeTree v1.0.3 2021</Text>
+                        <Text style={settingStyles.footerText}> LifeTree v1.1.0 2021</Text>
                     </View>
                 </ScrollView>
             </View>

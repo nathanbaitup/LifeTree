@@ -53,7 +53,7 @@ export default function EntriesList(props) {
     const search = (searchText) => {
         setSearchText(searchText);
         const filteredEntries = allEntries.filter(function (item) {
-            // Returns eihter all entries with the same month or same mood searched for by the user.
+            // Returns either all entries with the same month or same mood searched for by the user.
             return item.dateOfEntry.includes(searchText) || item.moodSelected.toLowerCase().includes(searchText.toLowerCase());
         });
         setFilteredEntries(filteredEntries);

@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
+// Importing all of the different components for each different page.
+import Welcome from './pages/Login/Welcome';
+import CreateAccount from './pages/Login/CreateAccount';
+
 //Imports auth and firestore from firebase.
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 // Importing Navigation Container to allow the navigation bar to function correctly.
 import { NavigationContainer } from '@react-navigation/native';
-
 // Imports the createStackNavigator from react navigation.
 import { createStackNavigator } from '@react-navigation/stack';
-
-// Importing all of the different components for each different page.
-import Welcome from './pages/Login/Welcome';
-import CreateAccount from './pages/Login/CreateAccount';
-
 // Imports the Tab Bar so that when a user logs in, they will be directed to the home page with the tab navigation.
 import TabNavigator from './TabNavigator';
 
@@ -23,10 +21,7 @@ const Stack = createStackNavigator();
 export default function App() {
     // REFERENCE ACCESSED 14/12/2021 https://www.freecodecamp.org/news/react-native-firebase-tutorial/
     // Used to learn firebase authentication and keep a persistent user.
-    const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
-
-    //TODO: Add a loading indicator to display that login is loading and app isnt just stuck. Will use loading state, tutorial loading screen did not work.
 
     // Checks to see if user is already logged in and if true, saves the users data to the state for use in rest of the application.
     // This then sets loading to false to display the page that should be returned.
@@ -41,15 +36,11 @@ export default function App() {
                     .get()
                     .then((document) => {
                         const userData = document.data();
-                        setLoading(false);
                         setUser(userData);
                     })
                     .catch((error) => {
                         alert(error.message);
-                        setLoading(false);
                     });
-            } else {
-                setLoading(false);
             }
         });
     }, []);
@@ -63,6 +54,8 @@ export default function App() {
             return (
                 <Welcome />
             );
+        }).catch(() => {
+            // 
         });
     };
 

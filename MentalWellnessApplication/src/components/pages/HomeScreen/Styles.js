@@ -15,27 +15,26 @@ export const  homeStyles = StyleSheet.create({
         justifyContent: 'center',
     },
     heading: {
-        flex: 1,
         flexDirection: 'row',
         paddingTop: 4,
     },
     title: {
         paddingTop: 5,
         paddingLeft: 5,
+        paddingRight: 20,
         textAlign: 'left',
         fontSize: 22,
         fontWeight: 'bold',
-        alignSelf: 'flex-start',
-        justifyContent: 'flex-start',
         color: '#000000',
+        width: width / 1
     },
     profilePic: {
+        position: 'absolute',
+        top: 5,
+        right: 15,
         width: 40,
         height: 40,
         borderRadius: 40,
-        alignSelf: 'flex-end',
-        justifyContent: 'flex-end',
-        left: width/3.5
     },
     tree: {
         alignSelf: 'center',
