@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+
 export const journalStyles = StyleSheet.create({
     contentContainer: {
         margin: 20,
@@ -54,6 +55,37 @@ export const journalStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    popupTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        paddingTop: 20,
+        color: '#000000'
+    },
+    popupText: {
+        color: '#000000',
+        marginTop: 20,
+        fontSize: 18
+    },
+    popupContainer: {
+        flexDirection: 'row',
+    },
+    obsessionText: {
+        fontSize: 16, 
+        paddingTop: 5,
+        color: '#000000',
+    },
+    popupMainContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    buttonText: {
+        color: '#448aff',
+        paddingTop: 25,
+        textAlign: 'center',
+        fontSize: 20,
     }
 });
 

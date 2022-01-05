@@ -16,8 +16,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // Imports the date time picker to select a time when adding a heart rate.
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-// TODO: Display heart rate descriptions onto calnedar.
-
 export default function HRMonitoring(props) {
     // If page is loading, display indicator for loading.
     const [loading, setLoading] = useState(true);
