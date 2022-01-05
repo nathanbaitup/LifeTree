@@ -178,14 +178,14 @@ export default function Home(props) {
     };
     // Parsed into the settings page so when the close settings button is pressed the user is returned to home.
     const closeSettings = () => {
+        setProfilePic();
         setSettingsPressed(false);
     };
     // React hook that sets up the home page on component load.
     useEffect(() => {
-        setProfilePic();
         setDailyQuote();
         setHomeScreenData();
-        
+        setProfilePic();
     }, []);
 
     if (loading) {

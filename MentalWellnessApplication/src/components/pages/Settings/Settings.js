@@ -84,9 +84,14 @@ export default function Settings(props) {
 
         // Increments the progress bar for photo upload.
         task.on('state_changed', snapshot => {
-            setTransferred(
-                snapshot.Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
-            );
+            try{
+                setTransferred(
+                    snapshot.Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+                );
+            } catch(e){
+                //
+            }
+            
         });
 
         // Waits for the profile picture to upload then sets the users photo url to the image.
