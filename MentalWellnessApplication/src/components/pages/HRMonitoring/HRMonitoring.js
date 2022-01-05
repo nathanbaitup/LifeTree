@@ -80,7 +80,7 @@ export default function HRMonitoring(props) {
                         setLoading(false);
                     }
                 }).catch((error) => {
-                    console.error(error);
+                    console.warn(error);
                     setLoading(false);
                 });
             }).catch((error) => {

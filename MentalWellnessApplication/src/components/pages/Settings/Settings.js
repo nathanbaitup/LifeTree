@@ -41,9 +41,9 @@ export default function Settings(props) {
         // Launch the image library for the device and if the image was selected, then set the image to the image uri.
         launchImageLibrary(options, response => {
             if (response.didCancel) {
-                console.error('User cancelled image picker');
+                console.info('User cancelled image picker');
             } else if (response.error) {
-                console.error('ImagePicker Error: ', response.error);
+                console.info('ImagePicker Error: ', response.error);
             } else {
                 const source = { uri: response.assets[0].uri };
                 setImage(source);
@@ -55,9 +55,9 @@ export default function Settings(props) {
         // Launch the camera to take a profile picture, and set the image to the image uri.
         launchCamera(options, response => {
             if (response.didCancel) {
-                console.error('User cancelled image picker');
+                console.info('User cancelled image picker');
             } else if (response.error) {
-                console.error('ImagePicker Error: ', response.error);
+                console.info('ImagePicker Error: ', response.error);
             } else {
                 const source = { uri: response.assets[0].uri };
                 setImage(source);
