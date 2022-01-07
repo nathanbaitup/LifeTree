@@ -58,7 +58,7 @@ export default function Welcome({ navigation }) {
         return (
             <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
                 <View style={loginStyles.header}>
-                    <Text style={loginStyles.mainTitle}>Welcome to LifeTree </Text>
+                    <Text style={loginStyles.mainTitle}>Welcome to LifeTree</Text>
                     <Text>Log into your account below:</Text>
                 </View>
                 <View style={loginStyles.contentContainer}>
@@ -90,7 +90,7 @@ export default function Welcome({ navigation }) {
                     </TouchableOpacity>
 
                     <View style={loginStyles.footer}>
-                        <Text style={loginStyles.createAnAccountText} > Don&apos;t have an account yet? <Text onPress={() => navigation.navigate('CreateAccount')} style={loginStyles.createAccountLink}> Sign up</Text> </Text>
+                        <Text style={loginStyles.createAnAccountText} >Don&apos;t have an account yet?<Text onPress={() => navigation.navigate('CreateAccount')} style={loginStyles.createAccountLink}> Sign up</Text> </Text>
                     </View>
                 </View>
             </ImageBackground>

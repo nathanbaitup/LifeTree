@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checks to see if the Create Account page renders 1`] = `
+<View
+  accessibilityIgnoresInvertColors={true}
+  style={
+    Object {
+      "height": "100%",
+      "opacity": 50,
+      "width": "100%",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../src/resources/img/background.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "height": "100%",
+          "width": "100%",
+        },
+        undefined,
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "justifyContent": "center",
+        "paddingTop": 50,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "fontSize": 25,
+          "fontWeight": "bold",
+          "textAlign": "center",
+        }
+      }
+    >
+      Welcome to LifeTree 
+    </Text>
+    <Text>
+      Register for an account below:
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "borderRadius": 25,
+        "justifyContent": "center",
+        "margin": 20,
+        "padding": 10,
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../src/resources/img/faces/happy.png",
+        }
+      }
+      style={
+        Object {
+          "alignSelf": "center",
+          "height": 100,
+          "marginBottom": 10,
+          "marginTop": 20,
+          "width": 134,
+        }
+      }
+    />
+    <TextInput
+      autoCapitalize="none"
+      onChangeText={[Function]}
+      placeholder="enter your full name..."
+      placeholderTextColor="#aaaaaa"
+      style={
+        Object {
+          "backgroundColor": "#f0efed",
+          "borderRadius": 5,
+          "height": 50,
+          "marginBottom": 10,
+          "marginLeft": 20,
+          "marginRight": 20,
+          "marginTop": 10,
+          "overflow": "hidden",
+          "paddingLeft": 10,
+        }
+      }
+      value=""
+    />
+    <TextInput
+      autoCapitalize="none"
+      onChangeText={[Function]}
+      placeholder="enter your email address..."
+      placeholderTextColor="#aaaaaa"
+      style={
+        Object {
+          "backgroundColor": "#f0efed",
+          "borderRadius": 5,
+          "height": 50,
+          "marginBottom": 10,
+          "marginLeft": 20,
+          "marginRight": 20,
+          "marginTop": 10,
+          "overflow": "hidden",
+          "paddingLeft": 10,
+        }
+      }
+      value=""
+    />
+    <TextInput
+      autoCapitalize="none"
+      onChangeText={[Function]}
+      placeholder="enter a password..."
+      placeholderTextColor="#aaaaaa"
+      secureTextEntry={true}
+      style={
+        Object {
+          "backgroundColor": "#f0efed",
+          "borderRadius": 5,
+          "height": 50,
+          "marginBottom": 10,
+          "marginLeft": 20,
+          "marginRight": 20,
+          "marginTop": 10,
+          "overflow": "hidden",
+          "paddingLeft": 10,
+        }
+      }
+      value=""
+    />
+    <TextInput
+      autoCapitalize="none"
+      onChangeText={[Function]}
+      placeholder="confirm your password..."
+      placeholderTextColor="#aaaaaa"
+      secureTextEntry={true}
+      style={
+        Object {
+          "backgroundColor": "#f0efed",
+          "borderRadius": 5,
+          "height": 50,
+          "marginBottom": 10,
+          "marginLeft": 20,
+          "marginRight": 20,
+          "marginTop": 10,
+          "overflow": "hidden",
+          "paddingLeft": 10,
+        }
+      }
+      value=""
+    />
+    <Text
+      style={
+        Object {
+          "color": "#8f8f8f",
+          "fontSize": 14,
+          "fontStyle": "italic",
+          "textAlign": "center",
+        }
+      }
+    >
+      Password must be 8 or more characters and contain an upper case letter, numbers and a special character 
+      (#?!@$%^&*-)
+      . 
+    </Text>
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      nativeID="animatedComponent"
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "backgroundColor": "#00e676",
+          "borderRadius": 15,
+          "justifyContent": "center",
+          "marginTop": 20,
+          "opacity": 1,
+          "padding": 15,
+          "width": 150,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#000000",
+            "fontSize": 18,
+            "fontWeight": "bold",
+            "textAlign": "center",
+          }
+        }
+      >
+         Create Account 
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "marginTop": 20,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "fontSize": 16,
+          }
+        }
+      >
+         Already have an account? 
+        <Text
+          onPress={[Function]}
+          style={
+            Object {
+              "color": "#6db8bf",
+              "fontSize": 16,
+              "fontWeight": "bold",
+            }
+          }
+        >
+           Log In
+        </Text>
+         
+      </Text>
+    </View>
+  </View>
+</View>
+`;
