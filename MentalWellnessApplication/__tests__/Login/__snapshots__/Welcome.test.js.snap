@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Checks to see if the Welcome page renders 1`] = `
+exports[`Tests <Welcome> component and functions inside Checks to see if the Welcome page renders 1`] = `
 <View
   accessibilityIgnoresInvertColors={true}
   style={
@@ -103,6 +103,7 @@ exports[`Checks to see if the Welcome page renders 1`] = `
           "paddingLeft": 10,
         }
       }
+      testID="emailInput"
       value=""
     />
     <TextInput
@@ -124,9 +125,11 @@ exports[`Checks to see if the Welcome page renders 1`] = `
           "paddingLeft": 10,
         }
       }
+      testID="passwordInput"
       value=""
     />
     <View
+      accessibilityLabel="Log In button"
       accessible={true}
       collapsable={false}
       focusable={true}
@@ -151,6 +154,7 @@ exports[`Checks to see if the Welcome page renders 1`] = `
           "width": 150,
         }
       }
+      testID="loginButton"
     >
       <Text
         style={
@@ -190,6 +194,7 @@ exports[`Checks to see if the Welcome page renders 1`] = `
               "fontWeight": "bold",
             }
           }
+          testID="createAccountLink"
         >
            Sign up
         </Text>
