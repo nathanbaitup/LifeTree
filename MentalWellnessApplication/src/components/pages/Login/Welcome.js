@@ -9,6 +9,11 @@ import { loginStyles } from './Styles';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
+// Checks if email is in a valid format.
+export const checkEmail = (str) => {
+    const validEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return validEmail.test(str);
+};
 
 export default function Welcome({ navigation }) {
     // REFERENCE ACCESSED 13/12/2021 https://www.freecodecamp.org/news/react-native-firebase-tutorial/
@@ -22,6 +27,13 @@ export default function Welcome({ navigation }) {
         // Calls the signInWithEmailAndPassword API from Auth to take the email and password entered and check if the user exists.
         // If successful, the user data is stored to the variable 'user' to be parsed through the application and the user
         // is signed in and taken to the home page.
+
+        if (!checkEmail(email)) {
+            setLoading(false);
+            alert('Please ensure your email is valid.');
+            return;
+         }
+         
         auth()
             .signInWithEmailAndPassword(email, password)
             .then((response) => {

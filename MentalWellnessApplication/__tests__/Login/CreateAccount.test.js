@@ -1,6 +1,9 @@
+// https://keyholesoftware.com/2020/11/02/using-jest-and-testing-library-with-react-native-part-1-setting-up/
+// helped with setting up testing.
+
 import 'react-native';
 import React from 'react';
-import CreateAccount, {checkPassword} from '../../src/components/pages/Login/CreateAccount';
+import CreateAccount, { checkPassword, checkEmail } from '../../src/components/pages/Login/CreateAccount';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
@@ -62,6 +65,13 @@ describe('Checks <CreateAccount> and its functions', () => {
     const goodPassword = '@GoodPassword1';
     expect(checkPassword(badPassword)).toBeFalsy();
     expect(checkPassword(goodPassword)).toBeTruthy();
+  });
+
+  it('Checks that an email is valid', () => {
+    const badEmail = 'bad';
+    const goodEmail = 'test@test.com';
+    expect(checkEmail(badEmail)).toBeFalsy();
+    expect(checkEmail(goodEmail)).toBeTruthy();
   });
 
   it('Test navigation to welcomepage', () => {

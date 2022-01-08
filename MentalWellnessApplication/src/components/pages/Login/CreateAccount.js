@@ -9,10 +9,16 @@ import { loginStyles } from './Styles';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
+// Checks if password contains one uppercase, lowercase, number, special character present.
 export const checkPassword = (str) => {
-    // Checks if password and confirm password are matching and one uppercase, lowercase, number, special character present.
     const strongPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     return strongPassword.test(str);
+};
+
+ // Checks if email is valid format.
+export const checkEmail = (str) => {
+    const validEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return validEmail.test(str);
 };
 
 export default function CreateAccount({ navigation }) {
@@ -29,6 +35,12 @@ export default function CreateAccount({ navigation }) {
     const onRegisterPress = () => {
         setLoading(true);
         
+        if (!checkEmail(email)) {
+            setLoading(false);
+            alert('Please ensure your email is valid.');
+            return;
+         }
+
         if (!checkPassword(password)) {
             setLoading(false);
             setPasswordCheck(true);
