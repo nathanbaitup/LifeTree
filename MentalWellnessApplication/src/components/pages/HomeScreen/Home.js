@@ -31,7 +31,6 @@ export default function Home(props) {
     const [quoteAPI, setQuoteAPI] = useState(null);
     const [quoteAuthor, setQuoteAuthor] = useState(null);
     const [settingsPressed, setSettingsPressed] = useState(false);
-
     const [loading, setLoading] = useState(true);
 
     // Creates references to firebase objects to get the user collection and profile picture. 
