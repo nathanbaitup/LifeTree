@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Checks to see if the Create Account page renders 1`] = `
+exports[`Checks <CreateAccount> and its functions Checks to see if the Create Account page renders 1`] = `
 <View
   accessibilityIgnoresInvertColors={true}
   style={
@@ -52,7 +52,7 @@ exports[`Checks to see if the Create Account page renders 1`] = `
         }
       }
     >
-      Welcome to LifeTree 
+      Welcome to LifeTree
     </Text>
     <Text>
       Register for an account below:
@@ -103,6 +103,7 @@ exports[`Checks to see if the Create Account page renders 1`] = `
           "paddingLeft": 10,
         }
       }
+      testID="fullNameInput"
       value=""
     />
     <TextInput
@@ -123,6 +124,7 @@ exports[`Checks to see if the Create Account page renders 1`] = `
           "paddingLeft": 10,
         }
       }
+      testID="emailInput"
       value=""
     />
     <TextInput
@@ -144,6 +146,7 @@ exports[`Checks to see if the Create Account page renders 1`] = `
           "paddingLeft": 10,
         }
       }
+      testID="passwordInput"
       value=""
     />
     <TextInput
@@ -165,6 +168,7 @@ exports[`Checks to see if the Create Account page renders 1`] = `
           "paddingLeft": 10,
         }
       }
+      testID="confirmPasswordInput"
       value=""
     />
     <Text
@@ -182,6 +186,7 @@ exports[`Checks to see if the Create Account page renders 1`] = `
       . 
     </Text>
     <View
+      accessibilityLabel="Create Account Button"
       accessible={true}
       collapsable={false}
       focusable={true}
@@ -206,6 +211,7 @@ exports[`Checks to see if the Create Account page renders 1`] = `
           "width": 150,
         }
       }
+      testID="createAccountButton"
     >
       <Text
         style={
@@ -245,6 +251,7 @@ exports[`Checks to see if the Create Account page renders 1`] = `
               "fontWeight": "bold",
             }
           }
+          testID="welcomeLink"
         >
            Log In
         </Text>

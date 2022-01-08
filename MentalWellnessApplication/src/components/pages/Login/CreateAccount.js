@@ -9,6 +9,12 @@ import { loginStyles } from './Styles';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
+export const checkPassword = (str) => {
+    // Checks if password and confirm password are matching and one uppercase, lowercase, number, special character present.
+    const strongPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    return strongPassword.test(str);
+};
+
 export default function CreateAccount({ navigation }) {
 
     // REFERENCE ACCESSED 13/12/2021 https://www.freecodecamp.org/news/react-native-firebase-tutorial/
@@ -19,13 +25,6 @@ export default function CreateAccount({ navigation }) {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [passwordCheck, setPasswordCheck] = useState(false);
-
-    const checkPassword = (str) => {
-        // Checks if password and confirm password are matching and one uppercase, lowercase, number, special character present.
-        const strongPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-        return strongPassword.test(str);
-
-    };
 
     const onRegisterPress = () => {
         setLoading(true);
@@ -84,7 +83,7 @@ export default function CreateAccount({ navigation }) {
         return (
             <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
                 <View style={loginStyles.header}>
-                    <Text style={loginStyles.mainTitle}>Welcome to LifeTree </Text>
+                    <Text style={loginStyles.mainTitle}>Welcome to LifeTree</Text>
                     <Text>Register for an account below:</Text>
                 </View>
                 <View style={loginStyles.contentContainer}>
@@ -97,6 +96,7 @@ export default function CreateAccount({ navigation }) {
                         onChangeText={(textName) => setFullName(textName)}
                         value={fullName}
                         autoCapitalize='none'
+                        testID='fullNameInput'
                     />
 
                     <TextInput
@@ -106,6 +106,7 @@ export default function CreateAccount({ navigation }) {
                         onChangeText={(textEmail) => setEmail(textEmail)}
                         value={email}
                         autoCapitalize='none'
+                        testID='emailInput'
                     />
 
                     <TextInput
@@ -116,6 +117,7 @@ export default function CreateAccount({ navigation }) {
                         onChangeText={(textPass) => setPassword(textPass)}
                         value={password}
                         autoCapitalize='none'
+                        testID='passwordInput'
                     />
 
                     <TextInput
@@ -126,18 +128,21 @@ export default function CreateAccount({ navigation }) {
                         onChangeText={(textPass) => setConfirmPassword(textPass)}
                         value={confirmPassword}
                         autoCapitalize='none'
+                        testID='confirmPasswordInput'
                     />
 
                     <Text style={passwordCheck ? [loginStyles.contentText, {color:'red'} ] : loginStyles.contentText}>Password must be 8 or more characters and contain an upper case letter, numbers and a special character {'(#?!@$%^&*-)'}. </Text>
 
                     <TouchableOpacity
                         style={loginStyles.loginBTN}
-                        onPress={() => onRegisterPress()}>
+                        onPress={() => onRegisterPress()}
+                        testID='createAccountButton'
+                        accessibilityLabel = 'Create Account Button'>
                         <Text style={loginStyles.loginText}> Create Account </Text>
                     </TouchableOpacity>
 
                     <View style={loginStyles.footer}>
-                        <Text style={loginStyles.createAnAccountText} > Already have an account? <Text onPress={() => navigation.navigate('Welcome')} style={loginStyles.createAccountLink}> Log In</Text> </Text>
+                        <Text style={loginStyles.createAnAccountText} > Already have an account? <Text testID='welcomeLink' onPress={() => navigation.navigate('Welcome')} style={loginStyles.createAccountLink}> Log In</Text> </Text>
                     </View>
                 </View>
             </ImageBackground>

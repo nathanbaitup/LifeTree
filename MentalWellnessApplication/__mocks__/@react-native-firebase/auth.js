@@ -7,4 +7,5 @@ export default () => ({
     onAuthStateChanged: jest.fn(),
     updateProfile: jest.fn(),
     signOut: jest.fn(),
+    currentUser: {email: 'example@test.com', uid: 1},
   });

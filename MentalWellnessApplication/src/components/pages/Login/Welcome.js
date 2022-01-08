@@ -71,6 +71,7 @@ export default function Welcome({ navigation }) {
                         onChangeText={(textEmail) => setEmail(textEmail)}
                         value={email}
                         autoCapitalize='none'
+                        testID = 'emailInput'
                     />
 
                     <TextInput
@@ -81,16 +82,19 @@ export default function Welcome({ navigation }) {
                         onChangeText={(textPass) => setPassword(textPass)}
                         value={password}
                         autoCapitalize='none'
+                        testID = 'passwordInput'
                     />
 
                     <TouchableOpacity
                         style={loginStyles.loginBTN}
-                        onPress={() => onLoginPress()}>
+                        onPress={() => onLoginPress()}
+                        testID='loginButton'
+                        accessibilityLabel = 'Log In button'>
                         <Text style={loginStyles.loginText}> Log In </Text>
                     </TouchableOpacity>
 
                     <View style={loginStyles.footer}>
-                        <Text style={loginStyles.createAnAccountText} >Don&apos;t have an account yet?<Text onPress={() => navigation.navigate('CreateAccount')} style={loginStyles.createAccountLink}> Sign up</Text> </Text>
+                        <Text style={loginStyles.createAnAccountText} >Don&apos;t have an account yet?<Text  testID='createAccountLink' onPress={() => navigation.navigate('CreateAccount')} style={loginStyles.createAccountLink}> Sign up</Text> </Text>
                     </View>
                 </View>
             </ImageBackground>

@@ -278,6 +278,7 @@ exports[`Checks to see if the App renders 1`] = `
                                 "paddingLeft": 10,
                               }
                             }
+                            testID="emailInput"
                             value=""
                           />
                           <TextInput
@@ -299,9 +300,11 @@ exports[`Checks to see if the App renders 1`] = `
                                 "paddingLeft": 10,
                               }
                             }
+                            testID="passwordInput"
                             value=""
                           />
                           <View
+                            accessibilityLabel="Log In button"
                             accessible={true}
                             collapsable={false}
                             focusable={true}
@@ -326,6 +329,7 @@ exports[`Checks to see if the App renders 1`] = `
                                 "width": 150,
                               }
                             }
+                            testID="loginButton"
                           >
                             <Text
                               style={
@@ -365,6 +369,7 @@ exports[`Checks to see if the App renders 1`] = `
                                     "fontWeight": "bold",
                                   }
                                 }
+                                testID="createAccountLink"
                               >
                                  Sign up
                               </Text>
