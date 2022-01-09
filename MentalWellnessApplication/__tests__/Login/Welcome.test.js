@@ -1,7 +1,9 @@
+// https://keyholesoftware.com/2020/11/02/using-jest-and-testing-library-with-react-native-part-1-setting-up/
+// helped with setting up testing.
+
 import 'react-native';
 import React from 'react';
-import Welcome from '../../src/components/pages/Login/Welcome';
-
+import Welcome, { checkEmail } from '../../src/components/pages/Login/Welcome';
 
 import renderer from 'react-test-renderer';
 
@@ -51,6 +53,13 @@ describe('Tests <Welcome> component and functions inside', () => {
 
     expect(emailInput.props.value).toEqual('test@example.com');
     expect(passwordInput.props.value).toEqual('password');
+  });
+
+  it('Checks that an email is valid', () => {
+    const badEmail = 'bad';
+    const goodEmail = 'test@test.com';
+    expect(checkEmail(badEmail)).toBeFalsy();
+    expect(checkEmail(goodEmail)).toBeTruthy();
   });
 
   it('Test navigation to create account page', () => {
