@@ -5,10 +5,16 @@ import 'react-native';
 import React from 'react';
 import EntriesList from '../../src/components/pages/Entries/EntriesList';
 
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
+import { cleanup, render } from '@testing-library/react-native';
 
-it('Checks to see if the Entires List page renders', () => {
-  const tree = renderer.create(<EntriesList />).toJSON();
-  expect(tree).toMatchSnapshot();
+afterEach(cleanup);
+
+describe('Check that the entries list is rendered and elements are displayed.', () => {
+  const extraData = { 'id': 1, 'fullName': 'John Doe' };
+  const entriesListRender = render(<EntriesList  extraData={extraData} />).toJSON();
+  
+  it('Checks to see if the Home page renders', () => {
+      expect(entriesListRender).toMatchSnapshot();
+  });
+
 });
