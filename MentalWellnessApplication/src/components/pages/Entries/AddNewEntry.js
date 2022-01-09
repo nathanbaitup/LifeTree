@@ -132,22 +132,22 @@ export default function AddNewEntry(props) {
                         <View style={entryStyles.moodModules}>
 
                             <TouchableOpacity style={angry ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isAngry} >
-                                <Image source={require('../../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
+                                <Image testID='angry' source={require('../../../resources/img/faces/angry.png')} style={entryStyles.moodFaces} />
                                 <Text>Angry</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={sad ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isSad}>
-                                <Image source={require('../../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
+                                <Image testID='sad' source={require('../../../resources/img/faces/sad.png')} style={entryStyles.moodFaces} />
                                 <Text>Sad</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={meh ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isMeh}>
-                                <Image source={require('../../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
+                                <Image testID='meh' source={require('../../../resources/img/faces/meh.png')} style={entryStyles.moodFaces} />
                                 <Text>Meh</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={happy ? entryStyles.moodModSelected : entryStyles.moodModUnselected} onPress={isHappy}>
-                                <Image source={require('../../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
+                                <Image testID='happy' source={require('../../../resources/img/faces/happy.png')} style={entryStyles.moodFaces} />
                                 <Text>Happy</Text>
 
                             </TouchableOpacity>
@@ -161,6 +161,7 @@ export default function AddNewEntry(props) {
                                 multiline={true}
                                 onChangeText={(text) => setJournalEntry(text)}
                                 value={journalEntry}
+                                testID='journalInput'
                             />
                             <Text style={entryStyles.subHeader}>Obsession of the day?</Text>
                             <TextInput style={entryStyles.obsessionEntry}
@@ -169,10 +170,11 @@ export default function AddNewEntry(props) {
                                 multiline={true}
                                 onChangeText={(text) => setObsession(text)}
                                 value={obsession}
+                                testID='obsessionInput'
                             />
-                            <Text style={entryStyles.date}>Todays Date: {displayDate} </Text>
+                            <Text testID='dateID' style={entryStyles.date}>Todays Date: {displayDate}</Text>
                             <View style={entryStyles.submitButtonContainer}>
-                                <TouchableOpacity style={entryStyles.submitButton} onPress={onSubmitButtonPress} >
+                                <TouchableOpacity style={entryStyles.submitButton} onPress={onSubmitButtonPress} accessibilityLabel='Submit Button' testID='submitBTN' >
                                     <Text style={entryStyles.submitText}>Submit</Text>
                                 </TouchableOpacity>
                             </View>
