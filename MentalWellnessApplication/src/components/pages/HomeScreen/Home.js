@@ -198,7 +198,7 @@ export default function Home(props) {
                 <ScrollView>
                     <View style={homeStyles.mainContainer}>
                         <View style={homeStyles.heading} >
-                            <Text style={homeStyles.title}>Hello, {username}! </Text>
+                            <Text testID='userGreeting' style={homeStyles.title}>Hello, {username}! </Text>
                             <TouchableOpacity onPress={() => setSettingsPressed(true)} >
                                 <Image style={homeStyles.profilePic} source={{ uri: profilePicUrl }} />
                             </TouchableOpacity>

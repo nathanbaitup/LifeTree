@@ -44,8 +44,7 @@ export default function CreateAccount({ navigation }) {
         if (!checkPassword(password)) {
             setLoading(false);
             setPasswordCheck(true);
-            alert('Please ensure your password is 8 characters long and contains: ' + '\n' +
-            'One uppercase letter, a number and a special character (#?!@$%^&*-)');
+            alert('Please ensure your password is 8 characters long and contains: \n One uppercase letter, a number and a special character (#?!@$%^&*-)');
             return;
          }
 
