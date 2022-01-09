@@ -9,6 +9,11 @@ import { loginStyles } from './Styles';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
+// Checks if email is in a valid format.
+export const checkEmail = (str) => {
+    const validEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return validEmail.test(str);
+};
 
 export default function Welcome({ navigation }) {
     // REFERENCE ACCESSED 13/12/2021 https://www.freecodecamp.org/news/react-native-firebase-tutorial/
@@ -22,6 +27,13 @@ export default function Welcome({ navigation }) {
         // Calls the signInWithEmailAndPassword API from Auth to take the email and password entered and check if the user exists.
         // If successful, the user data is stored to the variable 'user' to be parsed through the application and the user
         // is signed in and taken to the home page.
+
+        if (!checkEmail(email)) {
+            setLoading(false);
+            alert('Please ensure your email is valid.');
+            return;
+         }
+         
         auth()
             .signInWithEmailAndPassword(email, password)
             .then((response) => {
@@ -58,7 +70,7 @@ export default function Welcome({ navigation }) {
         return (
             <ImageBackground source={require('../../../resources/img/background.png')} style={{ width: '100%', height: '100%', opacity: 50 }} >
                 <View style={loginStyles.header}>
-                    <Text style={loginStyles.mainTitle}>Welcome to LifeTree </Text>
+                    <Text style={loginStyles.mainTitle}>Welcome to LifeTree</Text>
                     <Text>Log into your account below:</Text>
                 </View>
                 <View style={loginStyles.contentContainer}>
@@ -71,6 +83,7 @@ export default function Welcome({ navigation }) {
                         onChangeText={(textEmail) => setEmail(textEmail)}
                         value={email}
                         autoCapitalize='none'
+                        testID = 'emailInput'
                     />
 
                     <TextInput
@@ -81,16 +94,19 @@ export default function Welcome({ navigation }) {
                         onChangeText={(textPass) => setPassword(textPass)}
                         value={password}
                         autoCapitalize='none'
+                        testID = 'passwordInput'
                     />
 
                     <TouchableOpacity
                         style={loginStyles.loginBTN}
-                        onPress={() => onLoginPress()}>
+                        onPress={() => onLoginPress()}
+                        testID='loginButton'
+                        accessibilityLabel = 'Log In button'>
                         <Text style={loginStyles.loginText}> Log In </Text>
                     </TouchableOpacity>
 
                     <View style={loginStyles.footer}>
-                        <Text style={loginStyles.createAnAccountText} > Don&apos;t have an account yet? <Text onPress={() => navigation.navigate('CreateAccount')} style={loginStyles.createAccountLink}> Sign up</Text> </Text>
+                        <Text style={loginStyles.createAnAccountText} >Don&apos;t have an account yet?<Text  testID='createAccountLink' onPress={() => navigation.navigate('CreateAccount')} style={loginStyles.createAccountLink}> Sign up</Text> </Text>
                     </View>
                 </View>
             </ImageBackground>

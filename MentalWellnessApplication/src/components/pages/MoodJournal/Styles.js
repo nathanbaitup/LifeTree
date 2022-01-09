@@ -65,10 +65,12 @@ export const journalStyles = StyleSheet.create({
     popupText: {
         color: '#000000',
         marginTop: 20,
-        fontSize: 18
+        fontSize: 18,
+        marginRight: 50,
     },
     popupContainer: {
         flexDirection: 'row',
+        paddingRight: 10,
     },
     obsessionText: {
         fontSize: 16, 
@@ -80,6 +82,10 @@ export const journalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
+        marginLeft: 40,
+        marginRight: 40,
+
+
     },
     buttonText: {
         color: '#448aff',

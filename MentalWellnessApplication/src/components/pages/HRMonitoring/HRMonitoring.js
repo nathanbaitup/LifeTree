@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, ImageBackground, FlatList, Platform, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import { Dimensions, ImageBackground, FlatList, Platform, ScrollView, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import HRGraph from './HRGraph';
 import Loading from '../../utils/Loading';
 
@@ -80,7 +80,7 @@ export default function HRMonitoring(props) {
                         setLoading(false);
                     }
                 }).catch((error) => {
-                    console.warn(error);
+                    console.info(error);
                     setLoading(false);
                 });
             }).catch((error) => {
@@ -287,6 +287,7 @@ export default function HRMonitoring(props) {
                         </View>
                     ) : (
                         <View>
+                            <ScrollView>
                             <Text style={hrStyles.listHeading}>Time: <Text style={hrStyles.listText} > {selectedTime} </Text> </Text>
                             <Text style={hrStyles.listHeading}>Heart Rate: <Text style={hrStyles.listText}> {selectedHR} BPM </Text> </Text>
                             <Text style={hrStyles.listHeading}>Description: </Text>
@@ -303,6 +304,7 @@ export default function HRMonitoring(props) {
                             <TouchableOpacity style={hrStyles.buttonContainer} onPress={() => onExitDescriptionPressed()}>
                                 <Text style={hrStyles.buttonText}>Exit</Text>
                             </TouchableOpacity>
+                            </ScrollView>
                         </View>
                     )}
                 </View>

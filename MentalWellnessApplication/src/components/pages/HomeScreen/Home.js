@@ -31,7 +31,6 @@ export default function Home(props) {
     const [quoteAPI, setQuoteAPI] = useState(null);
     const [quoteAuthor, setQuoteAuthor] = useState(null);
     const [settingsPressed, setSettingsPressed] = useState(false);
-
     const [loading, setLoading] = useState(true);
 
     // Creates references to firebase objects to get the user collection and profile picture. 
@@ -199,7 +198,7 @@ export default function Home(props) {
                 <ScrollView>
                     <View style={homeStyles.mainContainer}>
                         <View style={homeStyles.heading} >
-                            <Text style={homeStyles.title}>Hello, {username}! </Text>
+                            <Text testID='userGreeting' style={homeStyles.title}>Hello, {username}! </Text>
                             <TouchableOpacity onPress={() => setSettingsPressed(true)} >
                                 <Image style={homeStyles.profilePic} source={{ uri: profilePicUrl }} />
                             </TouchableOpacity>

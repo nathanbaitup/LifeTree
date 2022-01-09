@@ -191,7 +191,7 @@ export default function MoodJournal(props) {
                         </View>
                         <View style={journalStyles.popupContainer}>
                             <Text style={journalStyles.popupTitle}>Description: </Text>
-                            <Text style={journalStyles.popupText}>{desc} </Text>
+                            <Text style={journalStyles.popupText}>{desc}</Text>
                         </View>
 
                         <TouchableOpacity onPress={() => setEntryPressed(false)} >
@@ -213,11 +213,12 @@ export default function MoodJournal(props) {
                             markedDates={allDatesObject}
                             // When a specific day is pressed it dispays the obsession if it exists.
                             onDayPress={(day) => displayObsessionsAndHeartRate(day)}
+                            testID='calendarID'
                         />
                         {/* END REFERENCE */}
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                             <View style={journalStyles.keyContainer} >
-                                <Text style={journalStyles.keyTitle}>Mood Key:</Text>
+                                <Text testID='keyID' style={journalStyles.keyTitle}>Mood Key:</Text>
                                 <View style={journalStyles.keyContainer2}>
                                     <View style={[journalStyles.keyIndivContainer, { marginRight: 10 }]}>
                                         <Text style={journalStyles.contentText}>Happy:</Text>
