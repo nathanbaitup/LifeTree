@@ -191,7 +191,7 @@ export default function MoodJournal(props) {
                         </View>
                         <View style={journalStyles.popupContainer}>
                             <Text style={journalStyles.popupTitle}>Description: </Text>
-                            <Text style={journalStyles.popupText}>{desc} </Text>
+                            <Text style={journalStyles.popupText}>{desc}</Text>
                         </View>
 
                         <TouchableOpacity onPress={() => setEntryPressed(false)} >
