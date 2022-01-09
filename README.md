@@ -8,7 +8,7 @@ every day to help improve your mental well-being.
 
 ## Project Idea:
 ***
-The project that I chose to develop was a mobile application that allows a user to track their daily mental well-being, where the user can select a mood that summarises how they have felt for much of the day, as well as provide a brief discussion about the day, documenting any positive and negative emotions. By completing a daily breakdown, the user can see a chart of their selected moods over the course of the month, with the mood differentiated through a range of colours. If granted permission, the user can connect the application to access heart rate information stored in their device if the user has heart monitoring enabled on their device. When granted, the application will use said data to pinpoint specific areas within a day where a client’s heart rate had increased exponentially, to display and ask the user what could have caused that increase. If permission is not granted, the user will have the ability to manually enter their heart rate at different points throughout the day. User retention to the application will be completed through a reward scheme, where the user is rewarded for logging in daily.
+The project that I chose to develop was a mobile application that allows a user to track their daily mental well-being, where the user can select a mood that summarises how they have felt for much of the day. By completing a daily breakdown, the user can see a chart of their selected moods over the course of the month, with the mood differentiated through a range of colours. If granted permission, the user can connect the application to access heart rate information stored in their device if the user has heart monitoring enabled on their device. 
 
 ## Features:
 ***
@@ -40,7 +40,7 @@ Build a days used score and watch the bonsai tree on the home screen grow with y
 ##### Front End:
 - [React Native](https://reactnative.dev) - Builds the front-end application using the React-Native framework built on top of the React Framework that handles native development for both Android and iOS devices.
 
-LifeTree itself can be found on [GitHub]() and [GitLab](https://git.cardiff.ac.uk/c1926084/year-3-autumn-project/).
+LifeTree itself can be found at [GitLab](https://git.cardiff.ac.uk/c1926084/year-3-autumn-project/).
 
 ## Prerequisites:
 ***
@@ -48,7 +48,7 @@ LifeTree requires: [Node.js](https://nodejs.org/en/) v12+, [OpenJDK](https://ope
 This guide will work on the assumption that openJDK and node are preinstalled on your device. Further details on installation can be found at the [React-Native Docs](https://reactnative.dev/docs/environment-setup).
 
 ##### Android:
-To run application on android, [Android Studio](https://developer.android.com/studio) is required to be installed on your computer with access to the Android Emulator to create and simulate an Android Device. 
+To run the application on android, [Android Studio](https://developer.android.com/studio) is required to be installed on your computer with access to the Android Emulator to create and simulate an Android Device. 
 
 The installation of the application will assume that android studio is pre-installed and set up through the initial setup guide. Details on how to install and intialize Android Studio can be found [here](https://developer.android.com/studio/install).
 
@@ -81,10 +81,17 @@ npm install
  2. Navigate to the MentalWellnessFolder folder of the application, then go to android, selecting the ‘build.gradle’ file to automatically build the application with all dependencies automatically being generated. 
  3. Once the project has opened, within the top right-hand corner of Android Studio, press on the field that says ‘No Devices’ and open the AVD Manager.
  4. In the AVD manager, press create virtual device to open the virtual device configurator.
+
+ ![AVD Manager](https://i.imgur.com/rGAcFHg.png)
+ 
  5. Select a Pixel 3A device from the settings and press next.
  6. If not already downloaded, download API levels 30 and 29 from the recommended system image for your device.
  7. Once downloaded, press next and finish.
+
+ ![Settings List](https://i.imgur.com/zNF35Ra.png)
+ 
  8. Once the emulator have been created, close the AVD manager and navigate back to the top-right hand corner of Android Studio. Here, select the device that you just created.
+
 
 **Set-up the application:**
  1. In terminal: Navigate to the android folder and perform a gradle clean to build the application:
@@ -105,8 +112,11 @@ cd android
 .\gradlew clean
 ```
 
- 2. Return back to android studio, and with the emulator selected, press the green play button next to the device to run the application. This will result in an 'Unable to Resolve Script' issue, ignore this as we will be solving it in the next section.
+ 2. Return back to Android Studio, and with the emulator selected, press the green play button next to the device to run the application. This will result in an 'Unable to Resolve Script' issue, ignore this as we will be solving it in the next section.
 
+ ![Run application](https://i.imgur.com/H0iTgrV.png)
+
+ 
  3. Return back to your terminal and launch the Rect Native application on the android emulator using:
 ```
 cd ..
@@ -145,6 +155,13 @@ pod install
 ```
 cd ..
 npx react-native run-ios
+```
+
+## Testing:
+Manual acceptance testing can be found within the issues for each feature, along with the requirements of which ones have been satisified and haven't. Code standards and Unit testing have been completed and can be run within the MentalWellnessApplication directory using.
+```
+npm run lint
+npm test
 ```
  
 ## Requirements:
@@ -186,6 +203,10 @@ Instructions on their use and documentation are provided below.
 | react-native-progress | 5.0.0 | https://github.com/oblador/react-native-progress | Used to indicate the progress of the profile picture upload. |
 | react-native-svg | 12.1.1 | https://github.com/react-native-svg/react-native-svg | Adds SVG support for the graph in HRMonitoring.js. |
 | react-native-vector-icons | 9.0.0 | https://github.com/oblador/react-native-vector-icons | Used to add icons used throughout the application. |
+| | | | |
+| jest | 26.6.3 | https://jestjs.io/docs/getting-started | Used as the testing library for unit testing. |
+| testing-library/react-native | 8.0.0 | https://callstack.github.io/react-native-testing-library/ | Used with jest to test each component displayed and functioned as intended. | 
+
 
 ## Usage
 ***
