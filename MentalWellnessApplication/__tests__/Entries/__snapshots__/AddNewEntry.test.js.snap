@@ -306,7 +306,7 @@ exports[`Check that the add new entry page is rendered and elements are displaye
               testID="dateID"
             >
               Todays Date: 
-              January 9, 2022
+              January 10, 2022
             </Text>
             <View
               style={

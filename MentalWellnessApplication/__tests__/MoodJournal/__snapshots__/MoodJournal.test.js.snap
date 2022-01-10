@@ -1421,7 +1421,7 @@ exports[`Testing that mood journal is rendered Checks to see if the Home page re
                   }
                 >
                   <View
-                    accessibilityLabel="today Sunday 9 January 2022 "
+                    accessibilityLabel=" Sunday 9 January 2022 "
                     accessibilityRole="button"
                     accessibilityState={
                       Object {
@@ -1442,8 +1442,6 @@ exports[`Testing that mood journal is rendered Checks to see if the Home page re
                     style={
                       Object {
                         "alignItems": "center",
-                        "backgroundColor": undefined,
-                        "borderRadius": 16,
                         "height": 32,
                         "opacity": 1,
                         "width": 32,
@@ -1462,9 +1460,6 @@ exports[`Testing that mood journal is rendered Checks to see if the Home page re
                             "fontSize": 16,
                             "fontWeight": "300",
                             "marginTop": 6,
-                          },
-                          Object {
-                            "color": "#00BBF2",
                           },
                         ]
                       }
@@ -1496,7 +1491,7 @@ exports[`Testing that mood journal is rendered Checks to see if the Home page re
                   }
                 >
                   <View
-                    accessibilityLabel=" Monday 10 January 2022 "
+                    accessibilityLabel="today Monday 10 January 2022 "
                     accessibilityRole="button"
                     accessibilityState={
                       Object {
@@ -1517,6 +1512,8 @@ exports[`Testing that mood journal is rendered Checks to see if the Home page re
                     style={
                       Object {
                         "alignItems": "center",
+                        "backgroundColor": undefined,
+                        "borderRadius": 16,
                         "height": 32,
                         "opacity": 1,
                         "width": 32,
@@ -1535,6 +1532,9 @@ exports[`Testing that mood journal is rendered Checks to see if the Home page re
                             "fontSize": 16,
                             "fontWeight": "300",
                             "marginTop": 6,
+                          },
+                          Object {
+                            "color": "#00BBF2",
                           },
                         ]
                       }

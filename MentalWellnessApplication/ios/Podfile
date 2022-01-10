@@ -17,7 +17,6 @@ target 'MentalWellnessApplication' do
 
 
 
-  pod 'react-native-fitness', :path => '../node_modules/@ovalmoney/react-native-fitness'
 
   target 'MentalWellnessApplicationTests' do
     inherit! :complete

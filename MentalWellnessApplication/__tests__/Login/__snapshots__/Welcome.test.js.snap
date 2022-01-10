@@ -58,149 +58,153 @@ exports[`Tests <Welcome> component and functions inside Checks to see if the Wel
       Log into your account below:
     </Text>
   </View>
-  <View
-    style={
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "borderRadius": 25,
-        "justifyContent": "center",
-        "margin": 20,
-        "padding": 10,
-      }
-    }
-  >
-    <Image
-      source={
-        Object {
-          "testUri": "../../../src/resources/img/faces/happy.png",
-        }
-      }
-      style={
-        Object {
-          "alignSelf": "center",
-          "height": 100,
-          "marginBottom": 10,
-          "marginTop": 20,
-          "width": 134,
-        }
-      }
-    />
-    <TextInput
-      autoCapitalize="none"
-      onChangeText={[Function]}
-      placeholder="enter your email address..."
-      placeholderTextColor="#aaaaaa"
-      style={
-        Object {
-          "backgroundColor": "#f0efed",
-          "borderRadius": 5,
-          "height": 50,
-          "marginBottom": 10,
-          "marginLeft": 20,
-          "marginRight": 20,
-          "marginTop": 10,
-          "overflow": "hidden",
-          "paddingLeft": 10,
-        }
-      }
-      testID="emailInput"
-      value=""
-    />
-    <TextInput
-      autoCapitalize="none"
-      onChangeText={[Function]}
-      placeholder="enter your password..."
-      placeholderTextColor="#aaaaaa"
-      secureTextEntry={true}
-      style={
-        Object {
-          "backgroundColor": "#f0efed",
-          "borderRadius": 5,
-          "height": 50,
-          "marginBottom": 10,
-          "marginLeft": 20,
-          "marginRight": 20,
-          "marginTop": 10,
-          "overflow": "hidden",
-          "paddingLeft": 10,
-        }
-      }
-      testID="passwordInput"
-      value=""
-    />
-    <View
-      accessibilityLabel="Log In button"
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      nativeID="animatedComponent"
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "alignItems": "center",
-          "alignSelf": "center",
-          "backgroundColor": "#00e676",
-          "borderRadius": 15,
-          "justifyContent": "center",
-          "marginTop": 20,
-          "opacity": 1,
-          "padding": 15,
-          "width": 150,
-        }
-      }
-      testID="loginButton"
-    >
-      <Text
+  <RCTScrollView>
+    <View>
+      <View
         style={
           Object {
-            "color": "#000000",
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "textAlign": "center",
+            "backgroundColor": "#FFFFFF",
+            "borderRadius": 25,
+            "justifyContent": "center",
+            "margin": 20,
+            "padding": 10,
           }
         }
       >
-         Log In 
-      </Text>
-    </View>
-    <View
-      style={
-        Object {
-          "alignItems": "center",
-          "marginTop": 20,
-        }
-      }
-    >
-      <Text
-        style={
-          Object {
-            "fontSize": 16,
-          }
-        }
-      >
-        Don't have an account yet?
-        <Text
-          onPress={[Function]}
-          style={
+        <Image
+          source={
             Object {
-              "color": "#6db8bf",
-              "fontSize": 16,
-              "fontWeight": "bold",
+              "testUri": "../../../src/resources/img/faces/happy.png",
             }
           }
-          testID="createAccountLink"
+          style={
+            Object {
+              "alignSelf": "center",
+              "height": 100,
+              "marginBottom": 10,
+              "marginTop": 20,
+              "width": 134,
+            }
+          }
+        />
+        <TextInput
+          autoCapitalize="none"
+          onChangeText={[Function]}
+          placeholder="enter your email address..."
+          placeholderTextColor="#aaaaaa"
+          style={
+            Object {
+              "backgroundColor": "#f0efed",
+              "borderRadius": 5,
+              "height": 50,
+              "marginBottom": 10,
+              "marginLeft": 20,
+              "marginRight": 20,
+              "marginTop": 10,
+              "overflow": "hidden",
+              "paddingLeft": 10,
+            }
+          }
+          testID="emailInput"
+          value=""
+        />
+        <TextInput
+          autoCapitalize="none"
+          onChangeText={[Function]}
+          placeholder="enter your password..."
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry={true}
+          style={
+            Object {
+              "backgroundColor": "#f0efed",
+              "borderRadius": 5,
+              "height": 50,
+              "marginBottom": 10,
+              "marginLeft": 20,
+              "marginRight": 20,
+              "marginTop": 10,
+              "overflow": "hidden",
+              "paddingLeft": 10,
+            }
+          }
+          testID="passwordInput"
+          value=""
+        />
+        <View
+          accessibilityLabel="Log In button"
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          nativeID="animatedComponent"
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "backgroundColor": "#00e676",
+              "borderRadius": 15,
+              "justifyContent": "center",
+              "marginTop": 20,
+              "opacity": 1,
+              "padding": 15,
+              "width": 150,
+            }
+          }
+          testID="loginButton"
         >
-           Sign up
-        </Text>
-         
-      </Text>
+          <Text
+            style={
+              Object {
+                "color": "#000000",
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "textAlign": "center",
+              }
+            }
+          >
+             Log In 
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "marginTop": 20,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "fontSize": 16,
+              }
+            }
+          >
+            Don't have an account yet?
+            <Text
+              onPress={[Function]}
+              style={
+                Object {
+                  "color": "#6db8bf",
+                  "fontSize": 16,
+                  "fontWeight": "bold",
+                }
+              }
+              testID="createAccountLink"
+            >
+               Sign up
+            </Text>
+             
+          </Text>
+        </View>
+      </View>
     </View>
-  </View>
+  </RCTScrollView>
 </View>
 `;
