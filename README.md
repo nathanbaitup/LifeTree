@@ -50,7 +50,7 @@ This guide will work on the assumption that openJDK and node are preinstalled on
 ##### Android:
 To run the application on android, [Android Studio](https://developer.android.com/studio) is required to be installed on your computer with access to the Android Emulator to create and simulate an Android Device. 
 
-The installation of the application will assume that android studio is pre-installed and set up through the initial setup guide. Details on how to install and intialize Android Studio can be found [here](https://developer.android.com/studio/install).
+The installation of the application will assume that android studio is pre-installed and set up through the initial setup guide. Details on how to install and intialize Android Studio can be found [here](https://developer.android.com/studio/install). The installation also assumes that all path variables have been set correctly, as seen in the React Native docs.
 
 ##### iOS:
 To run the application on iOS, a Mac is required with the latest version of XCode and the XCode command line tools installed. CocoaPods is also required to be installed for an iOS simulator to build the application correctly. Watchman is also a reccomended install. 
