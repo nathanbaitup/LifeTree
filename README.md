@@ -76,25 +76,8 @@ npm install
 ```
 ### React-Native CLI:
 #### Android:
-**Open Project in Android Studio and initialise the emulator:**
- 1. After installing Android Studio from the provided links above, open Android Studio and select the 'Open Existing Project' option.
- 2. Navigate to the MentalWellnessFolder folder of the application, then go to android, selecting the ‘build.gradle’ file to automatically build the application with all dependencies automatically being generated. 
- 3. Once the project has opened, within the top right-hand corner of Android Studio, press on the field that says ‘No Devices’ and open the AVD Manager.
- 4. In the AVD manager, press create virtual device to open the virtual device configurator.
 
- ![AVD Manager](https://i.imgur.com/rGAcFHg.png)
- 
- 5. Select a Pixel 3A device from the settings and press next.
- 6. If not already downloaded, download API levels 30 and 29 from the recommended system image for your device.
- 7. Once downloaded, press next and finish.
-
- ![Settings List](https://i.imgur.com/zNF35Ra.png)
- 
- 8. Once the emulator have been created, close the AVD manager and navigate back to the top-right hand corner of Android Studio. Here, select the device that you just created.
-
-
-**Set-up the application:**
- 1. In terminal: Navigate to the android folder and perform a gradle clean to build the application:
+1. In terminal: Navigate to the android folder and perform a gradle clean to build the application:
 ###### MacOS / Linux :
 ```
 cd android
@@ -112,7 +95,25 @@ cd android
 .\gradlew clean
 ```
 
- 2. Return back to Android Studio, and with the emulator selected, press the green play button next to the device to run the application. This will result in an 'Unable to Resolve Script' issue, ignore this as we will be solving it in the next section.
+**Open Project in Android Studio and initialise the emulator:**
+ 1. After installing Android Studio from the provided links above, open Android Studio and select the 'Open Existing Project' option.
+ 2. Navigate to the MentalWellnessFolder folder of the application, then go to android, selecting the ‘build.gradle’ file to automatically build the application with all dependencies automatically being generated. 
+ 3. Once the project has opened, within the top right-hand corner of Android Studio, press on the field that says ‘No Devices’ and open the AVD Manager.
+ 4. In the AVD manager, press create virtual device to open the virtual device configurator.
+
+ ![AVD Manager](https://i.imgur.com/rGAcFHg.png)
+ 
+ 5. Select a Pixel 3A device from the settings and press next.
+ 6. If not already downloaded, download API levels 30 and 29 from the recommended system image for your device.
+ 7. Once downloaded, press next and finish.
+
+ ![Settings List](https://i.imgur.com/zNF35Ra.png)
+ 
+ 8. Once the emulator have been created, close the AVD manager and navigate back to the top-right hand corner of Android Studio. Here, select the device that you just created.
+
+**Set-up the application:**
+ 
+ 1.With the emulator selected, press the green play button next to the device to run the application. This will result in an 'Unable to Resolve Script' issue, ignore this as we will be solving it in the next section.
 
  ![Run application](https://i.imgur.com/H0iTgrV.png)
 
