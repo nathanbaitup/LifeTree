@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, ImageBackground, TextInput, Image, TouchableOpacity } from 'react-native';
+import { Text, View, ImageBackground, ScrollView, TextInput, Image, TouchableOpacity } from 'react-native';
 import Loading from '../../utils/Loading';
 
 // Imports the documents styling.
@@ -73,6 +73,7 @@ export default function Welcome({ navigation }) {
                     <Text style={loginStyles.mainTitle}>Welcome to LifeTree</Text>
                     <Text>Log into your account below:</Text>
                 </View>
+                <ScrollView>
                 <View style={loginStyles.contentContainer}>
                     <Image style={loginStyles.logo} source={require('../../../resources/img/faces/happy.png')} />
 
@@ -109,6 +110,7 @@ export default function Welcome({ navigation }) {
                         <Text style={loginStyles.createAnAccountText} >Don&apos;t have an account yet?<Text  testID='createAccountLink' onPress={() => navigation.navigate('CreateAccount')} style={loginStyles.createAccountLink}> Sign up</Text> </Text>
                     </View>
                 </View>
+                </ScrollView>
             </ImageBackground>
         );
     }
