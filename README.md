@@ -230,9 +230,7 @@ The view all entries page shows a list of all entries that displays the date of 
 
 The view moods page shows a calendar, where once an entry has been added with a mood, it will be highlighted on the calendar. If an obsession has been set, then pressing on a date will display information about the obsession, as well as if a heart rate description has been set.
 
-The heart rate monitoring page shows a list of all heart rates and a graph with all data points. This page requires authentication from either Google Fit or Apple HealthKit, an email address with Google Fit permissions is required and provided below:
-`email:` `lifetreeapp@gmail.com`
-`password:` `lifeTreeApp1`
+The heart rate monitoring page shows a list of all heart rates and a graph with all data points. This page requires authentication from either Google Fit or Apple HealthKit, an email address with Google Fit permissions is required.
 
 A warning that google hasnt verified this app for safety will appear, click continue and the page will ask for permissions to read heart rate data upon submission the page will load. If data is present, it will be shown in the graph above, otherwise the page will be blank. The scroller allows you to fine tune the hear rates to track from and requires interact before rendering the list.
 To add a new entry, press on the add button where the date and time will be automatically entered, and you just need to input your BPM. when submitting, you are returned to the HR monitoring page and the graph should be updated with the new data input. To add a description to an input, scroll the scroller to the heart rate you want to track, then press the add description button. This will allow you to add a descriptive reason for a heart rate, and will be stored on the calendar.
